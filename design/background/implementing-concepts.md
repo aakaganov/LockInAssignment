@@ -12,7 +12,8 @@ For our specific implementation, we will use MongoDB as the database. Each piece
 - **principle**: the principle helps establish a canonical test and models out desirable behavior
 - **state**: the state relations can be mapped directly to the MongoDB collections
 - **actions**: each action is a method of the same name, and takes in a dictionary with the keys described by the action parameters in the specification with the specified types
-- **queries**: potential queries are also methods, but must begin with an underscore `_`, and instead return an array of the type specified by their return 
+- **queries**: potential queries are also methods, but must begin with an underscore `_`
+	- **Important:** queries MUST return an **array** of the type specified by the return signature
 
 ## Technology stack details
 
@@ -117,14 +118,35 @@ export default class LabelingConcept {
     this.items = this.db.collection(PREFIX + "items");
     this.labels = this.db.collection(PREFIX + "labels");
   }
+  /**
+   * createLabel (name: String)
+   *
+   * **requires** ...
+   *
+   * **effects** ...
+   */
   createLabel({ name }: { name: string }): Empty {
     // todo: create label
     return {};
   }
+  /**
+   * addLabel (item: Item, label: Label)
+   *
+   * **requires** ...
+   *
+   * **effects** ...
+   */
   addLabel({ item, label }: { item: Item; label: Label }): Empty {
     // todo: add label
     return {};
   }
+  /**
+   * deleteLabel (item: Item, label: Label)
+   *
+   * **requires** ...
+   *
+   * **effects** ...
+   */
   deleteLabel({ item, label }: { item: Item; label: Label }): Empty {
     // todo: delete label
     return {};
@@ -133,6 +155,13 @@ export default class LabelingConcept {
 ```
 
 Note that even for actions that don't want to return anything, you should return an empty record `{}`. To denote the type of this properly, you can use the provided `Empty` type from `@utils/types.ts` which simply specifies the type as `Record<PropertyKey, never>`.
+
+# Imports
+
+The following `deno.json` file lists additional imports that are available to help ease imports. In particular, the utility folder and the concept folder are available as the `@utils` and `@concepts` prefixes.
+
+[@deno.json](/deno.json)
+
 # Initialization
 
 We provide a helper database script in `@utils` that reads the environment variables in your `.env` file and initializes a MongoDB database. For normal app development, use:
@@ -156,3 +185,15 @@ Every concept should have inline documentation and commenting:
 - Any testing should be guided by the principle.
 - Each action should state the requirements and effects, and tests should check that both work against variations.
 
+# Commenting
+
+Every action should have a comment including its signature, its requirements, and effects:
+```typescript
+  /**
+   * createLabel (name: String): (label: Label)
+   *
+   * **requires** no Label with the given `name` already exists
+   *
+   * **effects** creates a new Label `l`; sets the name of `l` to `name`; returns `l` as `label`
+   */
+```
