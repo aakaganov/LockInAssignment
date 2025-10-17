@@ -1,0 +1,138 @@
+# Design File: Concept Changes and Implementation Notes
+
+This document summarizes how each concept from **Assignment 2** was refined and implemented in Assignment 4a, along with key decisions, issues, and interesting moments from development. The four main concepts — **Scroll Blocker**, **Accountability**, **Presence (Dropout Notification)**, and **TaskGate** — were built into the *LockIn* backend prototype.
+
+---
+
+## 1. Scroll Blocker
+
+### Changes from Original Design
+- **Simplified scheduling:** Instead of complex time intervals, the current version only tracks whether scrolling is enabled for each app. This made it easier to debug and test.
+- **Streamlined structure:** Replaced sets with a `Map<User, Map<App, boolean>>`, simplifying lookups.
+- **Removed the “period” parameter:** `setBlock()` now just toggles blocking, which better fits real-world user behavior.
+- **Direct logic:** `canScroll()` checks the state directly instead of comparing times.
+
+### Implementation Notes
+The Scroll Blocker now focuses on immediate user control rather than automated time-based blocking. This approach fits better with early testing in Deno and still represents the same behavioral principle.
+
+### Issues Encountered
+- Deno’s strict import system (`.ts` extensions) caused several early path errors.
+- Needed to define default scroll states for new users.
+
+---
+
+## 2. Accountability
+
+### Changes from Original Design
+- **One-way sharing model:** Sharing is now directional (Alice → Bob) rather than automatically mutual.
+- **Cumulative tracking:** `updateScreenTime()` adds time instead of overwriting.
+- **Privacy-aware querying:** `listPeerTimes()` now only returns data explicitly shared with the user.
+
+### Implementation Notes
+This feature uses `Map` structures for clarity and simplicity. Screen-time updates and sharing emit console logs for visibility during testing.
+
+### Issues Encountered
+- Avoided duplicate peer entries by checking before adding to arrays.
+- Kept all mock data in memory for simplicity.
+
+---
+
+## 3. Presence (Dropout Notification)
+
+### Changes from Original Design
+- **Renamed “Dropout Notification” → “Presence”** to better describe the concept.
+- **Simplified thresholds:** Instead of automatic timestamp comparisons, inactivity is simulated manually.
+- **Peer grouping:** Added `peerGroups` so only certain users get inactivity notifications.
+
+### Implementation Notes
+`heartbeat()` updates the user’s last active time, and `markInactive()` manually sets them as inactive. `notifyPeers()` currently logs notifications to the console, which could later integrate with real APIs.
+
+### Issues Encountered
+- Without real network data, inactivity detection had to be simulated.
+- Replaced notifications with logs for testing clarity.
+
+---
+
+## 4. TaskGate (To-Do Unlock)
+
+### Changes from Original Design
+- **Renamed from “To-Do Unlock” → “TaskGate”** for consistency.
+- **Simplified structure:** Combined separate sets into `Map<User, Task[]>` and `Map<User, boolean>`.
+- **Cleaner validation:** `allDone()` checks task completion directly without a separate “completed” list.
+
+### Implementation Notes
+Users add tasks with `addTask()`, mark them complete, and once everything is done, `unlockApps()` re-enables blocked apps. This keeps the logic clear and fits the “productivity before entertainment” principle.
+
+### Issues Encountered
+- Needed to persist tasks across runs; for now, data resets on each execution.
+- Deferred peer validation for completed tasks.
+
+---
+
+## 5. General Integration and Synchronization
+
+### Concept Connections
+Some of the synchronizations from Assignment 2 are partially implemented:
+- **ScrollBlocker ↔ TaskGate:** Apps only unlock manually after all tasks are completed.
+- **Accountability ↔ Presence:** Presence could mark inactive users automatically; currently manual.
+- **Shared data:** All modules share mock in-memory structures, with plans for database persistence later.
+
+### Lessons Learned
+- Deno’s import system improved organization but required explicit extensions and clear folder structure.
+- Keeping each feature modular made debugging and testing easier.
+- Next steps: integrate modules for full workflow automation between behavior, accountability, and productivity.
+
+---
+
+## 6. Interesting Moments
+
+Throughout development, several moments stood out as especially interesting — either technically, conceptually, or in how they changed the overall design. Below are ten of the most meaningful ones, each with a short explanation and a link to the relevant file.
+
+1. **Discovering Deno’s strict import requirements**  
+   Early on, I realized Deno requires explicit `.ts` extensions on all imports — unlike Node.js. This caused a number of “module not found” errors until the file structure and imports were standardized.  
+   *File:* [`/src/scrollBlocker.ts`](../src/scrollBlocker.ts)
+
+2. **Simplifying time-based blocking**  
+   The original Scroll Blocker was supposed to manage blocking by time intervals. I simplified it to a basic toggle system, which made testing and debugging much easier without losing the main functionality.  
+   *File:* [`/src/scrollBlocker.ts`](../src/scrollBlocker.ts)
+
+3. **Reframing peer sharing as directional**  
+   When implementing the Accountability feature, I realized peer visibility shouldn’t always be mutual — users may want to share their screen time privately. This led to a new one-way sharing model.  
+   *File:* [`/src/accountability.ts`](../src/accountability.ts)
+
+4. **Choosing console-based “notifications”**  
+   For the Presence concept, I simulated notifications with console logs instead of real alerts. It was a small design decision, but it made testing smoother and still conveyed how the feature would behave.  
+   *File:* [`/src/presence.ts`](../src/presence.ts)
+
+5. **Renaming “To-Do Unlock” to “TaskGate”**  
+   The new name fit better with the overall structure of the app and clearly reflected the idea of “gating” access to social media until tasks are done.  
+   *File:* [`/src/taskGate.ts`](../src/taskGate.ts)
+
+6. **Deciding between persistence and simplicity**  
+   I had to choose between building persistent storage for user data or keeping everything in-memory for fast iteration. I went with the latter for simplicity and easier testing.  
+   *File:* [`/src/accountability.ts`](../src/accountability.ts)
+
+7. **Combining sets into Maps**  
+   Converting multiple sets into nested Maps simplified state management and reduced redundancy across all modules. It made the data more consistent and efficient to manipulate.  
+   *File:* [`/src/context.ts`](../src/context.ts)
+
+8. **Manually simulating “inactive” states**  
+   Since there wasn’t a real-time data stream, I simulated inactivity manually in the Presence module. It was a useful insight into how user activity tracking might work in a real deployment.  
+   *File:* [`/src/presence.ts`](../src/presence.ts)
+
+9. **Connecting TaskGate and ScrollBlocker**  
+   While testing, I realized TaskGate could directly influence ScrollBlocker — finishing tasks could automatically re-enable scrolling. This connection made the system feel cohesive and meaningful.  
+   *File:* [`/src/taskGate.ts`](../src/taskGate.ts)
+
+10. **Adapting teamwork concepts for solo testing**  
+    The original Accountability and Presence designs assumed multiple real users. Since I was developing solo, I simulated peers locally, which changed how data was shared and stored.  
+    *File:* [`/src/accountability.ts`](../src/accountability.ts)
+
+---
+
+Each of these moments captures a design decision or realization that shaped how *LockIn* evolved from an abstract idea into a working backend prototype. Together, they show the balance between conceptual goals and practical implementation choices.
+
+## 7. Summary
+
+All four concepts from Assignment 2 were successfully developed into working backend modules. The design evolved to prioritize clarity and testability, while keeping the core principles intact. Together, these components — Scroll Blocker, Accountability, Presence, and TaskGate — create a strong foundation for *LockIn*, an app that helps users take back control over their time and social media habits.
+

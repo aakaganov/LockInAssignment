@@ -5,40 +5,51 @@
 [@implementing-concepts](../../background/implementing-concepts.md)
 
 # implement: LikertSurvey
+
 # response:
 
 # concept: LikertSurvey
-*   **concept**: LikertSurvey [Author, Respondent]
-*   **purpose**: To measure attitudes or opinions by asking respondents to rate their level of agreement with a series of statements on a predefined scale.
-*   **principle**: If an author creates a survey with several questions on a 1-5 scale, and a respondent submits their answers to those questions, then the author can view the collected responses to analyze the respondent's opinions.
-*   **state**:
-    *   A set of `Surveys` with
-        *   an `author` of type `Author`
-        *   a `title` of type `String`
-        *   a `scaleMin` of type `Number`
-        *   a `scaleMax` of type `Number`
-    *   A set of `Questions` with
-        *   a `survey` of type `Survey`
-        *   a `text` of type `String`
-    *   A set of `Responses` with
-        *   a `respondent` of type `Respondent`
-        *   a `question` of type `Question`
-        *   a `value` of type `Number`
-*   **actions**:
-    *   `createSurvey (author: Author, title: String, scaleMin: Number, scaleMax: Number): (survey: Survey)`
-        *   **requires**: `scaleMin < scaleMax`
-        *   **effects**: Creates a new survey with the given author, title, and scale.
-    *   `addQuestion (survey: Survey, text: String): (question: Question)`
-        *   **requires**: The survey must exist.
-        *   **effects**: Adds a new question to the specified survey.
-    *   `submitResponse (respondent: Respondent, question: Question, value: Number)`
-        *   **requires**: The question must exist. The respondent must not have already submitted a response for this question. The value must be within the survey's scale.
-        *   **effects**: Records the respondent's answer for the given question.
-    *   `updateResponse (respondent: Respondent, question: Question, value: Number)`
-        *   **requires**: The question must exist. The respondent must have already submitted a response for this question. The value must be within the survey's scale.
-        *   **effects**: Updates the respondent's existing answer for the given question.
+
+- **concept**: LikertSurvey [Author, Respondent]
+- **purpose**: To measure attitudes or opinions by asking respondents to rate
+  their level of agreement with a series of statements on a predefined scale.
+- **principle**: If an author creates a survey with several questions on a 1-5
+  scale, and a respondent submits their answers to those questions, then the
+  author can view the collected responses to analyze the respondent's opinions.
+- **state**:
+  - A set of `Surveys` with
+    - an `author` of type `Author`
+    - a `title` of type `String`
+    - a `scaleMin` of type `Number`
+    - a `scaleMax` of type `Number`
+  - A set of `Questions` with
+    - a `survey` of type `Survey`
+    - a `text` of type `String`
+  - A set of `Responses` with
+    - a `respondent` of type `Respondent`
+    - a `question` of type `Question`
+    - a `value` of type `Number`
+- **actions**:
+  - `createSurvey (author: Author, title: String, scaleMin: Number, scaleMax: Number): (survey: Survey)`
+    - **requires**: `scaleMin < scaleMax`
+    - **effects**: Creates a new survey with the given author, title, and scale.
+  - `addQuestion (survey: Survey, text: String): (question: Question)`
+    - **requires**: The survey must exist.
+    - **effects**: Adds a new question to the specified survey.
+  - `submitResponse (respondent: Respondent, question: Question, value: Number)`
+    - **requires**: The question must exist. The respondent must not have
+      already submitted a response for this question. The value must be within
+      the survey's scale.
+    - **effects**: Records the respondent's answer for the given question.
+  - `updateResponse (respondent: Respondent, question: Question, value: Number)`
+    - **requires**: The question must exist. The respondent must have already
+      submitted a response for this question. The value must be within the
+      survey's scale.
+    - **effects**: Updates the respondent's existing answer for the given
+      question.
 
 # file: src/likertsurvey/LikertSurveyConcept.ts
+
 ```typescript
 import { Collection, Db } from "npm:mongodb";
 import { Empty, ID } from "@utils/types.ts";
@@ -103,13 +114,26 @@ export default class LikertSurveyConcept {
    * @requires scaleMin must be less than scaleMax.
    * @effects A new survey is created and its ID is returned.
    */
-  async createSurvey({ author, title, scaleMin, scaleMax }: { author: Author; title: string; scaleMin: number; scaleMax: number }): Promise<{ survey: Survey } | { error: string }> {
+  async createSurvey(
+    { author, title, scaleMin, scaleMax }: {
+      author: Author;
+      title: string;
+      scaleMin: number;
+      scaleMax: number;
+    },
+  ): Promise<{ survey: Survey } | { error: string }> {
     if (scaleMin >= scaleMax) {
       return { error: "scaleMin must be less than scaleMax" };
     }
 
     const surveyId = freshID() as Survey;
-    await this.surveys.insertOne({ _id: surveyId, author, title, scaleMin, scaleMax });
+    await this.surveys.insertOne({
+      _id: surveyId,
+      author,
+      title,
+      scaleMin,
+      scaleMax,
+    });
     return { survey: surveyId };
   }
 
@@ -118,7 +142,9 @@ export default class LikertSurveyConcept {
    * @requires The survey must exist.
    * @effects A new question is created and its ID is returned.
    */
-  async addQuestion({ survey, text }: { survey: Survey; text: string }): Promise<{ question: Question } | { error: string }> {
+  async addQuestion(
+    { survey, text }: { survey: Survey; text: string },
+  ): Promise<{ question: Question } | { error: string }> {
     const existingSurvey = await this.surveys.findOne({ _id: survey });
     if (!existingSurvey) {
       return { error: `Survey with ID ${survey} not found.` };
@@ -136,7 +162,13 @@ export default class LikertSurveyConcept {
    * @requires The response value must be within the survey's defined scale.
    * @effects A new response is recorded in the state.
    */
-  async submitResponse({ respondent, question, value }: { respondent: Respondent; question: Question; value: number }): Promise<Empty | { error: string }> {
+  async submitResponse(
+    { respondent, question, value }: {
+      respondent: Respondent;
+      question: Question;
+      value: number;
+    },
+  ): Promise<Empty | { error: string }> {
     const questionDoc = await this.questions.findOne({ _id: question });
     if (!questionDoc) {
       return { error: `Question with ID ${question} not found.` };
@@ -149,16 +181,30 @@ export default class LikertSurveyConcept {
     }
 
     if (value < surveyDoc.scaleMin || value > surveyDoc.scaleMax) {
-      return { error: `Response value ${value} is outside the survey's scale [${surveyDoc.scaleMin}, ${surveyDoc.scaleMax}].` };
+      return {
+        error:
+          `Response value ${value} is outside the survey's scale [${surveyDoc.scaleMin}, ${surveyDoc.scaleMax}].`,
+      };
     }
 
-    const existingResponse = await this.responses.findOne({ respondent, question });
+    const existingResponse = await this.responses.findOne({
+      respondent,
+      question,
+    });
     if (existingResponse) {
-      return { error: "Respondent has already answered this question. Use updateResponse to change it." };
+      return {
+        error:
+          "Respondent has already answered this question. Use updateResponse to change it.",
+      };
     }
 
     const responseId = freshID() as Response;
-    await this.responses.insertOne({ _id: responseId, respondent, question, value });
+    await this.responses.insertOne({
+      _id: responseId,
+      respondent,
+      question,
+      value,
+    });
 
     return {};
   }
@@ -170,7 +216,13 @@ export default class LikertSurveyConcept {
    * @requires The new response value must be within the survey's defined scale.
    * @effects The existing response's value is updated.
    */
-  async updateResponse({ respondent, question, value }: { respondent: Respondent; question: Question; value: number }): Promise<Empty | { error: string }> {
+  async updateResponse(
+    { respondent, question, value }: {
+      respondent: Respondent;
+      question: Question;
+      value: number;
+    },
+  ): Promise<Empty | { error: string }> {
     const questionDoc = await this.questions.findOne({ _id: question });
     if (!questionDoc) {
       return { error: `Question with ID ${question} not found.` };
@@ -182,13 +234,21 @@ export default class LikertSurveyConcept {
     }
 
     if (value < surveyDoc.scaleMin || value > surveyDoc.scaleMax) {
-      return { error: `Response value ${value} is outside the survey's scale [${surveyDoc.scaleMin}, ${surveyDoc.scaleMax}].` };
+      return {
+        error:
+          `Response value ${value} is outside the survey's scale [${surveyDoc.scaleMin}, ${surveyDoc.scaleMax}].`,
+      };
     }
 
-    const result = await this.responses.updateOne({ respondent, question }, { $set: { value } });
+    const result = await this.responses.updateOne({ respondent, question }, {
+      $set: { value },
+    });
 
     if (result.matchedCount === 0) {
-      return { error: "No existing response found to update. Use submitResponse to create one." };
+      return {
+        error:
+          "No existing response found to update. Use submitResponse to create one.",
+      };
     }
 
     return {};
@@ -197,7 +257,9 @@ export default class LikertSurveyConcept {
   /**
    * Query: Retrieves all questions associated with a specific survey.
    */
-  async _getSurveyQuestions({ survey }: { survey: Survey }): Promise<QuestionDoc[]> {
+  async _getSurveyQuestions(
+    { survey }: { survey: Survey },
+  ): Promise<QuestionDoc[]> {
     return await this.questions.find({ survey }).toArray();
   }
 
@@ -205,16 +267,23 @@ export default class LikertSurveyConcept {
    * Query: Retrieves all responses for a given survey. This involves finding all
    * questions for the survey first, then finding all responses to those questions.
    */
-  async _getSurveyResponses({ survey }: { survey: Survey }): Promise<ResponseDoc[]> {
-    const surveyQuestions = await this.questions.find({ survey }).project({ _id: 1 }).toArray();
+  async _getSurveyResponses(
+    { survey }: { survey: Survey },
+  ): Promise<ResponseDoc[]> {
+    const surveyQuestions = await this.questions.find({ survey }).project({
+      _id: 1,
+    }).toArray();
     const questionIds = surveyQuestions.map((q) => q._id as Question);
-    return await this.responses.find({ question: { $in: questionIds } }).toArray();
+    return await this.responses.find({ question: { $in: questionIds } })
+      .toArray();
   }
 
   /**
    * Query: Retrieves all answers submitted by a specific respondent.
    */
-  async _getRespondentAnswers({ respondent }: { respondent: Respondent }): Promise<ResponseDoc[]> {
+  async _getRespondentAnswers(
+    { respondent }: { respondent: Respondent },
+  ): Promise<ResponseDoc[]> {
     return await this.responses.find({ respondent }).toArray();
   }
 }
