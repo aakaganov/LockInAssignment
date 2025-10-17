@@ -1,0 +1,254 @@
+scrollBlocker_test.ts : 
+==============================
+OPERATIONAL PRINCIPLE TEST
+==============================
+Creating user Alice...
+Downloading apps: Instagram (scrolling), Slack (non-scrolling)
+Setting manual scroll block for Instagram (8:00–10:00)
+SUCCESS: Block set for Instagram from 08:00 to 10:00.
+Applying mock AISetBlock suggestions...
+🤖 AISetBlock: Simulating AI for user "Alice"...
+SUCCESS: Block set for Instagram from 20:00 to 22:00.
+Skipping unknown app: TikTok
+SUCCESS: Mock AI suggestions applied for "Alice".
+Removing manual block for Instagram (8:00–10:00)
+SUCCESS: Block removed for Instagram from 08:00 to 10:00.
+----- output end -----
+Operational Principle: Basic Scroll Blocking Flow ... ok (0ms)
+Error Case: Re-downloading the same app ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 1: DUPLICATE APP DOWNLOAD
+==============================
+Caught expected error: FAILED: App "Twitter" already exists.
+----- output end -----
+Error Case: Re-downloading the same app ... ok (0ms)
+Error Case: Scrolling block on non-scrolling app ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 2: INVALID SCROLLING BLOCK
+==============================
+Caught expected error: FAILED: Cannot block scrolling on non-scrolling app "Notes".
+----- output end -----
+Error Case: Scrolling block on non-scrolling app ... ok (0ms)
+Error Case: Removing non-existent block ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 3: NON-EXISTENT BLOCK REMOVAL
+==============================
+Caught expected error: FAILED: No block exists for app "TikTok" at 07:00-09:00.
+----- output end -----
+Error Case: Removing non-existent block ... ok (0ms)
+Interesting Scenario 4: Multi-user State Isolation ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 4: MULTI-USER STATE ISOLATION
+==============================
+SUCCESS: Block set for Reddit from 18:00 to 19:00.
+----- output end -----
+Interesting Scenario 4: Multi-user State Isolation ... ok (0ms)
+
+ok | 5 passed | 0 failed (7ms)
+
+
+accountability_test.ts: 
+running 5 tests from ./src/concepts/tests/accountability_test.ts
+Operational Principle: Basic Accountability Flow ...
+------- output -------
+
+==============================
+OPERATIONAL PRINCIPLE TEST
+==============================
+Creating users Alice, Bob, Charlie...
+Updating screen times: Alice 120, Bob 100, Charlie 250...
+Sharing screen times: Alice -> Bob & Charlie...
+Listing peer times for Alice...
+Peer times: [ { peerId: "Bob", time: 100 }, { peerId: "Charlie", time: 250 } ]
+----- output end -----
+Operational Principle: Basic Accountability Flow ... ok (3ms)
+Error Case: Duplicate User Creation ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 1: DUPLICATE USER CREATION
+==============================
+Caught expected error: User Dave already exists.
+----- output end -----
+Error Case: Duplicate User Creation ... ok (0ms)
+Error Case: Update Screen Time for Non-existent User ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 2: UPDATE NON-EXISTENT USER
+==============================
+Caught expected error: User NonExistent does not exist.
+----- output end -----
+Error Case: Update Screen Time for Non-existent User ... ok (0ms)
+Error Case: Share Screen Time with Non-existent Peer ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 3: SHARE WITH NON-EXISTENT PEER
+==============================
+Caught expected error: User or peer does not exist.
+----- output end -----
+Error Case: Share Screen Time with Non-existent Peer ... ok (0ms)
+Interesting Scenario 4: Peer Isolation ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 4: PEER ISOLATION
+==============================
+----- output end -----
+Interesting Scenario 4: Peer Isolation ... ok (0ms)
+
+ok | 5 passed | 0 failed (5ms)
+
+running 5 tests from ./src/concepts/tests/presence_test.ts
+Operational Principle: Basic Presence Flow ...
+------- output -------
+
+
+
+
+presence_test.ts: 
+==============================
+OPERATIONAL PRINCIPLE TEST
+==============================
+Adding users Alice and Bob...
+[Presence] Added user Alice
+[Presence] Added user Bob
+Adding Bob as peer to Alice...
+[Presence] Added Bob to Alice's peer group
+Sending heartbeat for Alice...
+[Presence] Heartbeat for Alice at Thu Oct 16 2025 22:35:49 GMT-0400 (Eastern Daylight Time)
+Waiting 100ms to simulate inactivity...
+Marking Alice inactive with threshold 50ms...
+[Presence] Marked Alice as inactive.
+[Presence] Notifying Bob that Alice is inactive
+----- output end -----
+Operational Principle: Basic Presence Flow ... ok (105ms)
+Error Case: Duplicate User Creation ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 1: DUPLICATE USER CREATION
+==============================
+[Presence] Added user Carol
+Caught expected error: User Carol already exists.
+----- output end -----
+Error Case: Duplicate User Creation ... ok (0ms)
+Error Case: Mark Inactive Too Soon ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 2: MARK INACTIVE TOO SOON
+==============================
+[Presence] Added user Dave
+[Presence] Heartbeat for Dave at Thu Oct 16 2025 22:35:49 GMT-0400 (Eastern Daylight Time)
+Caught expected error: User Dave is still active (elapsed 0ms).
+----- output end -----
+Error Case: Mark Inactive Too Soon ... ok (0ms)
+Error Case: Add Non-existent Peer ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 3: ADD NON-EXISTENT PEER
+==============================
+[Presence] Added user Eve
+Caught expected error: Both users must exist. Missing:  GhostUser
+----- output end -----
+Error Case: Add Non-existent Peer ... ok (0ms)
+Interesting Scenario 4: Peer Isolation ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 4: PEER ISOLATION
+==============================
+[Presence] Added user Frank
+[Presence] Added user Grace
+[Presence] Added Grace to Frank's peer group
+----- output end -----
+Interesting Scenario 4: Peer Isolation ... ok (0ms)
+
+ok | 5 passed | 0 failed (109ms)
+
+running 5 tests from ./src/concepts/tests/taskGate_test.ts
+Operational Principle: Basic TaskGate Flow ...
+------- output -------
+
+==============================
+OPERATIONAL PRINCIPLE TEST
+==============================
+Creating user Alice...
+[TaskGate] Added user Alice
+Adding tasks t1 and t2...
+[TaskGate] Added task t1 for Alice. Apps are now locked.
+[TaskGate] Added task t2 for Alice. Apps are now locked.
+Marking tasks done...
+[TaskGate] Task t1 marked done for Alice
+[TaskGate] Task t2 marked done for Alice
+Unlocking apps...
+[TaskGate] Apps unlocked for Alice
+----- output end -----
+Operational Principle: Basic TaskGate Flow ... ok (0ms)
+Error Case: Adding duplicate task ...
+------- output -------
+
+
+
+
+taskGate_test.ts
+==============================
+INTERESTING SCENARIO 1: DUPLICATE TASK
+==============================
+[TaskGate] Added user Bob
+[TaskGate] Added task t1 for Bob. Apps are now locked.
+Caught expected error: Task t1 already exists for user Bob
+----- output end -----
+Error Case: Adding duplicate task ... ok (0ms)
+Error Case: Marking non-existent task done ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 2: NON-EXISTENT TASK
+==============================
+[TaskGate] Added user Carol
+Caught expected error: Task t999 does not exist for user Carol
+----- output end -----
+Error Case: Marking non-existent task done ... ok (0ms)
+Error Case: Unlocking apps before all tasks done ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 3: UNLOCK APPS PREMATURELY
+==============================
+[TaskGate] Added user Dana
+[TaskGate] Added task t1 for Dana. Apps are now locked.
+[TaskGate] Added task t2 for Dana. Apps are now locked.
+[TaskGate] Task t1 marked done for Dana
+Caught expected error: [TaskGate] Cannot unlock apps for Dana. Not all tasks completed.
+----- output end -----
+Error Case: Unlocking apps before all tasks done ... ok (0ms)
+Interesting Scenario 4: Multi-user Task Isolation ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 4: MULTI-USER TASK ISOLATION
+==============================
+[TaskGate] Added user Eve
+[TaskGate] Added user Frank
+[TaskGate] Added task t1 for Eve. Apps are now locked.
+[TaskGate] Added task t2 for Frank. Apps are now locked.
+[TaskGate] Task t1 marked done for Eve
+[TaskGate] Apps unlocked for Eve
+----- output end -----
+Interesting Scenario 4: Multi-user Task Isolation ... ok (0ms)
+
+ok | 5 passed | 0 failed (2ms)
+
+(base) annakaganov@Annas-MacBook-Pro-3 LockInAssignment % 

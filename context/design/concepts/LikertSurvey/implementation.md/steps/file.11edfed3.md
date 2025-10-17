@@ -71,13 +71,26 @@ export default class LikertSurveyConcept {
    * @requires scaleMin must be less than scaleMax.
    * @effects A new survey is created and its ID is returned.
    */
-  async createSurvey({ author, title, scaleMin, scaleMax }: { author: Author; title: string; scaleMin: number; scaleMax: number }): Promise<{ survey: Survey } | { error: string }> {
+  async createSurvey(
+    { author, title, scaleMin, scaleMax }: {
+      author: Author;
+      title: string;
+      scaleMin: number;
+      scaleMax: number;
+    },
+  ): Promise<{ survey: Survey } | { error: string }> {
     if (scaleMin >= scaleMax) {
       return { error: "scaleMin must be less than scaleMax" };
     }
 
     const surveyId = freshID() as Survey;
-    await this.surveys.insertOne({ _id: surveyId, author, title, scaleMin, scaleMax });
+    await this.surveys.insertOne({
+      _id: surveyId,
+      author,
+      title,
+      scaleMin,
+      scaleMax,
+    });
     return { survey: surveyId };
   }
 
@@ -86,7 +99,9 @@ export default class LikertSurveyConcept {
    * @requires The survey must exist.
    * @effects A new question is created and its ID is returned.
    */
-  async addQuestion({ survey, text }: { survey: Survey; text: string }): Promise<{ question: Question } | { error: string }> {
+  async addQuestion(
+    { survey, text }: { survey: Survey; text: string },
+  ): Promise<{ question: Question } | { error: string }> {
     const existingSurvey = await this.surveys.findOne({ _id: survey });
     if (!existingSurvey) {
       return { error: `Survey with ID ${survey} not found.` };
@@ -104,7 +119,13 @@ export default class LikertSurveyConcept {
    * @requires The response value must be within the survey's defined scale.
    * @effects A new response is recorded in the state.
    */
-  async submitResponse({ respondent, question, value }: { respondent: Respondent; question: Question; value: number }): Promise<Empty | { error: string }> {
+  async submitResponse(
+    { respondent, question, value }: {
+      respondent: Respondent;
+      question: Question;
+      value: number;
+    },
+  ): Promise<Empty | { error: string }> {
     const questionDoc = await this.questions.findOne({ _id: question });
     if (!questionDoc) {
       return { error: `Question with ID ${question} not found.` };
@@ -117,16 +138,30 @@ export default class LikertSurveyConcept {
     }
 
     if (value < surveyDoc.scaleMin || value > surveyDoc.scaleMax) {
-      return { error: `Response value ${value} is outside the survey's scale [${surveyDoc.scaleMin}, ${surveyDoc.scaleMax}].` };
+      return {
+        error:
+          `Response value ${value} is outside the survey's scale [${surveyDoc.scaleMin}, ${surveyDoc.scaleMax}].`,
+      };
     }
 
-    const existingResponse = await this.responses.findOne({ respondent, question });
+    const existingResponse = await this.responses.findOne({
+      respondent,
+      question,
+    });
     if (existingResponse) {
-      return { error: "Respondent has already answered this question. Use updateResponse to change it." };
+      return {
+        error:
+          "Respondent has already answered this question. Use updateResponse to change it.",
+      };
     }
 
     const responseId = freshID() as Response;
-    await this.responses.insertOne({ _id: responseId, respondent, question, value });
+    await this.responses.insertOne({
+      _id: responseId,
+      respondent,
+      question,
+      value,
+    });
 
     return {};
   }
@@ -138,7 +173,13 @@ export default class LikertSurveyConcept {
    * @requires The new response value must be within the survey's defined scale.
    * @effects The existing response's value is updated.
    */
-  async updateResponse({ respondent, question, value }: { respondent: Respondent; question: Question; value: number }): Promise<Empty | { error: string }> {
+  async updateResponse(
+    { respondent, question, value }: {
+      respondent: Respondent;
+      question: Question;
+      value: number;
+    },
+  ): Promise<Empty | { error: string }> {
     const questionDoc = await this.questions.findOne({ _id: question });
     if (!questionDoc) {
       return { error: `Question with ID ${question} not found.` };
@@ -150,13 +191,21 @@ export default class LikertSurveyConcept {
     }
 
     if (value < surveyDoc.scaleMin || value > surveyDoc.scaleMax) {
-      return { error: `Response value ${value} is outside the survey's scale [${surveyDoc.scaleMin}, ${surveyDoc.scaleMax}].` };
+      return {
+        error:
+          `Response value ${value} is outside the survey's scale [${surveyDoc.scaleMin}, ${surveyDoc.scaleMax}].`,
+      };
     }
 
-    const result = await this.responses.updateOne({ respondent, question }, { $set: { value } });
+    const result = await this.responses.updateOne({ respondent, question }, {
+      $set: { value },
+    });
 
     if (result.matchedCount === 0) {
-      return { error: "No existing response found to update. Use submitResponse to create one." };
+      return {
+        error:
+          "No existing response found to update. Use submitResponse to create one.",
+      };
     }
 
     return {};
@@ -165,7 +214,9 @@ export default class LikertSurveyConcept {
   /**
    * Query: Retrieves all questions associated with a specific survey.
    */
-  async _getSurveyQuestions({ survey }: { survey: Survey }): Promise<QuestionDoc[]> {
+  async _getSurveyQuestions(
+    { survey }: { survey: Survey },
+  ): Promise<QuestionDoc[]> {
     return await this.questions.find({ survey }).toArray();
   }
 
@@ -173,16 +224,23 @@ export default class LikertSurveyConcept {
    * Query: Retrieves all responses for a given survey. This involves finding all
    * questions for the survey first, then finding all responses to those questions.
    */
-  async _getSurveyResponses({ survey }: { survey: Survey }): Promise<ResponseDoc[]> {
-    const surveyQuestions = await this.questions.find({ survey }).project({ _id: 1 }).toArray();
+  async _getSurveyResponses(
+    { survey }: { survey: Survey },
+  ): Promise<ResponseDoc[]> {
+    const surveyQuestions = await this.questions.find({ survey }).project({
+      _id: 1,
+    }).toArray();
     const questionIds = surveyQuestions.map((q) => q._id as Question);
-    return await this.responses.find({ question: { $in: questionIds } }).toArray();
+    return await this.responses.find({ question: { $in: questionIds } })
+      .toArray();
   }
 
   /**
    * Query: Retrieves all answers submitted by a specific respondent.
    */
-  async _getRespondentAnswers({ respondent }: { respondent: Respondent }): Promise<ResponseDoc[]> {
+  async _getRespondentAnswers(
+    { respondent }: { respondent: Respondent },
+  ): Promise<ResponseDoc[]> {
     return await this.responses.find({ respondent }).toArray();
   }
 }
