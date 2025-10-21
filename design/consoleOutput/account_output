@@ -1,0 +1,51 @@
+User Account: `src/concepts/Tests/account_test.ts`  
+Operational Principle: Basic User Flow ...
+------- output -------
+
+==============================
+OPERATIONAL PRINCIPLE TEST
+==============================
+Adding user Alice...
+Retrieving Alice's info...
+Alice info: { name: "Alice Smith", email: "alice@example.com" }
+Deleting Alice...
+----- output end -----
+Operational Principle: Basic User Flow ... ok (2ms)
+Error Case: Adding duplicate user ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 1: DUPLICATE USER
+==============================
+Caught expected error: User Bob already exists
+----- output end -----
+Error Case: Adding duplicate user ... ok (0ms)
+Error Case: Retrieving non-existent user ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 2: NON-EXISTENT USER
+==============================
+Caught expected error: User Charlie does not exist
+----- output end -----
+Error Case: Retrieving non-existent user ... ok (0ms)
+Error Case: Deleting non-existent user ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 3: DELETE NON-EXISTENT USER
+==============================
+Caught expected error: User Dana does not exist
+----- output end -----
+Error Case: Deleting non-existent user ... ok (0ms)
+Interesting Scenario 4: Multiple Users Isolation ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 4: MULTI-USER ISOLATION
+==============================
+----- output end -----
+Interesting Scenario 4: Multiple Users Isolation ... ok (0ms)
+
+ok | 5 passed | 0 failed (6ms)
+

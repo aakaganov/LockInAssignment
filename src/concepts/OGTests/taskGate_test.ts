@@ -4,7 +4,7 @@ import {
   getUser,
   markDone,
   unlockApps,
-} from "../taskGate.ts";
+} from "../OgProject/taskGate.ts";
 
 /**
  * Helper to print section headers cleanly in test output

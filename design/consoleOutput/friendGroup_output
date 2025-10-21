@@ -1,0 +1,56 @@
+Friend Group: `src/concepts/Tests/friendGroup_test.ts` 
+Operational Principle: Basic FriendGroup Flow ...
+------- output -------
+
+==============================
+OPERATIONAL PRINCIPLE TEST
+==============================
+Creating group 'Study Buddies'...
+Adding members Alice and Bob...
+Listing groups for Alice...
+Alice belongs to groups: [ "1af4eb61-a384-42ce-82bc-41b0b7f75af4" ]
+Checking members of the group...
+----- output end -----
+Operational Principle: Basic FriendGroup Flow ... ok (2ms)
+Interesting Scenario 1: Adding Duplicate Member ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 1: DUPLICATE MEMBER
+==============================
+Adding Carol again...
+----- output end -----
+Interesting Scenario 1: Adding Duplicate Member ... ok (0ms)
+Error Case: Removing Non-Member ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 2: REMOVING NON-MEMBER
+==============================
+Caught expected error: User Eve is not a member of group 9f0f2922-e7bb-4eed-9f87-e97a3bd89bbe
+----- output end -----
+Error Case: Removing Non-Member ... ok (0ms)
+Interesting Scenario 3: Updating Confirmation Policy ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 3: UPDATE CONFIRMATION POLICY
+==============================
+Initial requiresConfirmation: true
+Setting requiresConfirmation to false...
+----- output end -----
+Interesting Scenario 3: Updating Confirmation Policy ... ok (0ms)
+Interesting Scenario 4: Multi-Group Membership ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 4: MULTI-GROUP MEMBERSHIP
+==============================
+Frank belongs to groups: [
+  "2e021d0f-dddf-4a93-b996-fc88d150a6d4",
+  "bbc064e1-ced9-47e6-8e5f-c2acfa5913f3"
+]
+----- output end -----
+Interesting Scenario 4: Multi-Group Membership ... ok (0ms)
+
+ok | 5 passed | 0 failed (6ms)

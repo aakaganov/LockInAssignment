@@ -3,7 +3,7 @@ import {
   listPeerTimes,
   shareScreenTime,
   updateScreenTime,
-} from "../accountability.ts";
+} from "../OgProject/accountability.ts";
 
 /**
  * Helper to print section headers cleanly in test output
