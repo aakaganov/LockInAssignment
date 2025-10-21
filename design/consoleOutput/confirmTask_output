@@ -1,0 +1,51 @@
+Confirm Task: `src/concepts/Tests/confirmTask_test.ts`  
+Operational Principle: Confirm Task Flow ...
+------- output -------
+
+==============================
+OPERATIONAL PRINCIPLE TEST
+==============================
+Requesting confirmation for task t1...
+Peer Bob confirms task t1...
+Finalizing confirmation for task t1...
+Getting confirmations for Alice...
+----- output end -----
+Operational Principle: Confirm Task Flow ... ok (1ms)
+Error Case: Duplicate confirmation request ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 1: DUPLICATE REQUEST
+==============================
+Caught expected error: Confirmation already requested for task t2
+----- output end -----
+Error Case: Duplicate confirmation request ... ok (0ms)
+Error Case: Finalize without peer confirmation ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 2: FINALIZE WITHOUT CONFIRMATIONS
+==============================
+Caught expected error: Cannot finalize confirmation: no peers have confirmed task t3
+----- output end -----
+Error Case: Finalize without peer confirmation ... ok (0ms)
+Error Case: Confirm non-existent task ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 3: CONFIRM NON-EXISTENT TASK
+==============================
+Caught expected error: No confirmation exists for task nonexistent
+----- output end -----
+Error Case: Confirm non-existent task ... ok (0ms)
+Interesting Scenario 4: Multiple peers confirm ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 4: MULTIPLE PEER CONFIRMATIONS
+==============================
+Peers Bob and Carol confirm task t4...
+----- output end -----
+Interesting Scenario 4: Multiple peers confirm ... ok (0ms)
+
+ok | 5 passed | 0 failed (5ms)

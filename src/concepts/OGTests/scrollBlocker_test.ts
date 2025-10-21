@@ -1,4 +1,4 @@
-import { Scroll } from "../scrollBlocker.ts";
+import { Scroll } from "../OgProject/scrollBlocker.ts";
 
 /**
  * Helper to print section headers cleanly in test output

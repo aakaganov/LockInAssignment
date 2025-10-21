@@ -1,0 +1,65 @@
+Task: `src/concepts/Tests/task_test.ts`  
+Operational Principle: Basic Task Flow ...
+------- output -------
+
+==============================
+OPERATIONAL PRINCIPLE TEST
+==============================
+Creating task t1...
+Editing task t1...
+Completing task t1...
+Listing tasks for user1...
+[
+  {
+    taskId: "6a24726d-24ec-42d5-beb2-e46e75d05a71",
+    ownerId: "user1",
+    title: "Write full report",
+    description: "Finish by Monday",
+    dueDate: undefined,
+    estimatedTime: 90,
+    status: "completed",
+    createdAt: 2025-10-21T19:42:48.494Z,
+    actualTime: 95
+  }
+]
+Deleting task t1...
+----- output end -----
+Operational Principle: Basic Task Flow ... ok (5ms)
+Error Case: Completing non-existent task ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 1: NON-EXISTENT TASK
+==============================
+Caught expected error: Task fakeId does not exist
+----- output end -----
+Error Case: Completing non-existent task ... ok (0ms)
+Error Case: Completing already completed task ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 2: ALREADY COMPLETED TASK
+==============================
+Caught expected error: Task a996bef4-2b9b-421c-894b-ba579eff5bd5 is already completed
+----- output end -----
+Error Case: Completing already completed task ... ok (0ms)
+Error Case: Invalid estimatedTime ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 3: INVALID ESTIMATED TIME
+==============================
+Caught expected error: estimatedTime must be > 0
+----- output end -----
+Error Case: Invalid estimatedTime ... ok (0ms)
+Error Case: Editing with invalid estimatedTime ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 4: INVALID EDIT ESTIMATED TIME
+==============================
+Caught expected error: estimatedTime must be > 0
+----- output end -----
+Error Case: Editing with invalid estimatedTime ... ok (0ms)
+
+ok | 5 passed | 0 failed (9ms)

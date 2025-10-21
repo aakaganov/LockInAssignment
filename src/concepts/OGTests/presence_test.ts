@@ -4,7 +4,7 @@ import {
   getUser,
   heartbeat,
   markInactive,
-} from "../presence.ts";
+} from "../OgProject/presence.ts";
 
 /**
  * Helper to print section headers cleanly in test output

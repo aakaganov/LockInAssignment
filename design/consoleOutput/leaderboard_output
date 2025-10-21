@@ -1,0 +1,62 @@
+Leaderboard: `src/concepts/Tests/leaderboard_test.ts`  
+Operational Principle: Basic Leaderboard Flow ...
+------- output -------
+
+==============================
+OPERATIONAL PRINCIPLE TEST
+==============================
+Recording task completions...
+Checking leaderboard by tasks...
+[
+  { userId: "Alice", completedCount: 2 },
+  { userId: "Bob", completedCount: 1 }
+]
+Checking leaderboard by hours...
+[
+  { userId: "Alice", completedHours: 2.5 },
+  { userId: "Bob", completedHours: 1 }
+]
+----- output end -----
+Operational Principle: Basic Leaderboard Flow ... ok (2ms)
+Interesting Scenario 1: Confirmation Required ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 1: CONFIRMATION REQUIRED
+==============================
+Recording unconfirmed task...
+Recording confirmed task...
+[ { userId: "Carol", completedCount: 1 } ]
+[ { userId: "Carol", completedHours: 1.5 } ]
+----- output end -----
+Interesting Scenario 1: Confirmation Required ... ok (0ms)
+Interesting Scenario 2: Multi-user group leaderboard ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 2: MULTI-USER GROUP LEADERBOARD
+==============================
+[
+  { userId: "Eve", completedCount: 1 },
+  { userId: "Frank", completedCount: 1 },
+  { userId: "Dave", completedCount: 1 }
+]
+[
+  { userId: "Eve", completedHours: 2 },
+  { userId: "Frank", completedHours: 1 },
+  { userId: "Dave", completedHours: 0.5 }
+]
+----- output end -----
+Interesting Scenario 2: Multi-user group leaderboard ... ok (0ms)
+Interesting Scenario 3: Reset weekly stats ...
+------- output -------
+
+==============================
+INTERESTING SCENARIO 3: RESET WEEKLY STATS
+==============================
+Resetting weekly stats...
+{ userId: "George", completedCount: 0, completedMinutes: 0 }
+----- output end -----
+Interesting Scenario 3: Reset weekly stats ... ok (0ms)
+
+ok | 4 passed | 0 failed (6ms)
