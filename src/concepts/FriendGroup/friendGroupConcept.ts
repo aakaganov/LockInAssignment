@@ -135,13 +135,19 @@ export default class FriendGroupConcept {
 
   async listGroups(body: { userId: string }): Promise<FriendGroup[]> {
     const { userId } = body;
-    if (!userId) {
-      console.warn("⚠️ listGroups called with no userId");
-      return [];
-    }
     const groups = await dbListGroups(this.db, userId);
-    console.log(`📋 Groups fetched for user ${userId}:`, groups);
-    return groups;
+
+    console.log("Groups from DB:", groups); // <-- check that groupName exists
+
+    // Map explicitly to ensure groupName is included
+    return groups.map((g) => ({
+      groupId: g.groupId,
+      groupName: g.groupName, // make sure this is here
+      ownerId: g.ownerId,
+      confirmationRequired: g.confirmationRequired,
+      members: g.members,
+      createdAt: g.createdAt,
+    }));
   }
 
   async setConfirmationPolicy(
