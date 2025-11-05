@@ -24,7 +24,13 @@ export function recordCompletion(
   confirmed: boolean = true, // whether task was confirmed
 ) {
   const group = FriendGroups.get(groupId);
-  if (!group) throw new Error(`Group ${groupId} does not exist`);
+  if (!group) {
+    console.warn(
+      `⚠️ Cannot record completion: Group ${groupId} does not exist`,
+    );
+    return;
+  }
+
   if (!group.weeklyStats.has(userId)) {
     // initialize stats for new user
     group.weeklyStats.set(userId, {
@@ -52,7 +58,10 @@ export function getLeaderboardByTasks(
   groupId: string,
 ): { userId: string; completedCount: number }[] {
   const group = FriendGroups.get(groupId);
-  if (!group) throw new Error(`Group ${groupId} does not exist`);
+  if (!group) {
+    console.warn(`⚠️ Leaderboard requested for non-existent group ${groupId}`);
+    return []; // return empty instead of throwing
+  }
 
   return Array.from(group.weeklyStats.values())
     .sort((a, b) => {
@@ -76,7 +85,10 @@ export function getLeaderboardByTime(
   groupId: string,
 ): { userId: string; completedHours: number }[] {
   const group = FriendGroups.get(groupId);
-  if (!group) throw new Error(`Group ${groupId} does not exist`);
+  if (!group) {
+    console.warn(`⚠️ Leaderboard requested for non-existent group ${groupId}`);
+    return [];
+  }
 
   return Array.from(group.weeklyStats.values())
     .sort((a, b) => b.completedMinutes - a.completedMinutes)
