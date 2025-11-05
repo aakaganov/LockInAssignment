@@ -5,7 +5,7 @@ import {
   getLeaderboardByTime,
   recordCompletion,
   resetWeeklyStats,
-} from "../leaderboard.ts";
+} from "../Leaderboard/leaderboard.ts";
 
 /**
  * Helper to print section headers cleanly in test output

@@ -5,7 +5,7 @@ import {
   editTask,
   listTasks,
   Tasks,
-} from "../task.ts";
+} from "../Task/task.ts";
 
 /**
  * Helper to print section headers cleanly in test output

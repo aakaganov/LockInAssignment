@@ -3,7 +3,7 @@ import {
   finalizeConfirmation,
   getConfirmations,
   requestConfirmation,
-} from "../confirmTask.ts";
+} from "../ConfirmTask/confirmTask.ts";
 
 /**
  * Helper to print section headers cleanly in test output

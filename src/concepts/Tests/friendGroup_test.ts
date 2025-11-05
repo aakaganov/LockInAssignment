@@ -7,7 +7,7 @@ import {
   listGroups,
   removeMember,
   setConfirmationPolicy,
-} from "../friendGroup.ts";
+} from "../FriendGroup/friendGroup.ts";
 
 /**
  * Helper to print section headers cleanly in test output
