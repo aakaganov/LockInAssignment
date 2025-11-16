@@ -8,6 +8,11 @@ import {
 } from "./account.ts";
 
 export default class AccountConcept {
+  db: any;
+
+  constructor(db: any) {
+    this.db = db;
+  }
   async addUser(
     { name, email, password }: {
       name: string;
