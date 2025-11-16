@@ -6,7 +6,7 @@ import {
   getConfirmations,
   getPendingConfirmationsForPeer,
   requestConfirmation,
-} from "../ConfirmTask/confirmTask.ts";
+} from "./confirmTask.ts";
 
 export default class ConfirmTaskConcept {
   db: any;

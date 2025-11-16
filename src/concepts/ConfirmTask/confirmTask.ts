@@ -4,7 +4,7 @@ import { createNotification } from "../Notification/notification.ts";
 import { getUser } from "../Account/account.ts";
 import { resolveTaskNotifications } from "../Notification/notification.ts";
 import { Tasks } from "../Task/task.ts"; // in-memory map (we'll update when confirming)
-import LeaderboardConcept from "../Leaderboard/leaderboardConcept.ts";
+import LeaderboardConcept from "../Leaderboard/LeaderboardConcept.ts";
 import { getGroupStats } from "../Leaderboard/leaderboard.ts";
 import { updateLeaderboardsForUser } from "../Leaderboard/leaderboard.ts";
 

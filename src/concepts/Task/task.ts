@@ -1,5 +1,5 @@
 import { Db } from "npm:mongodb";
-import LeaderboardConcept from "../Leaderboard/leaderboardConcept.ts";
+import LeaderboardConcept from "../Leaderboard/LeaderboardConcept.ts";
 
 import { updateLeaderboardsForUser } from "../Leaderboard/leaderboard.ts";
 

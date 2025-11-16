@@ -6,7 +6,7 @@ import {
   listTasks,
   Task,
   Tasks,
-} from "../Task/task.ts";
+} from "./task.ts";
 import { suggestTaskOrder } from "../../utils/gemini.ts";
 
 export default class TaskConcept {
