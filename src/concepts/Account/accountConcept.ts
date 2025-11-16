@@ -1,4 +1,4 @@
-// src/concepts/Account/accountConcept.ts
+// src/concepts/Account/AccountConcept.ts
 import {
   addUser,
   deleteUser,
@@ -24,8 +24,21 @@ export default class AccountConcept {
   }
 
   async loginUser({ email, password }: { email: string; password: string }) {
+    console.log("[AccountConcept] loginUser called with:", { email, password });
+
     const user = await loginUser(email, password);
-    if (user.error) return { error: user.error };
+
+    if (user.error) {
+      console.error("[AccountConcept] loginUser error:", user.error);
+      return { error: user.error };
+    }
+
+    console.log("[AccountConcept] loginUser success:", {
+      userId: user.userId,
+      name: user.name,
+      email: user.email,
+    });
+
     return {
       message: "Login successful",
       user: { userId: user.userId, name: user.name, email: user.email },
@@ -47,21 +60,14 @@ export default class AccountConcept {
       user: { userId, name, email },
     };
   }
-  /**
-  async getUser({ userId }: { userId: string }) {
-    const result = await getUser(userId);
-    if (result.error) return { error: result.error };
-    return { user: { userId, name: result.name, email: result.email } };
-  }
-  */
+
   async getUser({ userId }: { userId: string }) {
     const result = await getUser(userId);
     if (result.error) return { error: result.error };
 
-    // Return user directly from result
     return {
       user: {
-        userId: userId, // fallback if result.userId missing
+        userId: userId,
         name: result.name,
         email: result.email,
       },
@@ -75,6 +81,7 @@ export default class AccountConcept {
   }
 
   async logoutUser({ userId }: { userId: string }) {
+    console.log(`[AccountConcept] logoutUser called for userId: ${userId}`);
     return { message: `User ${userId} logged out successfully` };
   }
 }
