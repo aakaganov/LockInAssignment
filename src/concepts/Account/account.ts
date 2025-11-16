@@ -1,5 +1,5 @@
 import { freshID, getDb } from "../../utils/database.ts";
-
+console.log("hello");
 export interface User {
   userId: string;
   name: string;
