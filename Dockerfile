@@ -17,12 +17,12 @@ COPY --chown=deno:deno . .
 
 # Run the custom build step defined in deno.json.
 # This step writes to src/concepts/concepts.ts and now has permission to do so.
+RUN deno cache --reload src/main.ts
 RUN deno task build
 
 # Cache the main module and all its dependencies.
 # This ensures faster startup times for the container as modules are pre-compiled.
 RUN deno cache src/main.ts
-RUN deno task build
 
 # Specify the command to run when the container starts.
 # Using 'deno task start' is the best practice here, as it encapsulates
