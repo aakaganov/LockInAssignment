@@ -64,7 +64,6 @@ export const inclusions: Record<string, string> = {
 
   // Account
   "/api/Account/addUser": "user sign-up is normal",
-  "/api/Account/loginUser": "needed for front-end login",
   "/api/Account/getUser": "reading own info is safe",
   "/api/Account/logoutUser": "safe to include",
 };
