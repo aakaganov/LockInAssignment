@@ -10,17 +10,17 @@ import { toFileUrl } from "jsr:@std/path/to-file-url";
 
 const flags = parseArgs(Deno.args, {
   string: ["port", "baseUrl"],
-  default: { port: "8000", baseUrl: "/api" },
+  default: { baseUrl: "/api" },
 });
 
-const PORT = parseInt(flags.port, 10);
+const PORT = Number(Deno.env.get("PORT")) || parseInt(flags.port || "8000", 10);
 const BASE_URL = flags.baseUrl;
 const CONCEPTS_DIR = "src/concepts";
 
 async function main() {
   const [db] = await getDb();
   const app = new Hono();
-
+  console.log(`Server running on port ${PORT}`);
   // --- CORS ---
   app.use("*", async (c, next) => {
     const origin = c.req.header("Origin") || "*";
