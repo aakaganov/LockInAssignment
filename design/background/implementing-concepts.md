@@ -27,7 +27,7 @@ The following prefix format for header 1 blocks denote the relevant steps:
 
 * `# concept: {name}`
 	* A specification of the concept we're looking to implement
-* `# file: src/{name}/{name}Concept.ts`
+* `# file: src/concepts/{name}/{name}Concept.ts`
 	* The implementation of the concept class as a TypeScript code block
 * `# problem:`
 	* Description of any issues that arise with running/operating the implementation
@@ -155,6 +155,7 @@ export default class LabelingConcept {
 ```
 
 Note that even for actions that don't want to return anything, you should return an empty record `{}`. To denote the type of this properly, you can use the provided `Empty` type from `@utils/types.ts` which simply specifies the type as `Record<PropertyKey, never>`.
+<<<<<<< HEAD
 
 # Dictionaries as arguments and results
 
@@ -204,6 +205,57 @@ The following `deno.json` file lists additional imports that are available to he
 
 [@deno.json](/deno.json)
 
+||||||| 5f2ce1a
+=======
+
+# Dictionaries as arguments and results
+
+Note that the arguments and results of actions are always dictionaries. For example if an action in a specification has the signature
+
+```
+action (a: A, b: B): (c: C)
+```
+
+this means that the implementation should take a dictionary with fields named `a` and `b`, and return a dictionary with a field `c`. Error results are returned as a dictionary with a field `error` which is generally a string:
+
+```
+action (a: A, b: B): (error: string)
+```
+
+Queries always return an array of dictionaries so if the specification has this signature:
+
+```
+\_query (a: A, b: B): (c: C)
+```
+
+the implementation should return an array of dictionaries each with a field called `c`. For example, given this state
+
+```
+	a set of Groups with
+	  a users set of User
+
+	a set of Users with
+	  a username String
+	  a password String
+```
+
+the query specification
+
+```
+	\_getUsersWithUsernamesAndPasswords (group: Group) : (user: {username: String, password: String})
+    **requires** group exists
+    **effects** returns set of all users in the group each with its username and password
+```
+
+says that the query should return an array of dictionaries, each with a `user` field that holds a dictionary with a `username` and `password` field.
+
+# Imports
+
+The following `deno.json` file lists additional imports that are available to help ease imports. In particular, the utility folder and the concept folder are available as the `@utils` and `@concepts` prefixes.
+
+[@deno.json](/deno.json)
+
+>>>>>>> upstream/main
 # Initialization
 
 We provide a helper database script in `@utils` that reads the environment variables in your `.env` file and initializes a MongoDB database. For normal app development, use:
@@ -227,6 +279,7 @@ Every concept should have inline documentation and commenting:
 - Any testing should be guided by the principle.
 - Each action should state the requirements and effects, and tests should check that both work against variations.
 
+<<<<<<< HEAD
 # Commenting
 
 Every action should have a comment including its signature, its requirements, and effects:
@@ -239,3 +292,18 @@ Every action should have a comment including its signature, its requirements, an
    * **effects** creates a new Label `l`; sets the name of `l` to `name`; returns `l` as `label`
    */
 ```
+||||||| 5f2ce1a
+=======
+# Commenting
+
+Every action should have a comment including its signature, its requirements, and effects:
+```typescript
+  /**
+   * createLabel (name: String): (label: Label)
+   *
+   * **requires** no Label with the given `name` already exists
+   *
+   * **effects** creates a new Label `l`; sets the name of `l` to `name`; returns `l` as `label`
+   */
+```
+>>>>>>> upstream/main

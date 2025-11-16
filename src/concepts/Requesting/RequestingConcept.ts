@@ -150,7 +150,7 @@ export default class RequestingConcept {
       );
     }
 
-    let timeoutId = 0; //number;
+    let timeoutId: ReturnType<typeof setTimeout>;
     const timeoutPromise = new Promise<never>((_, reject) => {
       timeoutId = setTimeout(
         () =>
@@ -158,7 +158,7 @@ export default class RequestingConcept {
             new Error(`Request ${request} timed out after ${this.timeout}ms`),
           ),
         this.timeout,
-      ) as unknown as number;
+      );
     });
 
     try {

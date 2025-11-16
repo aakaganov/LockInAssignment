@@ -2,9 +2,19 @@
 .DS_Store
 **/.DS_Store
 ctx
+<<<<<<< HEAD
 ctx.exe
 .obsidian/workspace.json
 src/concepts/concepts.ts
 src/concepts/test_concepts.ts
 src/syncs/syncs.ts
 service-account.json
+||||||| 5f2ce1a
+ctx.exe
+=======
+ctx.exe
+.obsidian/workspace.json
+src/concepts/concepts.ts
+src/concepts/test_concepts.ts
+src/syncs/syncs.ts
+>>>>>>> upstream/main
