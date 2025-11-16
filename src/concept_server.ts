@@ -36,16 +36,16 @@ async function main() {
     return res;
   });
 
-  app.get(`${BASE_URL}/test-db`, async (c) => {
+  app.get("/ping-db", async (c) => {
     try {
-      const collections = await db.listCollections();
-      console.log("MongoDB collections:", collections);
-      return c.json({ status: "ok", collections });
-    } catch (e: unknown) {
-      let msg = "Unknown error";
-      if (e instanceof Error) msg = e.message;
-      console.error("MongoDB connection error:", msg);
-      return c.json({ status: "fail", error: msg });
+      const [db] = await getDb();
+      const colls = await db.listCollections().toArray();
+      return c.json({ ok: true, collections: colls });
+    } catch (e) {
+      return c.json({
+        ok: false,
+        error: e instanceof Error ? e.message : String(e),
+      });
     }
   });
 
