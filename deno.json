@@ -14,7 +14,7 @@
     "start": "deno run --import-map=deno.json --allow-net --allow-write --allow-read --allow-sys --allow-env src/main.ts",
     "concepts": "deno run --import-map=deno.json --allow-net --allow-read --allow-sys --allow-env src/concept_server.ts --port 8000 --baseUrl /api",
     "import": "deno run --import-map=deno.json --allow-read --allow-write --allow-env src/utils/generate_imports.ts",
-    "build": "deno run --import-map=deno.json import"
+    "build": "deno run --import-map=deno.json --allow-read --allow-write src/utils/generate_imports.ts"
   },
   "lint": {
     "rules": {

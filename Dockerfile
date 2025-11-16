@@ -17,7 +17,6 @@ COPY --chown=deno:deno . .
 
 # Run the custom build step defined in deno.json.
 # This step writes to src/concepts/concepts.ts and now has permission to do so.
-RUN deno cache --reload src/main.ts
 RUN deno task build
 
 # Cache the main module and all its dependencies.
