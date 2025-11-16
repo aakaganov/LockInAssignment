@@ -4,11 +4,11 @@ import {
   createGroup as dbCreateGroup,
   deleteGroup as dbDeleteGroup,
   FriendGroup,
-  listGroups as dbListGroups,
+  GroupUser,
+  listGroupsRaw,
   removeMember as dbRemoveMember,
   setConfirmationPolicy as dbSetConfirmationPolicy,
 } from "./friendGroup.ts";
-
 import { createNotification } from "../Notification/notification.ts";
 
 export default class FriendGroupConcept {
@@ -17,37 +17,29 @@ export default class FriendGroupConcept {
   constructor(db: any) {
     this.db = db;
   }
-
-  // ✅ Modified to send group invites by email
   async createGroup(body: {
     ownerId: string;
     groupName: string;
     confirmationRequired: boolean;
-    invitedEmails: string[]; // changed to invited emails instead of members
+    invitedEmails: string[];
   }): Promise<{ success: boolean; groupId: string; invitedUsers: string[] }> {
-    const {
-      ownerId,
-      groupName,
-      confirmationRequired,
-      invitedEmails = [],
-    } = body;
-
-    // Defensive check
-    if (!Array.isArray(invitedEmails)) {
-      console.warn("⚠️ invitedEmails is not an array, defaulting to []");
-    }
+    const { ownerId, groupName, confirmationRequired, invitedEmails = [] } =
+      body;
     const emailList = Array.isArray(invitedEmails) ? invitedEmails : [];
 
-    // 1️⃣ Create the group in DB with only the owner
+    // ✅ Fetch the owner's info so we can use their name in notifications
+    const owner = await this.db.collection("users").findOne({
+      userId: ownerId,
+    });
+
     const groupId = await dbCreateGroup(
       this.db,
       ownerId,
       groupName,
       confirmationRequired,
-      [], // no members yet
+      [],
     );
 
-    // 2️⃣ For each invited email, find user in DB
     const invitedUserIds: string[] = [];
 
     for (const email of emailList) {
@@ -55,7 +47,48 @@ export default class FriendGroupConcept {
       if (invitedUser) {
         invitedUserIds.push(invitedUser.userId);
 
-        // 3️⃣ Create a notification for the invited user
+        // ✅ Include full info so notifications always show correctly
+        await createNotification(this.db, {
+          userId: invitedUser.userId,
+          type: "group_invite",
+          message: `${
+            owner?.name || "Someone"
+          } invited you to join "${groupName}"`,
+          groupId,
+          fromUserId: ownerId,
+          fromUserName: owner?.name || "Someone",
+          groupName,
+        });
+      }
+    }
+
+    return { success: true, groupId, invitedUsers: invitedUserIds };
+  }
+
+  /**
+  async createGroup(body: {
+    ownerId: string;
+    groupName: string;
+    confirmationRequired: boolean;
+    invitedEmails: string[];
+  }): Promise<{ success: boolean; groupId: string; invitedUsers: string[] }> {
+    const { ownerId, groupName, confirmationRequired, invitedEmails = [] } =
+      body;
+    const emailList = Array.isArray(invitedEmails) ? invitedEmails : [];
+
+    const groupId = await dbCreateGroup(
+      this.db,
+      ownerId,
+      groupName,
+      confirmationRequired,
+      [],
+    );
+
+    const invitedUserIds: string[] = [];
+    for (const email of emailList) {
+      const invitedUser = await this.db.collection("users").findOne({ email });
+      if (invitedUser) {
+        invitedUserIds.push(invitedUser.userId);
         await createNotification(this.db, {
           userId: invitedUser.userId,
           type: "group_invite",
@@ -63,67 +96,58 @@ export default class FriendGroupConcept {
           groupId,
           fromUserId: ownerId,
         });
-      } else {
-        console.warn(`⚠️ No user found with email ${email}`);
       }
     }
-
     return { success: true, groupId, invitedUsers: invitedUserIds };
   }
-
-  // 📩 Invite user to group (does NOT add them yet)
+  */
   async inviteUserByEmail(
     body: { groupId: string; email: string; invitedBy: string },
   ) {
     const { groupId, email, invitedBy } = body;
-
     const group = await this.db.collection("groups").findOne({ groupId });
     if (!group) throw new Error("Group not found");
 
     const invitedUser = await this.db.collection("users").findOne({ email });
     if (!invitedUser) throw new Error("No user found with that email");
 
-    // 🔔 Create a notification for that user
+    const fromUser = await this.db.collection("users").findOne({
+      userId: invitedBy,
+    });
+    const fromUserName = fromUser?.name || "Someone";
+
     await createNotification(this.db, {
       userId: invitedUser.userId,
       type: "group_invite",
-      message: `You’ve been invited to join group "${group.groupName}"`,
+      message: `${fromUserName} invited you to join "${group.groupName}"`,
       groupId,
       fromUserId: invitedBy,
+      fromUserName,
+      groupName: group.groupName,
     });
 
     return { success: true, invitedUserId: invitedUser.userId };
   }
 
-  // ✅ User accepts the group invite
   async acceptInvite(body: { groupId: string; userId: string }) {
     const { groupId, userId } = body;
-
-    // Check if already a member
     const group = await this.db.collection("groups").findOne({ groupId });
     if (!group) throw new Error("Group not found");
-    if (group.members?.includes(userId)) return { success: true }; // already added
-
-    // Add to members
+    if (group.members?.includes(userId)) return { success: true };
     await dbAddMember(this.db, groupId, userId);
-
-    // Optionally: delete the notification or mark as "accepted"
     await this.db.collection("notifications").updateMany(
       { groupId, userId, type: "group_invite" },
       { $set: { status: "accepted" } },
     );
-
     return { success: true, groupId, userId };
   }
 
   async declineInvite(body: { groupId: string; userId: string }) {
     const { groupId, userId } = body;
-
     await this.db.collection("notifications").updateMany(
       { groupId, userId, type: "group_invite" },
       { $set: { status: "declined" } },
     );
-
     return { success: true };
   }
 
@@ -133,21 +157,47 @@ export default class FriendGroupConcept {
     return { success: true };
   }
 
+  // ✅ Enriched listGroups with full user info, properly typed
   async listGroups(body: { userId: string }): Promise<FriendGroup[]> {
     const { userId } = body;
-    const groups = await dbListGroups(this.db, userId);
+    const rawGroups = await listGroupsRaw(this.db, userId);
 
-    console.log("Groups from DB:", groups); // <-- check that groupName exists
+    // Collect all user IDs for lookup
+    const allUserIds = Array.from(
+      new Set(rawGroups.flatMap((g) => [g.ownerId, ...(g.members ?? [])])),
+    );
 
-    // Map explicitly to ensure groupName is included
-    return groups.map((g) => ({
+    const users = await this.db.collection("users").find({
+      userId: { $in: allUserIds },
+    }).toArray();
+
+    const userMap = new Map<string, GroupUser>();
+    for (const u of users) {
+      userMap.set(u.userId, {
+        userId: u.userId,
+        name: u.name ?? "Unknown",
+        email: u.email ?? "—",
+      });
+    }
+
+    // Construct typed FriendGroups
+    const enrichedGroups: FriendGroup[] = rawGroups.map((g: any) => ({
       groupId: g.groupId,
-      groupName: g.groupName, // make sure this is here
       ownerId: g.ownerId,
+      groupName: g.groupName,
       confirmationRequired: g.confirmationRequired,
-      members: g.members,
       createdAt: g.createdAt,
+      owner: userMap.get(g.ownerId) ?? {
+        userId: g.ownerId,
+        name: "Unknown",
+        email: "—",
+      },
+      members: (g.members ?? []).map((id: string) =>
+        userMap.get(id) ?? { userId: id, name: "Unknown", email: "—" }
+      ),
     }));
+
+    return enrichedGroups;
   }
 
   async setConfirmationPolicy(
@@ -157,11 +207,35 @@ export default class FriendGroupConcept {
     await dbSetConfirmationPolicy(this.db, groupId, requiresConfirmation);
     return { success: true };
   }
+
   async deleteGroup(body: { groupId: string; userId: string }) {
-    console.log("Backend deleteGroup called with:", body);
     const { groupId, userId } = body;
     await dbDeleteGroup(this.db, groupId, userId);
-    console.log("Backend deleteGroup success");
     return { success: true, groupId };
+  }
+  // Inside FriendGroupConcept
+  // In FriendGroupConcept.ts
+  async leaveGroup(body: { groupId: string; userId: string }) {
+    const { groupId, userId } = body;
+
+    const group = await this.db.collection("groups").findOne({ groupId });
+    if (!group) throw new Error("Group not found");
+
+    // Remove from members
+    await dbRemoveMember(this.db, groupId, userId);
+
+    // Remove from rankings
+    await this.db.collection("groups").updateOne(
+      { groupId },
+      { $pull: { rankedByTask: { userId }, rankedByTime: { userId } } },
+    );
+
+    // Remove group from user's groups list
+    await this.db.collection("users").updateOne(
+      { userId },
+      { $pull: { groups: groupId } },
+    );
+
+    return { success: true, groupId, userId };
   }
 }

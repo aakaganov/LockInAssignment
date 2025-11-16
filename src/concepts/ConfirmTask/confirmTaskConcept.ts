@@ -1,11 +1,12 @@
 // src/concepts/ConfirmTask/confirmTaskConcept.ts
 import {
-  Confirmations,
   confirmTask,
+  denyTask,
   finalizeConfirmation,
   getConfirmations,
+  getPendingConfirmationsForPeer,
   requestConfirmation,
-} from "../ConfirmTask/confirmTask.ts"; // use the exact same casing as other imports
+} from "../ConfirmTask/confirmTask.ts";
 
 export default class ConfirmTaskConcept {
   db: any;
@@ -18,47 +19,58 @@ export default class ConfirmTaskConcept {
    * Request peer confirmation for a completed task
    * POST /api/ConfirmTask/requestConfirmation
    */
-  async requestConfirmation(body: { taskId: string; requestedBy: string }) {
-    const { taskId, requestedBy } = body;
-    requestConfirmation(taskId, requestedBy);
-    return { success: true };
+  async requestConfirmation(body: {
+    taskId: string;
+    requestedBy: string;
+    selectedPeerIds: string[];
+    taskName: string;
+    completionTime: number;
+  }) {
+    const { taskId, requestedBy, selectedPeerIds, taskName, completionTime } =
+      body;
+    return await requestConfirmation(
+      this.db,
+      taskId,
+      requestedBy,
+      undefined, // ✅ groupId placeholder
+      selectedPeerIds.filter((peerId) => peerId !== requestedBy),
+      completionTime,
+      taskName,
+    );
   }
 
   /**
    * Peer confirms a task
-   * POST /api/ConfirmTask/confirmTask
    */
   async confirmTask(body: { taskId: string; peerId: string }) {
     const { taskId, peerId } = body;
-    confirmTask(taskId, peerId);
+    await confirmTask(this.db, taskId, peerId);
     return { success: true };
   }
 
   /**
-   * Finalize confirmation once at least one peer has confirmed
-   * POST /api/ConfirmTask/finalizeConfirmation
+   * Finalize confirmation
    */
   async finalizeConfirmation(body: { taskId: string }) {
     const { taskId } = body;
-    finalizeConfirmation(taskId);
+    await finalizeConfirmation(this.db, taskId);
     return { success: true };
   }
 
   /**
-   * Get all confirmations requested by a user
-   * POST /api/ConfirmTask/getConfirmations
+   * Get confirmations requested by a user
    */
   async getConfirmations(body: { userId: string }) {
     const { userId } = body;
-    const confirmations = getConfirmations(userId) || [];
-
-    // Convert Sets to arrays for JSON serialization
-    const result = confirmations.map((c) => ({
-      ...c,
-      confirmedBy: Array.from(c.confirmedBy ?? []),
-    }));
-
-    // Always return a valid JSON array
-    return result ?? [];
+    return await getConfirmations(this.db, userId);
+  }
+  async denyTask(body: { taskId: string; peerId: string }) {
+    const { taskId, peerId } = body;
+    await denyTask(this.db, taskId, peerId);
+    return { success: true };
+  }
+  async getPendingConfirmationsForPeer(body: { peerId: string }) {
+    const { peerId } = body;
+    return await getPendingConfirmationsForPeer(this.db, peerId);
   }
 }

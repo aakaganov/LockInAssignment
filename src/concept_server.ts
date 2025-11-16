@@ -3,8 +3,8 @@ import { getDb } from "@utils/database.ts";
 import { existsSync, walk } from "jsr:@std/fs";
 import { parseArgs } from "jsr:@std/cli/parse-args";
 import { toFileUrl } from "jsr:@std/path/to-file-url";
-import NotificationConcept from "./concepts/Notification/notificationConcept.ts";
-import FriendGroupConcept from "./concepts/FriendGroup/friendGroupConcept.ts";
+//import NotificationConcept from "../concepts/Notification/notificationConcept.ts";
+//import FriendGroupConcept from "../concepts/FriendGroup/friendGroupConcept.ts";
 
 //registerConcept("FriendGroup", new FriendGroupConcept());
 

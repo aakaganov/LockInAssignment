@@ -1,24 +1,32 @@
 // src/concepts/friendGroup.ts
-
 import { Db } from "npm:mongodb";
 
+// Basic user info for group membership
+export interface GroupUser {
+  userId: string;
+  name: string;
+  email: string;
+}
+
+// Main friend group type (enriched)
 export interface FriendGroup {
   groupId: string;
   ownerId: string;
   groupName: string;
   confirmationRequired: boolean;
-  members: string[];
   createdAt: Date;
+  members: GroupUser[]; // full objects instead of just ids
+  owner: GroupUser; // full owner info
+
+  rankedByTask?: { userId: string; completedCount: number }[];
+  rankedByTime?: { userId: string; completedHours: number }[];
 }
 
-// Utility to generate unique IDs
 function generateId(): string {
   return crypto.randomUUID();
 }
 
-/**
- * Create a new group in the database
- */
+/** Create a new group */
 export async function createGroup(
   db: Db,
   ownerId: string,
@@ -27,7 +35,7 @@ export async function createGroup(
   inviteUserIds: string[],
 ) {
   const groupId = generateId();
-  const group: FriendGroup = {
+  const groupDoc = {
     groupId,
     ownerId,
     groupName,
@@ -35,82 +43,50 @@ export async function createGroup(
     members: [ownerId, ...inviteUserIds],
     createdAt: new Date(),
   };
-  console.log("📦 Inserting new group:", group);
-  await db.collection("groups").insertOne(group);
-  console.log("✅ Group successfully inserted into DB");
-  const inserted = await db.collection("groups").findOne({ groupId });
-  console.log("Inserted group in DB:", inserted);
+  await db.collection("groups").insertOne(groupDoc);
   return groupId;
 }
 
-/**
- * Add a member to a group
- */
+/** Add member to group */
 export async function addMember(db: Db, groupId: string, userId: string) {
-  const result = await db.collection("groups").updateOne(
+  await db.collection("groups").updateOne(
     { groupId },
     { $addToSet: { members: userId } },
   );
-  if (result.matchedCount === 0) {
-    throw new Error(`Group ${groupId} does not exist`);
-  }
 }
 
-/**
- * Remove a member from a group
- */
+/** Remove member from group */
 export async function removeMember(db: Db, groupId: string, userId: string) {
-  const result = await db.collection("groups").updateOne(
+  await db.collection("groups").updateOne(
     { groupId },
     { $pull: { members: userId as any } },
   );
-  if (result.matchedCount === 0) {
-    throw new Error(`Group ${groupId} does not exist`);
-  }
 }
 
-/**
- * List all groups a user belongs to
- */
-export async function listGroups(
-  db: Db,
-  userId: string,
-): Promise<FriendGroup[]> {
-  return db.collection<FriendGroup>("groups").find({
-    members: { $in: [userId] },
-  }).toArray();
+/** Raw list query (returns plain DB groups with id arrays) */
+export async function listGroupsRaw(db: Db, userId: string) {
+  return db.collection("groups").find({ members: { $in: [userId] } }).toArray();
 }
 
-/**
- * Update confirmation policy for a group
- */
+/** Update confirmation policy */
 export async function setConfirmationPolicy(
   db: Db,
   groupId: string,
   requiresConfirmation: boolean,
 ) {
-  const result = await db.collection("groups").updateOne(
+  await db.collection("groups").updateOne(
     { groupId },
     { $set: { confirmationRequired: requiresConfirmation } },
   );
-  if (result.matchedCount === 0) {
-    throw new Error(`Group ${groupId} does not exist`);
-  }
 }
 
-/**
- * Delete a group (only creator can delete)
- */
+/** Delete group (owner only) */
 export async function deleteGroup(db: Db, groupId: string, userId: string) {
   const group = await db.collection("groups").findOne({ groupId });
   if (!group) throw new Error("Group not found");
-
   if (group.ownerId !== userId) {
     throw new Error("Only the group creator can delete the group");
   }
-
   await db.collection("groups").deleteOne({ groupId });
-
-  // Optionally, delete related notifications
   await db.collection("notifications").deleteMany({ groupId });
 }

@@ -6,6 +6,10 @@ export interface User {
   email: string;
   password: string;
   createdAt: Date;
+  tasksCompleted: number;
+  minutesCompleted: number;
+  confirmedTasksCompleted: number;
+  confirmedMinutesCompleted: number;
 }
 
 /** Add a new user */
@@ -24,6 +28,10 @@ export async function addUser(name: string, email: string, password: string) {
     email,
     password,
     createdAt: new Date(),
+    tasksCompleted: 0,
+    minutesCompleted: 0,
+    confirmedTasksCompleted: 0,
+    confirmedMinutesCompleted: 0,
   };
 
   await usersColl.insertOne(newUser);

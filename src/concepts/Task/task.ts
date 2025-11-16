@@ -1,4 +1,9 @@
-export type TaskStatus = "pending" | "completed";
+import { Db } from "npm:mongodb";
+import LeaderboardConcept from "../Leaderboard/leaderboardConcept.ts";
+
+import { updateLeaderboardsForUser } from "../Leaderboard/leaderboard.ts";
+
+export type TaskStatus = "pending" | "completed" | "confirmed";
 
 export interface Task {
   taskId: string;
@@ -6,13 +11,14 @@ export interface Task {
   title: string;
   description?: string;
   dueDate?: Date;
-  estimatedTime: number; // in minutes
-  actualTime?: number; // in minutes
+  estimatedTime: number;
+  actualTime?: number;
   status: TaskStatus;
   createdAt: Date;
+  hiddenFromDashboard?: boolean;
 }
 
-// In-memory task store
+// In-memory task store (still used for fast lookups)
 export const Tasks = new Map<string, Task>();
 
 // Utility to generate simple unique IDs
@@ -21,15 +27,16 @@ function generateId(): string {
 }
 
 /**
- * Create a new task
+ * Create a new task (now saves to Mongo as well)
  */
-export function createTask(
+export async function createTask(
+  db: Db,
   ownerId: string,
   title: string,
   description?: string,
   dueDate?: Date,
   estimatedTime?: number,
-): string {
+): Promise<string> {
   if (!ownerId) throw new Error("ownerId is required");
   if (!estimatedTime || estimatedTime <= 0) {
     throw new Error("estimatedTime must be > 0");
@@ -48,20 +55,24 @@ export function createTask(
   };
 
   Tasks.set(taskId, newTask);
+  await db.collection<Task>("tasks").insertOne(newTask); // ✅ persist
   return taskId;
 }
 
 /**
  * Edit an existing task
  */
-export function editTask(
+export async function editTask(
+  db: Db,
   taskId: string,
   title?: string,
   description?: string,
   dueDate?: Date,
   estimatedTime?: number,
 ) {
-  const task = Tasks.get(taskId);
+  const task = Tasks.get(taskId) ||
+    (await db.collection<Task>("tasks").findOne({ taskId }));
+
   if (!task) throw new Error(`Task ${taskId} does not exist`);
 
   if (title !== undefined) task.title = title;
@@ -73,36 +84,110 @@ export function editTask(
   }
 
   Tasks.set(taskId, task);
+  await db.collection<Task>("tasks").updateOne({ taskId }, { $set: task });
 }
 
 /**
  * Complete a task and record actual time
  */
-export function completeTask(taskId: string, actualTime: number) {
-  const task = Tasks.get(taskId);
+export async function completeTask(db: Db, taskId: string, actualTime: number) {
+  if (!actualTime || actualTime <= 0) {
+    throw new Error("actualTime is required and must be greater than 0");
+  }
+  const task = Tasks.get(taskId) ||
+    (await db.collection<Task>("tasks").findOne({ taskId }));
+
   if (!task) throw new Error(`Task ${taskId} does not exist`);
   if (task.status !== "pending") {
     throw new Error(`Task ${taskId} is already completed`);
   }
   if (actualTime <= 0) throw new Error("actualTime must be > 0");
-
-  task.status = "completed";
   task.actualTime = actualTime;
+  task.status = "completed";
+  await db.collection("users").updateOne(
+    { userId: task.ownerId },
+    {
+      $inc: {
+        tasksCompleted: 1,
+        minutesCompleted: task.actualTime,
+      },
+    },
+  );
 
   Tasks.set(taskId, task);
+  await db.collection<Task>("tasks").updateOne({ taskId }, { $set: task });
+  const userGroups = await db.collection("groups").find({
+    members: task.ownerId,
+  }).toArray();
+  const leaderboard = new LeaderboardConcept(db);
+  const updatedGroups: any[] = [];
+
+  for (const group of userGroups) {
+    const confirmedFlag = !group.confirmationRequired; // true for non-confirmation groups
+    await leaderboard.recordCompletion({
+      userId: task.ownerId,
+      actualTime: task.actualTime!,
+      groupId: group.groupId,
+      confirmed: confirmedFlag,
+    });
+    const rankedByTask = await leaderboard.getLeaderboardByTasks({
+      groupId: group.groupId,
+    });
+    const rankedByTime = await leaderboard.getLeaderboardByTime({
+      groupId: group.groupId,
+    });
+
+    await db.collection("groups").updateOne(
+      { groupId: group.groupId },
+      {
+        $set: {
+          rankedByTask: rankedByTask.leaderboard,
+          rankedByTime: rankedByTime.leaderboard,
+        },
+      },
+    );
+    updatedGroups.push({
+      groupId: group.groupId,
+      rankedByTask: rankedByTask.leaderboard,
+      rankedByTime: rankedByTime.leaderboard,
+    });
+
+    await updateLeaderboardsForUser(db, task.ownerId);
+    return {
+      success: true,
+      groups: updatedGroups,
+    };
+  }
 }
 
 /**
  * Delete a task
  */
-export function deleteTask(taskId: string) {
-  if (!Tasks.has(taskId)) throw new Error(`Task ${taskId} does not exist`);
+export async function deleteTask(db: Db, taskId: string) {
+  if (!Tasks.has(taskId)) {
+    const task = await db.collection<Task>("tasks").findOne({ taskId });
+    if (!task) throw new Error(`Task ${taskId} does not exist`);
+  }
+
   Tasks.delete(taskId);
+  await db.collection<Task>("tasks").deleteOne({ taskId });
 }
 
 /**
  * List all tasks for a given owner
  */
-export function listTasks(ownerId: string): Task[] {
-  return Array.from(Tasks.values()).filter((t) => t.ownerId === ownerId);
+export async function listTasks(db: Db, ownerId: string): Promise<Task[]> {
+  const tasks = await db.collection<Task>("tasks").find({ ownerId }).toArray();
+  tasks.forEach((t) => Tasks.set(t.taskId, t)); // sync in-memory cache
+  return tasks.filter((t) => !t.hiddenFromDashboard);
+}
+
+export async function hideCompletedTasks(db: Db) {
+  await db.collection<Task>("tasks").updateMany(
+    {
+      status: { $in: ["completed", "confirmed"] },
+      hiddenFromDashboard: { $ne: true },
+    },
+    { $set: { hiddenFromDashboard: true } },
+  );
 }
