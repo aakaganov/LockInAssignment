@@ -73,7 +73,7 @@ async function main() {
       }
 
       const instance = new ConceptClass(db);
-      const conceptApiName = conceptName.charAt(0).toUpperCase() +
+      const conceptApiName = conceptName.charAt(0).toLowerCase() + //CHNAGE MAMBER CHNAGE BACK
         conceptName.slice(1);
 
       console.log(
