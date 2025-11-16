@@ -112,6 +112,23 @@ export async function requestConfirmation(
     `Please confirm completion of "${taskName}" (took ${actualTime} mins).`;
 
   // create one notification per intended recipient
+  const notificationPromises = peerIds.map((peerId) => {
+    console.log(
+      `📨 Creating notification for peer ${peerId} from ${requestedBy}`,
+    );
+    return createNotification(db, {
+      userId: peerId,
+      type: "task_confirmation",
+      message,
+      fromUserId: requestedBy,
+      fromUserName: senderName,
+      status: "pending",
+      extra: { taskId, taskName, actualTime },
+    });
+  });
+
+  await Promise.all(notificationPromises);
+  /**
   for (const peerId of peerIds) {
     console.log(
       `📨 Creating notification for peer ${peerId} from ${requestedBy}`,
@@ -126,7 +143,7 @@ export async function requestConfirmation(
       extra: { taskId, taskName, actualTime },
     });
   }
-
+ */
   // debug output
   const notifs = await db.collection("notifications")
     .find({ "extra.taskId": taskId })
