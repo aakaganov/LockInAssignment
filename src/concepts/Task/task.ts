@@ -120,7 +120,46 @@ export async function completeTask(db: Db, taskId: string, actualTime: number) {
     members: task.ownerId,
   }).toArray();
   const leaderboard = new LeaderboardConcept(db);
-  const updatedGroups: any[] = [];
+  //const updatedGroups: any[] = [];
+  // Parallel update for all groups
+  const updatedGroups = await Promise.all(
+    userGroups.map(async (group) => {
+      const confirmedFlag = !group.confirmationRequired;
+
+      // Record completion (still awaited per group)
+      await leaderboard.recordCompletion({
+        userId: task.ownerId,
+        actualTime: task.actualTime!,
+        groupId: group.groupId,
+        confirmed: confirmedFlag,
+      });
+
+      // Fetch leaderboards in parallel
+      const [rankedByTask, rankedByTime] = await Promise.all([
+        leaderboard.getLeaderboardByTasks({ groupId: group.groupId }),
+        leaderboard.getLeaderboardByTime({ groupId: group.groupId }),
+      ]);
+
+      // Update DB
+      await db.collection("groups").updateOne(
+        { groupId: group.groupId },
+        {
+          $set: {
+            rankedByTask: rankedByTask.leaderboard,
+            rankedByTime: rankedByTime.leaderboard,
+          },
+        },
+      );
+
+      return {
+        groupId: group.groupId,
+        rankedByTask: rankedByTask.leaderboard,
+        rankedByTime: rankedByTime.leaderboard,
+      };
+    }),
+  );
+
+  /**
 
   for (const group of userGroups) {
     const confirmedFlag = !group.confirmationRequired; // true for non-confirmation groups
@@ -158,6 +197,7 @@ export async function completeTask(db: Db, taskId: string, actualTime: number) {
       groups: updatedGroups,
     };
   }
+     */
 }
 
 /**
