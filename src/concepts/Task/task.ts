@@ -1,6 +1,6 @@
 import { Db } from "npm:mongodb";
-import LeaderboardConcept from "../Leaderboard/LeaderboardConcept.ts";
 import { updateLeaderboardsForUser } from "../Leaderboard/leaderboard.ts";
+import LeaderboardConcept from "../Leaderboard/LeaderboardConcept.ts";
 
 export type TaskStatus = "pending" | "completed" | "confirmed";
 
