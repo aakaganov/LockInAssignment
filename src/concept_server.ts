@@ -35,7 +35,26 @@ async function main() {
     return res;
   });
 
-  app.get("/", (c) => c.text("Concept Server is running."));
+  app.get("/test-db", async (c) => {
+    try {
+      const [db] = await getDb(); // your DB connection function
+      const collections = await db.listCollections();
+      console.log("MongoDB collections:", collections);
+      return c.text("✅ MongoDB connected!");
+    } catch (e: unknown) {
+      let msg = "Unknown error";
+
+      // Narrow to Error type
+      if (e instanceof Error) {
+        msg = e.message;
+      } else if (typeof e === "string") {
+        msg = e;
+      }
+
+      console.error("MongoDB connection error:", msg);
+      return c.text("❌ MongoDB connection failed: " + msg);
+    }
+  });
 
   // --- Load Concepts ---
   console.log(`Scanning for concepts in ./${CONCEPTS_DIR}...`);
