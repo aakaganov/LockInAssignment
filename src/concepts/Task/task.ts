@@ -1,6 +1,5 @@
 import { Db } from "npm:mongodb";
 import LeaderboardConcept from "../Leaderboard/LeaderboardConcept.ts";
-
 import { updateLeaderboardsForUser } from "../Leaderboard/leaderboard.ts";
 
 export type TaskStatus = "pending" | "completed" | "confirmed";
@@ -94,6 +93,8 @@ export async function completeTask(db: Db, taskId: string, actualTime: number) {
   if (!actualTime || actualTime <= 0) {
     throw new Error("actualTime is required and must be greater than 0");
   }
+
+  // Get task from memory or DB
   const task = Tasks.get(taskId) ||
     (await db.collection<Task>("tasks").findOne({ taskId }));
 
@@ -101,32 +102,33 @@ export async function completeTask(db: Db, taskId: string, actualTime: number) {
   if (task.status !== "pending") {
     throw new Error(`Task ${taskId} is already completed`);
   }
-  if (actualTime <= 0) throw new Error("actualTime must be > 0");
+
   task.actualTime = actualTime;
   task.status = "completed";
-  await db.collection("users").updateOne(
-    { userId: task.ownerId },
-    {
-      $inc: {
-        tasksCompleted: 1,
-        minutesCompleted: task.actualTime,
-      },
-    },
-  );
+
+  // Update user stats and task in parallel
+  await Promise.all([
+    db.collection("users").updateOne(
+      { userId: task.ownerId },
+      { $inc: { tasksCompleted: 1, minutesCompleted: task.actualTime } },
+    ),
+    db.collection<Task>("tasks").updateOne({ taskId }, { $set: task }),
+  ]);
 
   Tasks.set(taskId, task);
-  await db.collection<Task>("tasks").updateOne({ taskId }, { $set: task });
+
   const userGroups = await db.collection("groups").find({
     members: task.ownerId,
   }).toArray();
+
   const leaderboard = new LeaderboardConcept(db);
-  //const updatedGroups: any[] = [];
-  // Parallel update for all groups
+
+  // Update all groups in parallel
   const updatedGroups = await Promise.all(
     userGroups.map(async (group) => {
       const confirmedFlag = !group.confirmationRequired;
 
-      // Record completion (still awaited per group)
+      // Record completion for this group
       await leaderboard.recordCompletion({
         userId: task.ownerId,
         actualTime: task.actualTime!,
@@ -140,7 +142,7 @@ export async function completeTask(db: Db, taskId: string, actualTime: number) {
         leaderboard.getLeaderboardByTime({ groupId: group.groupId }),
       ]);
 
-      // Update DB
+      // Update group leaderboard in DB
       await db.collection("groups").updateOne(
         { groupId: group.groupId },
         {
@@ -159,45 +161,13 @@ export async function completeTask(db: Db, taskId: string, actualTime: number) {
     }),
   );
 
-  /**
+  // Update the user's leaderboards once
+  await updateLeaderboardsForUser(db, task.ownerId);
 
-  for (const group of userGroups) {
-    const confirmedFlag = !group.confirmationRequired; // true for non-confirmation groups
-    await leaderboard.recordCompletion({
-      userId: task.ownerId,
-      actualTime: task.actualTime!,
-      groupId: group.groupId,
-      confirmed: confirmedFlag,
-    });
-    const rankedByTask = await leaderboard.getLeaderboardByTasks({
-      groupId: group.groupId,
-    });
-    const rankedByTime = await leaderboard.getLeaderboardByTime({
-      groupId: group.groupId,
-    });
-
-    await db.collection("groups").updateOne(
-      { groupId: group.groupId },
-      {
-        $set: {
-          rankedByTask: rankedByTask.leaderboard,
-          rankedByTime: rankedByTime.leaderboard,
-        },
-      },
-    );
-    updatedGroups.push({
-      groupId: group.groupId,
-      rankedByTask: rankedByTask.leaderboard,
-      rankedByTime: rankedByTime.leaderboard,
-    });
-
-    await updateLeaderboardsForUser(db, task.ownerId);
-    return {
-      success: true,
-      groups: updatedGroups,
-    };
-  }
-     */
+  return {
+    success: true,
+    groups: updatedGroups,
+  };
 }
 
 /**
