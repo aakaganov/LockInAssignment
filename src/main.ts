@@ -23,6 +23,7 @@ Engine.logging = Logging.TRACE;
 
 // Register synchronizations
 Engine.register(syncs);
-
+const PORT = Number(Deno.env.get("PORT")) || 10000;
+console.log(`Backend listening on port ${PORT}`);
 // Start a server to provide the Requesting concept with external/system actions.
 startRequestingServer(concepts);
