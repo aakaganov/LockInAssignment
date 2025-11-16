@@ -13,7 +13,8 @@ const flags = parseArgs(Deno.args, {
   default: { baseUrl: "/api" },
 });
 
-const PORT = Number(Deno.env.get("PORT")) || parseInt(flags.port || "8000", 10);
+const PORT = Number(Deno.env.get("PORT")) ||
+  parseInt(flags.port || "10000", 10);
 const BASE_URL = flags.baseUrl;
 const CONCEPTS_DIR = "src/concepts";
 
@@ -35,24 +36,16 @@ async function main() {
     return res;
   });
 
-  app.get("/test-db", async (c) => {
+  app.get(`${BASE_URL}/test-db`, async (c) => {
     try {
-      const [db] = await getDb(); // your DB connection function
       const collections = await db.listCollections();
       console.log("MongoDB collections:", collections);
-      return c.text("✅ MongoDB connected!");
+      return c.json({ status: "ok", collections });
     } catch (e: unknown) {
       let msg = "Unknown error";
-
-      // Narrow to Error type
-      if (e instanceof Error) {
-        msg = e.message;
-      } else if (typeof e === "string") {
-        msg = e;
-      }
-
+      if (e instanceof Error) msg = e.message;
       console.error("MongoDB connection error:", msg);
-      return c.text("❌ MongoDB connection failed: " + msg);
+      return c.json({ status: "fail", error: msg });
     }
   });
 
