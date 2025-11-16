@@ -47,11 +47,25 @@ export default class AccountConcept {
       user: { userId, name, email },
     };
   }
-
+  /**
   async getUser({ userId }: { userId: string }) {
     const result = await getUser(userId);
     if (result.error) return { error: result.error };
     return { user: { userId, name: result.name, email: result.email } };
+  }
+  */
+  async getUser({ userId }: { userId: string }) {
+    const result = await getUser(userId);
+    if (result.error) return { error: result.error };
+
+    // Return user directly from result
+    return {
+      user: {
+        userId: userId, // fallback if result.userId missing
+        name: result.name,
+        email: result.email,
+      },
+    };
   }
 
   async deleteUser({ userId }: { userId: string }) {

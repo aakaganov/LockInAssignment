@@ -28,13 +28,17 @@ export default class NotificationConcept {
   /** POST /api/Notification/list */
   async list(body: { userId: string }) {
     const notifications = await listNotifications(this.db, body.userId);
+    await this.db.collection("notifications").deleteMany({
+      userId: body.userId,
+      status: { $in: ["accepted", "declined"] },
+    });
     return { success: true, notifications };
   }
 
   /** POST /api/Notification/updateStatus */
   async updateStatus(body: {
     notificationId: string;
-    status: "accepted" | "rejected";
+    status: "accepted" | "declined";
   }) {
     const { notificationId, status } = body;
 

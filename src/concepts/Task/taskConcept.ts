@@ -1,24 +1,20 @@
-// src/concepts/task/taskConcept.ts
 import {
-  completeTask as completeTaskFn,
-  createTask as createTaskFn,
-  deleteTask as deleteTaskFn,
-  editTask as editTaskFn,
-  listTasks as listTasksFn,
+  completeTask,
+  createTask,
+  deleteTask,
+  editTask,
+  listTasks,
   Task,
   Tasks,
 } from "../Task/task.ts";
+import { suggestTaskOrder } from "../../utils/gemini.ts";
 
 export default class TaskConcept {
   db: any;
-
   constructor(db: any) {
     this.db = db;
   }
 
-  /**
-   * Create a new task and return the full object
-   */
   async createTask(body: {
     ownerId: string;
     title: string;
@@ -27,10 +23,10 @@ export default class TaskConcept {
     estimatedTime?: number;
   }): Promise<Task> {
     const { ownerId, title, description, dueDate, estimatedTime } = body;
-
     console.log("Creating task for owner:", ownerId);
 
-    const taskId = createTaskFn(
+    const taskId = await createTask(
+      this.db,
       ownerId,
       title,
       description,
@@ -40,14 +36,11 @@ export default class TaskConcept {
 
     const newTask = Tasks.get(taskId);
     if (!newTask) throw new Error(`Task ${taskId} not found after creation`);
-
     console.log("Created task with ID:", taskId);
+
     return newTask;
   }
 
-  /**
-   * Edit an existing task
-   */
   async editTask(body: {
     taskId: string;
     title?: string;
@@ -56,62 +49,81 @@ export default class TaskConcept {
     estimatedTime?: number;
   }): Promise<{ success: boolean }> {
     const { taskId, title, description, dueDate, estimatedTime } = body;
-
     console.log("Editing task:", taskId);
 
-    if (!Tasks.has(taskId)) throw new Error(`Task ${taskId} does not exist`);
-
-    editTaskFn(
+    await editTask(
+      this.db,
       taskId,
       title,
       description,
       dueDate ? new Date(dueDate) : undefined,
       estimatedTime,
     );
-
     return { success: true };
   }
+  async suggestTaskOrder(body: { tasks: Task[] }) {
+    const { tasks } = body;
 
-  /**
-   * Complete a task
-   */
-  async completeTask(body: {
-    taskId: string;
-    actualTime: number;
-  }): Promise<{ success: boolean }> {
+    if (!Array.isArray(tasks) || tasks.length === 0) {
+      throw new Error("No tasks provided");
+    }
+
+    // Convert tasks to the expected format
+    const tasksForAI = tasks.map((t) => {
+      let dueDateStr: string | null = null;
+      if (t.dueDate) {
+        const dueDateObj = t.dueDate instanceof Date
+          ? t.dueDate
+          : new Date(t.dueDate);
+        dueDateStr = isNaN(dueDateObj.getTime())
+          ? null
+          : dueDateObj.toISOString().split("T")[0];
+      }
+
+      return {
+        taskId: t.taskId,
+        title: t.title,
+        description: t.description ?? null, // ✅ replace undefined with null
+        dueDate: dueDateStr,
+        estimatedTime: t.estimatedTime,
+      };
+    });
+
+    console.log("Sending tasks to Gemini:", tasksForAI);
+    // Call Gemini wrapper
+    try {
+      const orderedTaskIds: string[] = await suggestTaskOrder(tasksForAI);
+      console.log("Ordered Task IDs from Gemini:", orderedTaskIds);
+      if (
+        !orderedTaskIds || !Array.isArray(orderedTaskIds) ||
+        orderedTaskIds.length === 0
+      ) {
+        throw new Error("Gemini returned no valid order");
+      }
+      return { orderedTaskIds };
+    } catch (err) {
+      console.error("Error in suggestTaskOrder:", err);
+      throw new Error("No order returned");
+    }
+  }
+
+  async completeTask(body: { taskId: string; actualTime: number }) {
     const { taskId, actualTime } = body;
-
     console.log("Completing task:", taskId, "with actualTime:", actualTime);
-
-    if (!Tasks.has(taskId)) throw new Error(`Task ${taskId} does not exist`);
-
-    completeTaskFn(taskId, actualTime);
+    await completeTask(this.db, taskId, actualTime);
     return { success: true };
   }
 
-  /**
-   * Delete a task
-   */
-  async deleteTask(body: { taskId: string }): Promise<{ success: boolean }> {
+  async deleteTask(body: { taskId: string }) {
     const { taskId } = body;
-
     console.log("Deleting task:", taskId);
-
-    if (!Tasks.has(taskId)) throw new Error(`Task ${taskId} does not exist`);
-
-    deleteTaskFn(taskId);
+    await deleteTask(this.db, taskId);
     return { success: true };
   }
 
-  /**
-   * List tasks for a user
-   */
-  async listTasks(body: { ownerId: string }): Promise<Task[]> {
+  async listTasks(body: { ownerId: string }) {
     const { ownerId } = body;
-
-    console.log("Listing tasks for owner:", ownerId);
-
-    const tasks = listTasksFn(ownerId) || [];
-    return tasks; // Always return an array
+    const tasks = await listTasks(this.db, ownerId);
+    return tasks;
   }
 }
