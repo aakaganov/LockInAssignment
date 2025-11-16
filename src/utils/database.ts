@@ -6,8 +6,6 @@ import { generate } from "jsr:@std/uuid/unstable-v7";
 
 async function initMongoClient() {
   const DB_CONN = Deno.env.get("MONGODB_URL");
-  if (!DB_CONN) throw new Error("Missing environment variable: MONGODB_URL");
-
   if (DB_CONN === undefined) {
     throw new Error("Could not find environment variable: MONGODB_URL");
   }
@@ -23,7 +21,6 @@ async function initMongoClient() {
 async function init() {
   const client = await initMongoClient();
   const DB_NAME = Deno.env.get("DB_NAME");
-  if (!DB_NAME) throw new Error("Missing environment variable: DB_NAME");
 
   if (DB_NAME === undefined) {
     throw new Error("Could not find environment variable: DB_NAME");
