@@ -16,7 +16,7 @@ import {
   SyncFunctionMap,
   Synchronization,
 } from "./types.ts";
-import FriendGroupConcept from "@concepts/FriendGroup/friendGroupConcept.ts";
+//import FriendGroupConcept from "@concepts/FriendGroup/FriendGroupConcept.ts";
 
 // Unique symbols to associate with frames
 const flow = Symbol("flow");
@@ -375,5 +375,4 @@ export class SyncConcept {
       ]),
     ) as T;
   }
-
 }
