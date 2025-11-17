@@ -1,7 +1,3 @@
-/**
- * Task synchronizations for excluded routes
- */
-
 import { actions, Sync } from "@engine";
 import { Requesting, Task } from "@concepts";
 
@@ -79,11 +75,11 @@ export const CompleteTaskRequest: Sync = ({ request, taskId, actualTime }) => ({
   then: actions([Task.completeTask, { taskId, actualTime }]),
 });
 
-export const CompleteTaskResponse: Sync = ({ request, success }) => ({
+export const CompleteTaskResponse: Sync = ({ request, success, groups }) => ({
   when: actions([Requesting.request, { path: "/api/Task/completeTask" }, {
     request,
   }]),
-  then: actions([Requesting.respond, { request, success }]),
+  then: actions([Requesting.respond, { request, success, groups }]),
 });
 
 /** --- DELETE TASK --- */
