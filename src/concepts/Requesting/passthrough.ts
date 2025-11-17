@@ -60,11 +60,12 @@ export const inclusions: Record<string, string> = {
 
   // Task
   "/api/Task/listTasks": "safe read-only query",
+  "/api/Task/editTask": "safe",
   "/api/Task/suggestOrder": "Uses AI to suggest task ordering; safe read-only",
 
   // Account
   "/api/Account/addUser": "user sign-up is normal",
-  "/api/Account/login":"user login is safe",
+  "/api/Account/login": "user login is safe",
   "/api/Account/getUser": "reading own info is safe",
   "/api/Account/logoutUser": "safe to include",
 };
@@ -108,7 +109,6 @@ export const exclusions: Array<string> = [
 
   // Task
   "/api/Task/createTask",
-  "/api/Task/editTask",
   "/api/Task/completeTask",
   "/api/Task/deleteTask",
 
