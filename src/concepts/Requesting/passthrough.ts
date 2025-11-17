@@ -68,40 +68,6 @@ export const inclusions: Record<string, string> = {
   "/api/Account/login": "user login is safe",
   "/api/Account/getUser": "reading own info is safe",
   "/api/Account/logoutUser": "safe to include",
-  // FriendGroup
-  "/api/FriendGroup/createGroup": "safe",
-  "/api/FriendGroup/inviteUserByEmail": "safe",
-  "/api/FriendGroup/removeMember": "safe",
-  "/api/FriendGroup/setConfirmationPolicy": "safe",
-  "/api/FriendGroup/deleteGroup": "safe",
-
-  // LikertSurvey
-  "/api/LikertSurvey/createSurvey": "safe",
-  "/api/LikertSurvey/addQuestion": "safe",
-  "/api/LikertSurvey/_getSurveyResponses": "safe",
-  "/api/LikertSurvey/_getRespondentAnswers": "safe",
-
-  // Notification
-  "/api/Notification/create": "safe",
-  "/api/Notification/delete": "safe",
-
-  // ConfirmTask
-  "/api/ConfirmTask/confirmTask": "safe",
-  "/api/ConfirmTask/finalizeConfirmation": "safe",
-  "/api/ConfirmTask/denyTask": "safe",
-
-  // Leaderboard
-  "/api/Leaderboard/recordCompletion": "safe",
-  "/api/Leaderboard/resetWeeklyStats": "safe",
-
-  // Task
-  "/api/Task/createTask": "safe",
-  "/api/Task/completeTask": "safe",
-  "/api/Task/deleteTask": "safe",
-
-  // Account
-  "/api/Account/updateUser": "safe",
-  "/api/Account/deleteUser": "safe",
 };
 
 /**
@@ -114,4 +80,39 @@ export const inclusions: Record<string, string> = {
  * exclusions = ["route"]
  */
 
-export const exclusions: Array<string> = [];
+export const exclusions: Array<string> = [
+  // FriendGroup
+  "/api/FriendGroup/createGroup",
+  "/api/FriendGroup/inviteUserByEmail",
+  "/api/FriendGroup/removeMember",
+  "/api/FriendGroup/setConfirmationPolicy",
+  "/api/FriendGroup/deleteGroup",
+
+  // LikertSurvey
+  "/api/LikertSurvey/createSurvey",
+  "/api/LikertSurvey/addQuestion",
+  "/api/LikertSurvey/_getSurveyResponses",
+  "/api/LikertSurvey/_getRespondentAnswers",
+
+  // Notification
+  "/api/Notification/create",
+  "/api/Notification/delete",
+
+  // ConfirmTask
+  "/api/ConfirmTask/confirmTask",
+  "/api/ConfirmTask/finalizeConfirmation",
+  "/api/ConfirmTask/denyTask",
+
+  // Leaderboard
+  "/api/Leaderboard/recordCompletion",
+  "/api/Leaderboard/resetWeeklyStats",
+
+  // Task
+  "/api/Task/createTask",
+  "/api/Task/completeTask",
+  "/api/Task/deleteTask",
+
+  // Account
+  "/api/Account/updateUser",
+  "/api/Account/deleteUser",
+];
