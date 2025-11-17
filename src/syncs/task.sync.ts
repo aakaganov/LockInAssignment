@@ -1,7 +1,7 @@
 // task.sync.ts
 import { actions, Sync } from "@engine";
 import { Requesting } from "@concepts";
-import TaskConcept from "/Users/annakaganov/LockInAssignment/src/concepts/Task/TaskConcept.ts";
+import TaskConcept from "../concepts/Task/TaskConcept.ts";
 
 /**
  * Create an instance of TaskConcept.
