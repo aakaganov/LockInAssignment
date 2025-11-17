@@ -1,3 +1,8 @@
+/**
+ * task.sync.ts
+ * Working Syncs for Task concept using the correct pattern.
+ */
+
 import { actions, Sync } from "@engine";
 import { Requesting, Task } from "@concepts";
 
@@ -27,9 +32,10 @@ export const CreateTaskRequest: Sync = (
 });
 
 export const CreateTaskResponse: Sync = ({ request, task }) => ({
-  when: actions([Requesting.request, { path: "/api/Task/createTask" }, {
-    request,
-  }]),
+  when: actions(
+    [Requesting.request, { path: "/api/Task/createTask" }, { request }],
+    [Task.createTask, {}, { task }],
+  ),
   then: actions([Requesting.respond, { request, task }]),
 });
 
@@ -59,9 +65,10 @@ export const EditTaskRequest: Sync = (
 });
 
 export const EditTaskResponse: Sync = ({ request, success }) => ({
-  when: actions([Requesting.request, { path: "/api/Task/editTask" }, {
-    request,
-  }]),
+  when: actions(
+    [Requesting.request, { path: "/api/Task/editTask" }, { request }],
+    [Task.editTask, {}, { success }],
+  ),
   then: actions([Requesting.respond, { request, success }]),
 });
 
@@ -76,9 +83,10 @@ export const CompleteTaskRequest: Sync = ({ request, taskId, actualTime }) => ({
 });
 
 export const CompleteTaskResponse: Sync = ({ request, success, groups }) => ({
-  when: actions([Requesting.request, { path: "/api/Task/completeTask" }, {
-    request,
-  }]),
+  when: actions(
+    [Requesting.request, { path: "/api/Task/completeTask" }, { request }],
+    [Task.completeTask, {}, { success, groups }],
+  ),
   then: actions([Requesting.respond, { request, success, groups }]),
 });
 
@@ -93,8 +101,9 @@ export const DeleteTaskRequest: Sync = ({ request, taskId }) => ({
 });
 
 export const DeleteTaskResponse: Sync = ({ request, success }) => ({
-  when: actions([Requesting.request, { path: "/api/Task/deleteTask" }, {
-    request,
-  }]),
+  when: actions(
+    [Requesting.request, { path: "/api/Task/deleteTask" }, { request }],
+    [Task.deleteTask, {}, { success }],
+  ),
   then: actions([Requesting.respond, { request, success }]),
 });
