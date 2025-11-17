@@ -1,10 +1,35 @@
-/**
- * task.sync.ts
- * Working Syncs for Task concept using the correct pattern.
- */
-
 import { actions, Sync } from "@engine";
-import { Requesting, Task } from "@concepts";
+import { Requesting } from "@concepts";
+import TaskConceptClass from "../concepts/Task/TaskConcept.ts";
+
+/** --- Helper wrappers for sync actions --- */
+declare global {
+  var db: import("npm:mongodb").Db;
+}
+
+async function createTaskAction(payload: any) {
+  const taskConcept = new TaskConceptClass(globalThis.db);
+  const task = await taskConcept.createTask(payload);
+  return { task };
+}
+
+async function editTaskAction(payload: any) {
+  const taskConcept = new TaskConceptClass(globalThis.db);
+  const result = await taskConcept.editTask(payload);
+  return result;
+}
+
+async function completeTaskAction(payload: any) {
+  const taskConcept = new TaskConceptClass(globalThis.db);
+  const result = await taskConcept.completeTask(payload);
+  return result;
+}
+
+async function deleteTaskAction(payload: any) {
+  const taskConcept = new TaskConceptClass(globalThis.db);
+  const result = await taskConcept.deleteTask(payload);
+  return result;
+}
 
 /** --- CREATE TASK --- */
 export const CreateTaskRequest: Sync = (
@@ -22,7 +47,7 @@ export const CreateTaskRequest: Sync = (
     },
     { request },
   ]),
-  then: actions([Task.createTask, {
+  then: actions([createTaskAction, {
     ownerId,
     title,
     description,
@@ -32,10 +57,11 @@ export const CreateTaskRequest: Sync = (
 });
 
 export const CreateTaskResponse: Sync = ({ request, task }) => ({
-  when: actions(
-    [Requesting.request, { path: "/api/Task/createTask" }, { request }],
-    [Task.createTask, {}, { task }],
-  ),
+  when: actions([
+    Requesting.request,
+    { path: "/api/Task/createTask" },
+    { request },
+  ]),
   then: actions([Requesting.respond, { request, task }]),
 });
 
@@ -55,7 +81,7 @@ export const EditTaskRequest: Sync = (
     },
     { request },
   ]),
-  then: actions([Task.editTask, {
+  then: actions([editTaskAction, {
     taskId,
     title,
     description,
@@ -65,10 +91,11 @@ export const EditTaskRequest: Sync = (
 });
 
 export const EditTaskResponse: Sync = ({ request, success }) => ({
-  when: actions(
-    [Requesting.request, { path: "/api/Task/editTask" }, { request }],
-    [Task.editTask, {}, { success }],
-  ),
+  when: actions([
+    Requesting.request,
+    { path: "/api/Task/editTask" },
+    { request },
+  ]),
   then: actions([Requesting.respond, { request, success }]),
 });
 
@@ -79,14 +106,15 @@ export const CompleteTaskRequest: Sync = ({ request, taskId, actualTime }) => ({
     { path: "/api/Task/completeTask", taskId, actualTime },
     { request },
   ]),
-  then: actions([Task.completeTask, { taskId, actualTime }]),
+  then: actions([completeTaskAction, { taskId, actualTime }]),
 });
 
 export const CompleteTaskResponse: Sync = ({ request, success, groups }) => ({
-  when: actions(
-    [Requesting.request, { path: "/api/Task/completeTask" }, { request }],
-    [Task.completeTask, {}, { success, groups }],
-  ),
+  when: actions([
+    Requesting.request,
+    { path: "/api/Task/completeTask" },
+    { request },
+  ]),
   then: actions([Requesting.respond, { request, success, groups }]),
 });
 
@@ -97,13 +125,14 @@ export const DeleteTaskRequest: Sync = ({ request, taskId }) => ({
     { path: "/api/Task/deleteTask", taskId },
     { request },
   ]),
-  then: actions([Task.deleteTask, { taskId }]),
+  then: actions([deleteTaskAction, { taskId }]),
 });
 
 export const DeleteTaskResponse: Sync = ({ request, success }) => ({
-  when: actions(
-    [Requesting.request, { path: "/api/Task/deleteTask" }, { request }],
-    [Task.deleteTask, {}, { success }],
-  ),
+  when: actions([
+    Requesting.request,
+    { path: "/api/Task/deleteTask" },
+    { request },
+  ]),
   then: actions([Requesting.respond, { request, success }]),
 });
