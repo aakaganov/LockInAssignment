@@ -5,6 +5,9 @@ import { freshID } from "@utils/database.ts";
 import { ID } from "@utils/types.ts";
 import { exclusions, inclusions } from "./passthrough.ts";
 import "jsr:@std/dotenv/load";
+declare global {
+  var __requestingServerStarted: boolean | undefined;
+}
 
 /**
  * # Requesting concept configuration
@@ -301,5 +304,12 @@ export function startRequestingServer(
     `\n🚀 Requesting server listening for POST requests at base path of ${routePath}`,
   );
 
-  Deno.serve({ port: PORT }, app.fetch);
+  if (!globalThis.__requestingServerStarted) {
+    globalThis.__requestingServerStarted = true;
+    Deno.serve({ port: PORT }, app.fetch);
+  } else {
+    console.log(
+      "⚠️ Requesting server already running — skipping duplicate start",
+    );
+  }
 }

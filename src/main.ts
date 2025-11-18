@@ -4,6 +4,9 @@
  * Please run "deno run import" or "generate_imports.ts" to prepare "@concepts".
  */
 import * as concepts from "@concepts";
+declare global {
+  var __requestingServerStarted: boolean | undefined;
+}
 
 // Use the following line instead to run against the test database, which resets each time.
 // import * as concepts from "@test-concepts";
@@ -26,4 +29,8 @@ Engine.register(syncs);
 Engine.logging = Logging.TRACE;
 
 // Start a server to provide the Requesting concept with external/system actions.
-startRequestingServer(concepts);
+if (!globalThis.__requestingServerStarted) {
+  await startRequestingServer(concepts);
+} else {
+  console.log("⚠️ Requesting server already active (skipping)");
+}
