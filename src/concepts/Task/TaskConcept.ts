@@ -11,8 +11,10 @@ import { suggestTaskOrder } from "../../utils/gemini.ts";
 
 export default class TaskConcept {
   db: any;
-  constructor(db: any) {
+  requesting: any;
+  constructor(db: any, requesting: any) {
     this.db = db;
+    this.requesting = requesting;
   }
 
   async createTask(body: {
@@ -37,7 +39,15 @@ export default class TaskConcept {
     const newTask = Tasks.get(taskId);
     if (!newTask) throw new Error(`Task ${taskId} not found after creation`);
     console.log("Created task with ID:", taskId);
-
+    if (this.requesting) {
+      // Example: notify other systems that a task was created
+      await this.requesting.request({
+        path: "/Task/createTask",
+        taskId,
+        ownerId,
+        title,
+      });
+    }
     return newTask;
   }
 
@@ -107,17 +117,21 @@ export default class TaskConcept {
     }
   }
 
-  async completeTask(body: { taskId: string; actualTime: number }) {
-    const { taskId, actualTime } = body;
+  async completeTask(
+    body: { taskId: string; actualTime: number; requestId: string },
+  ) {
+    const { taskId, actualTime, requestId } = body;
     console.log("Completing task:", taskId, "with actualTime:", actualTime);
     await completeTask(this.db, taskId, actualTime);
+    await this.requesting.respond({ request: requestId, success: true });
     return { success: true };
   }
 
-  async deleteTask(body: { taskId: string }) {
-    const { taskId } = body;
+  async deleteTask(body: { taskId: string; requestId: string }) {
+    const { taskId, requestId } = body;
     console.log("Deleting task:", taskId);
     await deleteTask(this.db, taskId);
+    await this.requesting.respond({ request: requestId, success: true });
     return { success: true };
   }
 
