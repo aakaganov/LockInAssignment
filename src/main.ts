@@ -25,8 +25,5 @@ await initConcepts(db); // Ensure TaskConcept is set
 Engine.register(syncs);
 Engine.logging = Logging.TRACE;
 
-// Register synchronizations
-Engine.register(syncs);
-
 // Start a server to provide the Requesting concept with external/system actions.
 startRequestingServer(concepts);
