@@ -16,6 +16,35 @@ const PORT = Number(Deno.env.get("PORT")) ||
 const BASE_URL = flags.baseUrl;
 const CONCEPTS_DIR = "src/concepts";
 
+export async function initConcepts(db: any) {
+  const instances: Record<string, any> = {};
+  for await (
+    const entry of walk(CONCEPTS_DIR, {
+      maxDepth: 1,
+      includeDirs: true,
+      includeFiles: false,
+    })
+  ) {
+    if (entry.path === CONCEPTS_DIR) continue;
+    const conceptName = entry.name;
+    const conceptFilePath = `${entry.path}/${conceptName}Concept.ts`;
+    if (!existsSync(conceptFilePath)) continue;
+
+    const modulePath = toFileUrl(Deno.realPathSync(conceptFilePath)).href;
+    const module = await import(modulePath);
+    const ConceptClass = module.default;
+    const instance = new ConceptClass(db);
+
+    if (ConceptClass.name === "TaskConcept") {
+      setTaskConceptInstance(instance);
+    }
+
+    instances[conceptName] = instance;
+  }
+
+  return instances;
+}
+
 async function main() {
   const [db] = await getDb();
   const app = new Hono();

@@ -12,13 +12,17 @@ const { Engine } = concepts;
 import { Logging } from "@engine";
 import { startRequestingServer } from "@concepts/Requesting/RequestingConcept.ts";
 import syncs from "@syncs";
-
+import { initConcepts } from "./concept_server.ts";
+import { getDb } from "@utils/database.ts";
 /**
  * Available logging levels:
  *   Logging.OFF
  *   Logging.TRACE - display a trace of the actions.
  *   Logging.VERBOSE - display full record of synchronization.
  */
+const [db] = await getDb();
+await initConcepts(db); // Ensure TaskConcept is set
+Engine.register(syncs);
 Engine.logging = Logging.TRACE;
 
 // Register synchronizations
