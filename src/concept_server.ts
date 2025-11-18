@@ -3,10 +3,8 @@ import { getDb } from "@utils/database.ts";
 import { existsSync, walk } from "jsr:@std/fs";
 import { parseArgs } from "jsr:@std/cli/parse-args";
 import { toFileUrl } from "jsr:@std/path/to-file-url";
-//import NotificationConcept from "../concepts/Notification/notificationConcept.ts";
-//import FriendGroupConcept from "../concepts/FriendGroup/friendGroupConcept.ts";
 
-//registerConcept("FriendGroup", new FriendGroupConcept());
+import { setTaskConceptInstance } from "./syncs/task.sync.ts";
 
 const flags = parseArgs(Deno.args, {
   string: ["port", "baseUrl"],
@@ -22,6 +20,7 @@ async function main() {
   const [db] = await getDb();
   const app = new Hono();
   console.log(`Server running on port ${PORT}`);
+
   // --- CORS ---
   app.use("*", async (c, next) => {
     const origin = c.req.header("Origin") || "*";
@@ -36,6 +35,7 @@ async function main() {
     return res;
   });
 
+  // DB test endpoint
   app.get("/ping-db", async (c) => {
     try {
       const [db] = await getDb();
@@ -85,6 +85,13 @@ async function main() {
       }
 
       const instance = new ConceptClass(db);
+
+      // 🔥🔥🔥 IMPORTANT FIX: WIRE TASKCONCEPT INTO SYNCS
+      if (ConceptClass.name === "TaskConcept") {
+        console.log("🔗 Wiring TaskConcept to sync system...");
+        setTaskConceptInstance(instance);
+      }
+
       const conceptApiName = conceptName.charAt(0).toUpperCase() +
         conceptName.slice(1);
 
@@ -98,41 +105,6 @@ async function main() {
         (name) =>
           name !== "constructor" && typeof instance[name] === "function",
       );
-      /**
-      for (const methodName of methodNames) {
-        const route = `${BASE_URL}/${conceptApiName}/${methodName}`;
-        app.post(route, async (c) => {
-          try {
-            // Safely parse request body
-            const body = await c.req.json().catch(() => ({}));
-            console.log(`📩 ${conceptName}.${methodName}() called with:`, body);
-
-            // Call the concept method
-            const result = await instance[methodName](body);
-
-            // Debug log for what’s returned
-            console.log(
-              `✅ ${conceptName}.${methodName} →`,
-              JSON.stringify(result, null, 2),
-            );
-
-            // Always return valid JSON
-            return c.json(result ?? {});
-          } catch (e) {
-            const message = e instanceof Error ? e.message : String(e);
-            console.error(`❌ Error in ${conceptName}.${methodName}:`, message);
-
-            // Ensure valid JSON error response
-            return c.json(
-              { error: "An internal server error occurred.", details: message },
-              500,
-            );
-          }
-        });
-
-        console.log(`  - Endpoint: POST ${route}`);
-      }
-        */
 
       for (const methodName of methodNames) {
         const route = `${BASE_URL}/${conceptApiName}/${methodName}`;
