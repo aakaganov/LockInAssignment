@@ -1,41 +1,26 @@
-/**
- * Notification synchronizations for excluded routes
- */
-
+// src/syncs/notification.sync.ts
 import { actions, Sync } from "@engine";
 import { Notification, Requesting } from "@concepts";
 
 /** --- CREATE NOTIFICATION --- */
 export const CreateNotificationRequest: Sync = (
-  { request, userId, type, message, groupId, fromUserId },
+  { request, userId, type, message, groupId },
 ) => ({
   when: actions([
     Requesting.request,
-    {
-      path: "/api/Notification/create",
-      userId,
-      type,
-      message,
-      groupId,
-      fromUserId,
-    },
+    { path: "/api/Notification/create", userId, type, message, groupId },
     { request },
   ]),
-  then: actions([Notification.create, {
-    userId,
-    type,
-    message,
-    groupId,
-    fromUserId,
-  }]),
+  then: actions([Notification.create, { userId, type, message, groupId }]),
 });
 
 export const CreateNotificationResponse: Sync = (
   { request, notification },
 ) => ({
-  when: actions([Requesting.request, { path: "/api/Notification/create" }, {
-    request,
-  }]),
+  when: actions(
+    [Requesting.request, { path: "/api/Notification/create" }, { request }],
+    [Notification.create, {}, { notification }],
+  ),
   then: actions([Requesting.respond, { request, notification }]),
 });
 
@@ -52,31 +37,9 @@ export const DeleteNotificationRequest: Sync = (
 });
 
 export const DeleteNotificationResponse: Sync = ({ request, success }) => ({
-  when: actions([Requesting.request, { path: "/api/Notification/delete" }, {
-    request,
-  }]),
-  then: actions([Requesting.respond, { request, success }]),
-});
-
-/** --- UPDATE NOTIFICATION STATUS --- */
-export const UpdateNotificationStatusRequest: Sync = (
-  { request, notificationId, status },
-) => ({
-  when: actions([
-    Requesting.request,
-    { path: "/api/Notification/updateStatus", notificationId, status },
-    { request },
-  ]),
-  then: actions([Notification.updateStatus, { notificationId, status }]),
-});
-
-export const UpdateNotificationStatusResponse: Sync = (
-  { request, success },
-) => ({
-  when: actions([
-    Requesting.request,
-    { path: "/api/Notification/updateStatus" },
-    { request },
-  ]),
+  when: actions(
+    [Requesting.request, { path: "/api/Notification/delete" }, { request }],
+    [Notification.delete, {}, { success }],
+  ),
   then: actions([Requesting.respond, { request, success }]),
 });
