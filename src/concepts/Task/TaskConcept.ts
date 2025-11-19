@@ -120,15 +120,37 @@ export default class TaskConcept {
     const { taskId, actualTime, requestId } = body;
 
     try {
+      // Core completeTask
       const result = await completeTask(this.db, taskId, actualTime);
-      await this.requesting.respond({ request: requestId, success: true });
+
+      // Respond immediately to requesting server
+      try {
+        await this.requesting.respond({ request: requestId, success: true });
+      } catch (respErr) {
+        console.error("Failed to respond to completeTask request:", respErr);
+      }
+
+      // Fire-and-forget leaderboard updates should NOT block response
+      (async () => {
+        try {
+          // do leaderboard updates here
+        } catch (err) {
+          console.error("Leaderboard async update failed:", err);
+        }
+      })();
+
       return { success: true, result };
     } catch (err) {
-      await this.requesting.respond({
-        request: requestId,
-        success: false,
-        error: err instanceof Error ? err.message : "Unknown error",
-      });
+      try {
+        await this.requesting.respond({
+          request: requestId,
+          success: false,
+          error: err instanceof Error ? err.message : "Unknown error",
+        });
+      } catch (respErr) {
+        console.error("Failed to respond after error:", respErr);
+      }
+
       return {
         success: false,
         error: err instanceof Error ? err.message : "Unknown error",
@@ -140,15 +162,28 @@ export default class TaskConcept {
     const { taskId, requestId } = body;
 
     try {
+      // Ensure DB delete completes
       await deleteTask(this.db, taskId);
-      await this.requesting.respond({ request: requestId, success: true });
+
+      // Respond immediately
+      try {
+        await this.requesting.respond({ request: requestId, success: true });
+      } catch (respErr) {
+        console.error("Failed to respond to deleteTask request:", respErr);
+      }
+
       return { success: true };
     } catch (err) {
-      await this.requesting.respond({
-        request: requestId,
-        success: false,
-        error: err instanceof Error ? err.message : "Unknown error",
-      });
+      try {
+        await this.requesting.respond({
+          request: requestId,
+          success: false,
+          error: err instanceof Error ? err.message : "Unknown error",
+        });
+      } catch (respErr) {
+        console.error("Failed to respond after error:", respErr);
+      }
+
       return {
         success: false,
         error: err instanceof Error ? err.message : "Unknown error",
