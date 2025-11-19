@@ -89,62 +89,59 @@ export async function editTask(
 /**
  * Complete a task and record actual time
  */
+/**
+ * Complete a task and record actual time
+ */
 export async function completeTask(db: Db, taskId: string, actualTime: number) {
   if (!actualTime || actualTime <= 0) {
     throw new Error("actualTime is required and must be > 0");
   }
 
-  // 1️⃣ Fetch the task directly from MongoDB
-  const taskFromDb = await db.collection<Task>("tasks").findOne({ taskId });
-  if (!taskFromDb) throw new Error(`Task ${taskId} does not exist`);
-  if (taskFromDb.status !== "pending") {
+  // Fetch task from memory or DB
+  const task = Tasks.get(taskId) ||
+    await db.collection<Task>("tasks").findOne({ taskId });
+  if (!task) throw new Error(`Task ${taskId} does not exist`);
+  if (task.status !== "pending") {
     throw new Error(`Task ${taskId} is already completed`);
   }
 
-  // 2️⃣ Prepare the update (avoid including _id)
-  const updateFields: Partial<Task> = {
-    actualTime,
-    status: "completed" as TaskStatus,
-  };
+  // Update task fields
+  task.actualTime = actualTime;
+  task.status = "completed";
 
-  // 3️⃣ Update MongoDB
-  const updateResult = await db.collection<Task>("tasks").updateOne(
-    { taskId },
-    { $set: updateFields },
-  );
-  console.log(`Mongo update result for task ${taskId}:`, updateResult);
+  // Immediate DB updates
+  try {
+    await Promise.all([
+      db.collection("users").updateOne(
+        { userId: task.ownerId },
+        { $inc: { tasksCompleted: 1, minutesCompleted: actualTime } },
+      ),
+      db.collection<Task>("tasks").updateOne({ taskId }, {
+        $set: { status: "completed", actualTime },
+      }),
+    ]);
 
-  if (updateResult.matchedCount === 0) {
-    throw new Error(`Failed to find task ${taskId} for update`);
+    // Update in-memory cache
+    Tasks.set(taskId, task);
+  } catch (err) {
+    console.error("Error updating task in DB:", err);
+    throw new Error("Failed to complete task in DB");
   }
 
-  if (updateResult.modifiedCount === 0) {
-    console.warn(`Task ${taskId} already had the same values or update failed`);
-  }
-
-  // 4️⃣ Update in-memory cache
-  const updatedTask: Task = { ...taskFromDb, ...updateFields };
-  Tasks.set(taskId, updatedTask);
-
-  // 5️⃣ Update user stats in parallel
-  await db.collection("users").updateOne(
-    { userId: taskFromDb.ownerId },
-    { $inc: { tasksCompleted: 1, minutesCompleted: actualTime } },
-  );
-
-  // 6️⃣ Background leaderboard updates (no await)
+  // Fire-and-forget leaderboard updates
   (async () => {
     try {
       const userGroups = await db.collection("groups").find({
-        members: taskFromDb.ownerId,
+        members: task.ownerId,
       }).toArray();
       const leaderboard = new LeaderboardConcept(db);
 
       await Promise.all(userGroups.map(async (group) => {
         const confirmedFlag = !group.confirmationRequired;
+
         await leaderboard.recordCompletion({
-          userId: taskFromDb.ownerId,
-          actualTime,
+          userId: task.ownerId,
+          actualTime: task.actualTime!,
           groupId: group.groupId,
           confirmed: confirmedFlag,
         });
@@ -165,13 +162,14 @@ export async function completeTask(db: Db, taskId: string, actualTime: number) {
         );
       }));
 
-      await updateLeaderboardsForUser(db, taskFromDb.ownerId);
+      await updateLeaderboardsForUser(db, task.ownerId);
     } catch (err) {
-      console.error("Error updating leaderboards:", err);
+      console.error("Error updating leaderboards asynchronously:", err);
     }
   })();
 
-  return { success: true, task: updatedTask };
+  // Return success immediately so the frontend gets a fast response
+  return { success: true };
 }
 
 /**
