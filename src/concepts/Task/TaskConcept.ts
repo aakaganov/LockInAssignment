@@ -122,9 +122,30 @@ export default class TaskConcept {
   ) {
     const { taskId, actualTime, requestId } = body;
     console.log("Completing task:", taskId, "with actualTime:", actualTime);
-    await completeTask(this.db, taskId, actualTime);
-    await this.requesting.respond({ request: requestId, success: true });
-    return { success: true };
+
+    try {
+      // Call the core completeTask function
+      const result = await completeTask(this.db, taskId, actualTime);
+
+      // Respond to the requesting server
+      await this.requesting.respond({ request: requestId, success: true });
+
+      return { success: true, result };
+    } catch (err) {
+      console.error("Error completing task:", taskId, err);
+
+      // Respond with failure so front-end doesn't hang
+      await this.requesting.respond({
+        request: requestId,
+        success: false,
+        error: err instanceof Error ? err.message : "Unknown error",
+      });
+
+      return {
+        success: false,
+        error: err instanceof Error ? err.message : "Unknown error",
+      };
+    }
   }
 
   async deleteTask(body: { taskId: string; requestId: string }) {
