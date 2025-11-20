@@ -50,6 +50,8 @@ export const inclusions: Record<string, string> = {
     "read-only for users; safe",
 
   // Leaderboard
+  "/api/Leaderboard/recordCompletion": "read-only; safe",
+  "/api/Leaderboard/resetWeeklyStats": "read-only; safe",
   "/api/Leaderboard/getLeaderboardByTasks": "read-only; safe",
   "/api/Leaderboard/getLeaderboardByTime": "read-only; safe",
 
@@ -104,10 +106,6 @@ export const exclusions: Array<string> = [
   "/api/ConfirmTask/confirmTask",
   "/api/ConfirmTask/finalizeConfirmation",
   "/api/ConfirmTask/denyTask",
-
-  // Leaderboard
-  "/api/Leaderboard/recordCompletion",
-  "/api/Leaderboard/resetWeeklyStats",
 
   // Task
 
