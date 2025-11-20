@@ -15,10 +15,7 @@ export const UpdateUserRequest: Sync = (
 });
 
 export const UpdateUserResponse: Sync = ({ request, user }) => ({
-  when: actions(
-    [Requesting.request, { path: "/api/Account/updateUser" }, { request }],
-    [Account.updateUser, {}, { user }],
-  ),
+  when: actions([Account.updateUser, {}, { user }]),
   then: actions([Requesting.respond, { request, user }]),
 });
 
@@ -33,9 +30,6 @@ export const DeleteUserRequest: Sync = ({ request, userId }) => ({
 });
 
 export const DeleteUserResponse: Sync = ({ request, message }) => ({
-  when: actions(
-    [Requesting.request, { path: "/api/Account/deleteUser" }, { request }],
-    [Account.deleteUser, {}, { message }],
-  ),
+  when: actions([Account.deleteUser, {}, { message }]),
   then: actions([Requesting.respond, { request, message }]),
 });
