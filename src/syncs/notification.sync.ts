@@ -4,24 +4,38 @@ import { Notification, Requesting } from "@concepts";
 
 /** --- CREATE NOTIFICATION --- */
 export const CreateNotificationRequest: Sync = (
-  { request, userId, type, message, groupId },
+  { request, userId, type, message, groupId, fromUserId },
 ) => ({
   when: actions([
     Requesting.request,
-    { path: "/api/Notification/create", userId, type, message, groupId },
+    {
+      path: "/api/Notification/create",
+      userId,
+      type,
+      message,
+      groupId,
+      fromUserId,
+    },
     { request },
   ]),
-  then: actions([Notification.create, { userId, type, message, groupId }]),
+  then: actions([
+    Notification.create,
+    { userId, type, message, groupId, fromUserId },
+  ]),
 });
 
 export const CreateNotificationResponse: Sync = (
   { request, notification },
 ) => ({
-  when: actions(
-    [Requesting.request, { path: "/api/Notification/create" }, { request }],
-    [Notification.create, {}, { notification }],
-  ),
-  then: actions([Requesting.respond, { request, notification }]),
+  when: actions([
+    Requesting.request,
+    { path: "/api/Notification/create" },
+    { request },
+  ]),
+  then: actions([
+    Requesting.respond,
+    { request, notification },
+  ]),
 });
 
 /** --- DELETE NOTIFICATION --- */
@@ -33,13 +47,20 @@ export const DeleteNotificationRequest: Sync = (
     { path: "/api/Notification/delete", notificationId },
     { request },
   ]),
-  then: actions([Notification.delete, { notificationId }]),
+  then: actions([
+    Notification.delete,
+    { notificationId },
+  ]),
 });
 
 export const DeleteNotificationResponse: Sync = ({ request, success }) => ({
-  when: actions(
-    [Requesting.request, { path: "/api/Notification/delete" }, { request }],
-    [Notification.delete, {}, { success }],
-  ),
-  then: actions([Requesting.respond, { request, success }]),
+  when: actions([
+    Requesting.request,
+    { path: "/api/Notification/delete" },
+    { request },
+  ]),
+  then: actions([
+    Requesting.respond,
+    { request, success },
+  ]),
 });
