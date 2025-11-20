@@ -1,3 +1,4 @@
+// src/concepts/Task/TaskConcept.ts
 import {
   completeTask,
   createTask,
@@ -11,11 +12,9 @@ import { suggestTaskOrder } from "../../utils/gemini.ts";
 
 export default class TaskConcept {
   db: any;
-  requesting: any;
 
-  constructor(db: any, requesting: any) {
+  constructor(db: any) {
     this.db = db;
-    this.requesting = requesting;
   }
 
   /** --- INCLUSION OPERATIONS --- */
@@ -41,14 +40,8 @@ export default class TaskConcept {
     const newTask = Tasks.get(taskId);
     if (!newTask) throw new Error(`Task ${taskId} not found after creation`);
 
-    if (this.requesting) {
-      await this.requesting.request({
-        path: "/Task/createTask",
-        taskId,
-        ownerId,
-        title,
-      });
-    }
+    // NOTE: under Option A we do not call Requesting.request here.
+    // If you still want a side-effect notification, do it via a sync.
 
     return newTask;
   }
@@ -112,82 +105,36 @@ export default class TaskConcept {
     return { orderedTaskIds };
   }
 
-  /** --- EXCLUSION OPERATIONS --- */
+  /** --- EXCLUSION OPERATIONS ---
+   *
+   * These are excluded from passthrough and handled via Requesting + syncs.
+   * They must accept only the logical action inputs and return a result.
+   */
 
-  async completeTask(
-    body: { taskId: string; actualTime: number; requestId: string },
-  ) {
-    const { taskId, actualTime, requestId } = body;
+  async completeTask(body: { taskId: string; actualTime: number }) {
+    const { taskId, actualTime } = body;
 
+    // Call the core completeTask function which updates DB and triggers async leaderboard updates
     try {
-      // Core completeTask
       const result = await completeTask(this.db, taskId, actualTime);
-
-      // Respond immediately to requesting server
-      try {
-        await this.requesting.respond({ request: requestId, success: true });
-      } catch (respErr) {
-        console.error("Failed to respond to completeTask request:", respErr);
-      }
-
-      // Fire-and-forget leaderboard updates should NOT block response
-      (async () => {
-        try {
-          // do leaderboard updates here
-        } catch (err) {
-          console.error("Leaderboard async update failed:", err);
-        }
-      })();
-
-      return { success: true, result };
+      // Return the result to the sync which will call Requesting.respond
+      return result;
     } catch (err) {
-      try {
-        await this.requesting.respond({
-          request: requestId,
-          success: false,
-          error: err instanceof Error ? err.message : "Unknown error",
-        });
-      } catch (respErr) {
-        console.error("Failed to respond after error:", respErr);
-      }
-
-      return {
-        success: false,
-        error: err instanceof Error ? err.message : "Unknown error",
-      };
+      // bubble up a structured error so the sync can respond appropriately
+      const message = err instanceof Error ? err.message : "Unknown error";
+      return { success: false, error: message };
     }
   }
 
-  async deleteTask(body: { taskId: string; requestId: string }) {
-    const { taskId, requestId } = body;
+  async deleteTask(body: { taskId: string }) {
+    const { taskId } = body;
 
     try {
-      // Ensure DB delete completes
       await deleteTask(this.db, taskId);
-
-      // Respond immediately
-      try {
-        await this.requesting.respond({ request: requestId, success: true });
-      } catch (respErr) {
-        console.error("Failed to respond to deleteTask request:", respErr);
-      }
-
       return { success: true };
     } catch (err) {
-      try {
-        await this.requesting.respond({
-          request: requestId,
-          success: false,
-          error: err instanceof Error ? err.message : "Unknown error",
-        });
-      } catch (respErr) {
-        console.error("Failed to respond after error:", respErr);
-      }
-
-      return {
-        success: false,
-        error: err instanceof Error ? err.message : "Unknown error",
-      };
+      const message = err instanceof Error ? err.message : "Unknown error";
+      return { success: false, error: message };
     }
   }
 }
