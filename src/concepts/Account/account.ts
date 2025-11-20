@@ -62,7 +62,7 @@ export async function getUser(userId: string) {
 
   const user = await usersColl.findOne({ userId });
   if (!user) return { error: `User ${userId} does not exist` };
-  return { name: user.name, email: user.email };
+  return { user: { userId: user.userId, name: user.name, email: user.email } };
 }
 
 /** Update user info */

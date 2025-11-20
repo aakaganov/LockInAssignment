@@ -70,13 +70,7 @@ export default class AccountConcept {
     const result = await getUser(userId);
     if (result.error) return { error: result.error };
 
-    return {
-      user: {
-        userId: userId,
-        name: result.name,
-        email: result.email,
-      },
-    };
+    return { user: result.user };
   }
 
   async deleteUser({ userId }: { userId: string }) {
