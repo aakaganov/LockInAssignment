@@ -9,7 +9,7 @@ export const CreateNotificationRequest: Sync = (
   when: actions([
     Requesting.request,
     {
-      path: "/api/Notification/create",
+      path: "/Notification/create",
       userId,
       type,
       message,
@@ -27,15 +27,11 @@ export const CreateNotificationRequest: Sync = (
 export const CreateNotificationResponse: Sync = (
   { request, notification },
 ) => ({
-  when: actions([
-    Requesting.request,
-    { path: "/api/Notification/create" },
-    { request },
-  ]),
-  then: actions([
-    Requesting.respond,
-    { request, notification },
-  ]),
+  when: actions(
+    [Requesting.request, { path: "/Notification/create" }, { request }],
+    [Notification.create, {}, { notification }],
+  ),
+  then: actions([Requesting.respond, { request, notification }]),
 });
 
 /** --- DELETE NOTIFICATION --- */
@@ -44,7 +40,7 @@ export const DeleteNotificationRequest: Sync = (
 ) => ({
   when: actions([
     Requesting.request,
-    { path: "/api/Notification/delete", notificationId },
+    { path: "/Notification/delete", notificationId },
     { request },
   ]),
   then: actions([
@@ -54,13 +50,9 @@ export const DeleteNotificationRequest: Sync = (
 });
 
 export const DeleteNotificationResponse: Sync = ({ request, success }) => ({
-  when: actions([
-    Requesting.request,
-    { path: "/api/Notification/delete" },
-    { request },
-  ]),
-  then: actions([
-    Requesting.respond,
-    { request, success },
-  ]),
+  when: actions(
+    [Requesting.request, { path: "/Notification/delete" }, { request }],
+    [Notification.delete, {}, { success }],
+  ),
+  then: actions([Requesting.respond, { request, success }]),
 });

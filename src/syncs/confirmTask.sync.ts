@@ -6,7 +6,7 @@ import { ConfirmTask, Requesting } from "@concepts";
 export const ConfirmTaskRequest: Sync = ({ request, taskId, peerId }) => ({
   when: actions([
     Requesting.request,
-    { path: "/api/ConfirmTask/confirmTask", taskId, peerId },
+    { path: "/ConfirmTask/confirmTask", taskId, peerId },
     { request },
   ]),
   then: actions([ConfirmTask.confirmTask, { taskId, peerId }]),
@@ -14,7 +14,7 @@ export const ConfirmTaskRequest: Sync = ({ request, taskId, peerId }) => ({
 
 export const ConfirmTaskResponse: Sync = ({ request, success }) => ({
   when: actions(
-    [Requesting.request, { path: "/api/ConfirmTask/confirmTask" }, { request }],
+    [Requesting.request, { path: "/ConfirmTask/confirmTask" }, { request }],
     [ConfirmTask.confirmTask, {}, { success }],
   ),
   then: actions([Requesting.respond, { request, success }]),
@@ -24,7 +24,7 @@ export const ConfirmTaskResponse: Sync = ({ request, success }) => ({
 export const FinalizeConfirmationRequest: Sync = ({ request, taskId }) => ({
   when: actions([
     Requesting.request,
-    { path: "/api/ConfirmTask/finalizeConfirmation", taskId },
+    { path: "/ConfirmTask/finalizeConfirmation", taskId },
     { request },
   ]),
   then: actions([ConfirmTask.finalizeConfirmation, { taskId }]),
@@ -32,7 +32,7 @@ export const FinalizeConfirmationRequest: Sync = ({ request, taskId }) => ({
 
 export const FinalizeConfirmationResponse: Sync = ({ request, success }) => ({
   when: actions(
-    [Requesting.request, { path: "/api/ConfirmTask/finalizeConfirmation" }, {
+    [Requesting.request, { path: "/ConfirmTask/finalizeConfirmation" }, {
       request,
     }],
     [ConfirmTask.finalizeConfirmation, {}, { success }],
@@ -44,7 +44,7 @@ export const FinalizeConfirmationResponse: Sync = ({ request, success }) => ({
 export const DenyTaskRequest: Sync = ({ request, taskId, peerId }) => ({
   when: actions([
     Requesting.request,
-    { path: "/api/ConfirmTask/denyTask", taskId, peerId },
+    { path: "/ConfirmTask/denyTask", taskId, peerId },
     { request },
   ]),
   then: actions([ConfirmTask.denyTask, { taskId, peerId }]),
@@ -52,7 +52,7 @@ export const DenyTaskRequest: Sync = ({ request, taskId, peerId }) => ({
 
 export const DenyTaskResponse: Sync = ({ request, success }) => ({
   when: actions(
-    [Requesting.request, { path: "/api/ConfirmTask/denyTask" }, { request }],
+    [Requesting.request, { path: "/ConfirmTask/denyTask" }, { request }],
     [ConfirmTask.denyTask, {}, { success }],
   ),
   then: actions([Requesting.respond, { request, success }]),
