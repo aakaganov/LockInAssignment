@@ -28,6 +28,7 @@ export const inclusions: Record<string, string> = {
   // FriendGroup
   "/api/FriendGroup/acceptInvite": "users accepting invites is safe",
   "/api/FriendGroup/declineInvite": "users declining invites is safe",
+  "/api/FriendGroup/inviteUserByEmail": "users inviting others is safe",
   "/api/FriendGroup/listGroups": "safe read-only query",
   "/api/FriendGroup/leaveGroup":
     "users leaving a group is safe; requires user auth",
@@ -48,6 +49,8 @@ export const inclusions: Record<string, string> = {
   "/api/ConfirmTask/getConfirmations": "read-only; safe for user",
   "/api/ConfirmTask/getPendingConfirmationsForPeer":
     "read-only for users; safe",
+  "/api/ConfirmTask/finalizeConfirmation": "",
+  "/api/ConfirmTask/denyTask": "",
 
   // Leaderboard
   "/api/Leaderboard/recordCompletion": "read-only; safe",
@@ -72,6 +75,8 @@ export const inclusions: Record<string, string> = {
   "/api/Account/loginUser": "user login is safe",
   "/api/Account/getUser": "reading own info is safe",
   "/api/Account/logoutUser": "safe to include",
+  "/api/Account/updateUser": "",
+  "/api/Account/deleteUser": "",
 };
 
 /**
@@ -87,7 +92,6 @@ export const inclusions: Record<string, string> = {
 export const exclusions: Array<string> = [
   // FriendGroup
   "/api/FriendGroup/createGroup",
-  "/api/FriendGroup/inviteUserByEmail",
   "/api/FriendGroup/removeMember",
   "/api/FriendGroup/setConfirmationPolicy",
   "/api/FriendGroup/deleteGroup",
@@ -104,15 +108,9 @@ export const exclusions: Array<string> = [
 
   // ConfirmTask
   "/api/ConfirmTask/confirmTask",
-  "/api/ConfirmTask/finalizeConfirmation",
-  "/api/ConfirmTask/denyTask",
 
   // Task
 
   "/api/Task/completeTask",
   "/api/Task/deleteTask",
-
-  // Account
-  "/api/Account/updateUser",
-  "/api/Account/deleteUser",
 ];
