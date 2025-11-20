@@ -1,7 +1,6 @@
 /**
- * FriendGroup synchronizations for excluded routes
+ * FriendGroup synchronizations
  */
-
 import { actions, Sync } from "@engine";
 import { FriendGroup, Requesting } from "@concepts";
 
@@ -12,7 +11,7 @@ export const CreateGroupRequest: Sync = (
   when: actions([
     Requesting.request,
     {
-      path: "/api/FriendGroup/createGroup",
+      path: "/FriendGroup/createGroup",
       ownerId,
       groupName,
       confirmationRequired,
@@ -27,7 +26,7 @@ export const CreateGroupRequest: Sync = (
     invitedEmails,
   }]),
 });
-
+/** --- CREATE GROUP RESPONSE --- */
 export const CreateGroupResponse: Sync = (
   { request, groupId, invitedUsers },
 ) => ({
@@ -41,30 +40,40 @@ export const InviteUserRequest: Sync = (
 ) => ({
   when: actions([
     Requesting.request,
-    { path: "/api/FriendGroup/inviteUserByEmail", groupId, email, invitedBy },
+    { path: "/FriendGroup/inviteUserByEmail", groupId, email, invitedBy },
     { request },
   ]),
   then: actions([FriendGroup.inviteUserByEmail, { groupId, email, invitedBy }]),
 });
 
-export const InviteUserResponse: Sync = ({ request, invitedUserId }) => ({
-  when: actions([FriendGroup.inviteUserByEmail, { invitedUserId }]),
-  then: actions([Requesting.respond, { request, invitedUserId }]),
+/** --- ACCEPT INVITE --- */
+export const AcceptInviteRequest: Sync = ({ request, groupId, userId }) => ({
+  when: actions([
+    Requesting.request,
+    { path: "/FriendGroup/acceptInvite", groupId, userId },
+    { request },
+  ]),
+  then: actions([FriendGroup.acceptInvite, { groupId, userId }]),
+});
+
+/** --- DECLINE INVITE --- */
+export const DeclineInviteRequest: Sync = ({ request, groupId, userId }) => ({
+  when: actions([
+    Requesting.request,
+    { path: "/FriendGroup/declineInvite", groupId, userId },
+    { request },
+  ]),
+  then: actions([FriendGroup.declineInvite, { groupId, userId }]),
 });
 
 /** --- REMOVE MEMBER --- */
 export const RemoveMemberRequest: Sync = ({ request, groupId, userId }) => ({
   when: actions([
     Requesting.request,
-    { path: "/api/FriendGroup/removeMember", groupId, userId },
+    { path: "/FriendGroup/removeMember", groupId, userId },
     { request },
   ]),
   then: actions([FriendGroup.removeMember, { groupId, userId }]),
-});
-
-export const RemoveMemberResponse: Sync = ({ request, success }) => ({
-  when: actions([FriendGroup.removeMember, { success }]),
-  then: actions([Requesting.respond, { request, success }]),
 });
 
 /** --- SET CONFIRMATION POLICY --- */
@@ -74,7 +83,7 @@ export const SetConfirmationPolicyRequest: Sync = (
   when: actions([
     Requesting.request,
     {
-      path: "/api/FriendGroup/setConfirmationPolicy",
+      path: "/FriendGroup/setConfirmationPolicy",
       groupId,
       requiresConfirmation,
     },
@@ -86,67 +95,32 @@ export const SetConfirmationPolicyRequest: Sync = (
   }]),
 });
 
-export const SetConfirmationPolicyResponse: Sync = ({ request, success }) => ({
-  when: actions([FriendGroup.setConfirmationPolicy, { success }]),
-  then: actions([Requesting.respond, { request, success }]),
-});
-
 /** --- DELETE GROUP --- */
 export const DeleteGroupRequest: Sync = ({ request, groupId, userId }) => ({
   when: actions([
     Requesting.request,
-    { path: "/api/FriendGroup/deleteGroup", groupId, userId },
+    { path: "/FriendGroup/deleteGroup", groupId, userId },
     { request },
   ]),
   then: actions([FriendGroup.deleteGroup, { groupId, userId }]),
-});
-
-export const DeleteGroupResponse: Sync = ({ request, success, groupId }) => ({
-  when: actions([FriendGroup.deleteGroup, { success, groupId }]),
-  then: actions([Requesting.respond, { request, success, groupId }]),
-});
-
-/** --- ACCEPT INVITE --- */
-export const AcceptInviteRequest: Sync = ({ request, groupId, userId }) => ({
-  when: actions([
-    Requesting.request,
-    { path: "/api/FriendGroup/acceptInvite", groupId, userId },
-    { request },
-  ]),
-  then: actions([FriendGroup.acceptInvite, { groupId, userId }]),
-});
-
-export const AcceptInviteResponse: Sync = ({ request, groupId, userId }) => ({
-  when: actions([FriendGroup.acceptInvite, { groupId, userId }]),
-  then: actions([Requesting.respond, { request, groupId, userId }]),
-});
-
-/** --- DECLINE INVITE --- */
-export const DeclineInviteRequest: Sync = ({ request, groupId, userId }) => ({
-  when: actions([
-    Requesting.request,
-    { path: "/api/FriendGroup/declineInvite", groupId, userId },
-    { request },
-  ]),
-  then: actions([FriendGroup.declineInvite, { groupId, userId }]),
-});
-
-export const DeclineInviteResponse: Sync = ({ request, success }) => ({
-  when: actions([FriendGroup.declineInvite, { success }]),
-  then: actions([Requesting.respond, { request, success }]),
 });
 
 /** --- LEAVE GROUP --- */
 export const LeaveGroupRequest: Sync = ({ request, groupId, userId }) => ({
   when: actions([
     Requesting.request,
-    { path: "/api/FriendGroup/leaveGroup", groupId, userId },
+    { path: "/FriendGroup/leaveGroup", groupId, userId },
     { request },
   ]),
   then: actions([FriendGroup.leaveGroup, { groupId, userId }]),
 });
 
-export const LeaveGroupResponse: Sync = ({ request, groupId, userId }) => ({
-  when: actions([FriendGroup.leaveGroup, { groupId, userId }]),
-  then: actions([Requesting.respond, { request, groupId, userId }]),
+/** --- LIST GROUPS --- */
+export const ListGroupsRequest: Sync = ({ request, userId }) => ({
+  when: actions([
+    Requesting.request,
+    { path: "/FriendGroup/listGroups", userId },
+    { request },
+  ]),
+  then: actions([FriendGroup.listGroups, { userId }]),
 });
