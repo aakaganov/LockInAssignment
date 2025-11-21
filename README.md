@@ -1,11 +1,11 @@
 ## Design Document
-[Design Document](LockInAssignment/design/designFiles/design_document_final.md)
+[Design Document](design/designFiles/design_document_final.md)
 ## Reflection Document
-[Reflection Document](LockInAssignment/design/designFiles/reflection_document.md)
+[Reflection Document](design/designFiles/reflection_document.md)
 ## Video
 []()
 ## Trace
-[Trace Link](LockInAssignment/design/consoleOutput/final_trace)
+[Trace Link](design/consoleOutput/final_trace)
 
 
 # 6.104 Assignment 4: Implementing Concepts
