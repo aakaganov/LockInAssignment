@@ -1,0 +1,11313 @@
+Account.addUser { name: 'Anna', email: 'akaganov@mit.edu', password: '1234' } => {
+
+
+
+  message: 'User added successfully',
+
+
+
+  user: {
+
+
+
+    userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    name: 'Anna',
+
+
+
+    email: 'akaganov@mit.edu'
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Account.getUser { userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => {
+
+
+
+  user: {
+
+
+
+    userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    name: 'Anna',
+
+
+
+    email: 'akaganov@mit.edu'
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+ConfirmTask.getConfirmations { userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => []
+
+
+
+
+
+
+
+
+
+Notification.list { userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => { success: true, notifications: [] }
+
+
+
+
+
+
+
+
+
+Task.listTasks { ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => []
+
+
+
+
+
+
+
+
+
+FriendGroup.listGroups { userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => []
+
+
+
+
+
+
+
+
+
+ConfirmTask.getPendingConfirmationsForPeer { peerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => []
+
+
+
+
+
+
+
+
+
+FriendGroup.listGroups { userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => []
+
+
+
+
+
+
+
+
+
+Task.listTasks { ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => []
+
+
+
+
+
+
+
+
+
+Task.listTasks { ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => []
+
+
+
+
+
+
+
+
+
+Notification.list { userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => { success: true, notifications: [] }
+
+
+
+
+
+
+
+
+
+Task.createTask {
+
+
+
+  ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+  title: 'Math homework - 18.434',
+
+
+
+  description: null,
+
+
+
+  dueDate: '2025-11-22',
+
+
+
+  estimatedTime: 45
+
+
+
+} => {
+
+
+
+  taskId: 'b79248cd-3151-4ada-88af-74d0a14b3578',
+
+
+
+  ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+  title: 'Math homework - 18.434',
+
+
+
+  description: null,
+
+
+
+  dueDate: 2025-11-22T00:00:00.000Z,
+
+
+
+  estimatedTime: 45,
+
+
+
+  status: 'pending',
+
+
+
+  createdAt: 2025-11-21T00:41:20.711Z,
+
+
+
+  _id: new ObjectId('691fb5302fcaa3340d6d68b7')
+
+
+
+}
+
+
+
+
+
+
+Inserted notification result: {
+
+
+
+  acknowledged: true,
+
+
+
+  insertedId: new ObjectId("691fb5492fcaa3340d6d68b9")
+
+
+
+}
+
+
+
+
+
+
+FriendGroup.createGroup {
+
+
+
+  ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+  groupName: 'Maseeh 1',
+
+
+
+  confirmationRequired: true,
+
+
+
+  invitedEmails: [ 'ben@gmail.com' ]
+
+
+
+} => {
+
+
+
+  success: true,
+
+
+
+  groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3',
+
+
+
+  invitedUsers: [ '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+FriendGroup.listGroups { userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => [
+
+
+
+  {
+
+
+
+    groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3',
+
+
+
+    ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    groupName: 'Maseeh 1',
+
+
+
+    confirmationRequired: true,
+
+
+
+    createdAt: 2025-11-21T00:41:45.197Z,
+
+
+
+    owner: {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      name: 'Anna',
+
+
+
+      email: 'akaganov@mit.edu'
+
+
+
+    },
+
+
+
+    members: [ [Object] ]
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => { leaderboard: [] }
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => { leaderboard: [] }
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => { leaderboard: [] }
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => { leaderboard: [] }
+
+
+
+
+
+
+Inserted notification result: {
+
+
+
+  acknowledged: true,
+
+
+
+  insertedId: new ObjectId("691fb55c2fcaa3340d6d68bb")
+
+
+
+}
+
+
+
+
+
+
+FriendGroup.createGroup {
+
+
+
+  ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+  groupName: 'Art',
+
+
+
+  confirmationRequired: false,
+
+
+
+  invitedEmails: [ 'caroline@gmail.com' ]
+
+
+
+} => {
+
+
+
+  success: true,
+
+
+
+  groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949',
+
+
+
+  invitedUsers: [ '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11' ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+FriendGroup.listGroups { userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => [
+
+
+
+  {
+
+
+
+    groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3',
+
+
+
+    ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    groupName: 'Maseeh 1',
+
+
+
+    confirmationRequired: true,
+
+
+
+    createdAt: 2025-11-21T00:41:45.197Z,
+
+
+
+    owner: {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      name: 'Anna',
+
+
+
+      email: 'akaganov@mit.edu'
+
+
+
+    },
+
+
+
+    members: [ [Object] ]
+
+
+
+  },
+
+
+
+  {
+
+
+
+    groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949',
+
+
+
+    ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    groupName: 'Art',
+
+
+
+    confirmationRequired: false,
+
+
+
+    createdAt: 2025-11-21T00:42:04.177Z,
+
+
+
+    owner: {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      name: 'Anna',
+
+
+
+      email: 'akaganov@mit.edu'
+
+
+
+    },
+
+
+
+    members: [ [Object] ]
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949' } => { leaderboard: [] }
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949' } => { leaderboard: [] }
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949' } => { leaderboard: [] }
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949' } => { leaderboard: [] }
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => { leaderboard: [] }
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => { leaderboard: [] }
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => { leaderboard: [] }
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => { leaderboard: [] }
+
+
+
+
+
+
+
+
+
+Account.updateUser {
+
+
+
+  userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+  name: 'Anna Kaganov',
+
+
+
+  email: 'akaganov@mit.edu'
+
+
+
+} => {
+
+
+
+  message: 'User updated successfully',
+
+
+
+  user: {
+
+
+
+    userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    name: 'Anna Kaganov',
+
+
+
+    email: 'akaganov@mit.edu'
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Account.updateUser {
+
+
+
+  userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+  name: 'Anna Kaganov',
+
+
+
+  email: 'akaganov@mit.edu',
+
+
+
+  password: '12345'
+
+
+
+} => {
+
+
+
+  message: 'User updated successfully',
+
+
+
+  user: {
+
+
+
+    userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    name: 'Anna Kaganov',
+
+
+
+    email: 'akaganov@mit.edu'
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+[AccountConcept] loginUser called with: { email: "ben@gmail.com", password: "123" }
+
+
+
+[AccountConcept] loginUser success: {
+
+
+
+  userId: "019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6",
+
+
+
+  name: "Ben",
+
+
+
+  email: "ben@gmail.com"
+
+
+
+}
+
+
+
+
+
+
+Account.loginUser { email: 'ben@gmail.com', password: '123' } => {
+
+
+
+  message: 'Login successful',
+
+
+
+  user: {
+
+
+
+    userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    name: 'Ben',
+
+
+
+    email: 'ben@gmail.com'
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Account.getUser { userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' } => {
+
+
+
+  user: {
+
+
+
+    userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    name: 'Ben',
+
+
+
+    email: 'ben@gmail.com'
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+[AccountConcept] loginUser called with: { email: "ben@gmail.com", password: "123" }
+
+
+
+
+
+
+Account.getUser { userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' } => {
+
+
+
+  user: {
+
+
+
+    userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    name: 'Ben',
+
+
+
+    email: 'ben@gmail.com'
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+ConfirmTask.getConfirmations { userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' } => []
+
+
+
+
+
+
+
+
+
+FriendGroup.listGroups { userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' } => []
+
+
+
+
+
+
+
+
+
+Notification.list { userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' } => {
+
+
+
+  success: true,
+
+
+
+  notifications: [
+
+
+
+    {
+
+
+
+      _id: new ObjectId('691fb5492fcaa3340d6d68b9'),
+
+
+
+      notificationId: 'f3608932-b756-4798-9946-2263b42fda38',
+
+
+
+      createdAt: 2025-11-21T00:41:45.328Z,
+
+
+
+      status: 'pending',
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      type: 'group_invite',
+
+
+
+      message: 'Anna invited you to join "Maseeh 1"',
+
+
+
+      groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3',
+
+
+
+      fromUserId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      fromUserName: 'Anna',
+
+
+
+      groupName: 'Maseeh 1'
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Task.listTasks { ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' } => [
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf202fcaa3340d6d6898'),
+
+
+
+    taskId: 'ea8531b9-5098-4ad6-b8ec-0a8d8e59490e',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Write essay',
+
+
+
+    description: 'Complete after research',
+
+
+
+    dueDate: 2025-12-02T00:00:00.000Z,
+
+
+
+    estimatedTime: 90,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:15:28.021Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf462fcaa3340d6d6899'),
+
+
+
+    taskId: '6d6588cf-6322-4a00-9301-7b79729427de',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Research essay',
+
+
+
+    description: 'Complete before 1a',
+
+
+
+    dueDate: 2025-11-26T00:00:00.000Z,
+
+
+
+    estimatedTime: 30,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:16:06.063Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf632fcaa3340d6d689a'),
+
+
+
+    taskId: '9644a984-7378-4795-b795-cf7097c2fb60',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: '1b',
+
+
+
+    description: null,
+
+
+
+    dueDate: 2025-11-28T00:00:00.000Z,
+
+
+
+    estimatedTime: 45,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:16:35.842Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf792fcaa3340d6d689b'),
+
+
+
+    taskId: 'ee9389e8-bf52-4871-b5ef-2d24dc1c6108',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: '1a',
+
+
+
+    description: 'complete before 1b and before writing essay',
+
+
+
+    dueDate: 2025-11-27T00:00:00.000Z,
+
+
+
+    estimatedTime: 45,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:16:57.346Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf8b2fcaa3340d6d689c'),
+
+
+
+    taskId: '4a33824e-ecc9-4bac-adc9-bd745d33558e',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Math Homework',
+
+
+
+    description: null,
+
+
+
+    dueDate: 2025-11-22T00:00:00.000Z,
+
+
+
+    estimatedTime: 75,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:17:15.060Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fafb22fcaa3340d6d689d'),
+
+
+
+    taskId: '326e9165-840e-4175-9911-be407c5e600f',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Edit Essay',
+
+
+
+    description: 'Complete after essay',
+
+
+
+    dueDate: 2025-12-05T00:00:00.000Z,
+
+
+
+    estimatedTime: 30,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:17:54.423Z
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+Task.listTasks { ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' } => [
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf202fcaa3340d6d6898'),
+
+
+
+    taskId: 'ea8531b9-5098-4ad6-b8ec-0a8d8e59490e',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Write essay',
+
+
+
+    description: 'Complete after research',
+
+
+
+    dueDate: 2025-12-02T00:00:00.000Z,
+
+
+
+    estimatedTime: 90,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:15:28.021Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf462fcaa3340d6d6899'),
+
+
+
+    taskId: '6d6588cf-6322-4a00-9301-7b79729427de',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Research essay',
+
+
+
+    description: 'Complete before 1a',
+
+
+
+    dueDate: 2025-11-26T00:00:00.000Z,
+
+
+
+    estimatedTime: 30,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:16:06.063Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf632fcaa3340d6d689a'),
+
+
+
+    taskId: '9644a984-7378-4795-b795-cf7097c2fb60',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: '1b',
+
+
+
+    description: null,
+
+
+
+    dueDate: 2025-11-28T00:00:00.000Z,
+
+
+
+    estimatedTime: 45,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:16:35.842Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf792fcaa3340d6d689b'),
+
+
+
+    taskId: 'ee9389e8-bf52-4871-b5ef-2d24dc1c6108',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: '1a',
+
+
+
+    description: 'complete before 1b and before writing essay',
+
+
+
+    dueDate: 2025-11-27T00:00:00.000Z,
+
+
+
+    estimatedTime: 45,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:16:57.346Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf8b2fcaa3340d6d689c'),
+
+
+
+    taskId: '4a33824e-ecc9-4bac-adc9-bd745d33558e',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Math Homework',
+
+
+
+    description: null,
+
+
+
+    dueDate: 2025-11-22T00:00:00.000Z,
+
+
+
+    estimatedTime: 75,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:17:15.060Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fafb22fcaa3340d6d689d'),
+
+
+
+    taskId: '326e9165-840e-4175-9911-be407c5e600f',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Edit Essay',
+
+
+
+    description: 'Complete after essay',
+
+
+
+    dueDate: 2025-12-05T00:00:00.000Z,
+
+
+
+    estimatedTime: 30,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:17:54.423Z
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+ConfirmTask.getPendingConfirmationsForPeer { peerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' } => []
+
+
+
+
+
+
+
+
+
+FriendGroup.listGroups { userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' } => []
+
+
+
+
+
+
+[AccountConcept] loginUser success: {
+
+
+
+  userId: "019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6",
+
+
+
+  name: "Ben",
+
+
+
+  email: "ben@gmail.com"
+
+
+
+}
+
+
+
+
+
+
+Account.loginUser { email: 'ben@gmail.com', password: '123' } => {
+
+
+
+  message: 'Login successful',
+
+
+
+  user: {
+
+
+
+    userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    name: 'Ben',
+
+
+
+    email: 'ben@gmail.com'
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Task.listTasks { ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' } => [
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf202fcaa3340d6d6898'),
+
+
+
+    taskId: 'ea8531b9-5098-4ad6-b8ec-0a8d8e59490e',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Write essay',
+
+
+
+    description: 'Complete after research',
+
+
+
+    dueDate: 2025-12-02T00:00:00.000Z,
+
+
+
+    estimatedTime: 90,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:15:28.021Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf462fcaa3340d6d6899'),
+
+
+
+    taskId: '6d6588cf-6322-4a00-9301-7b79729427de',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Research essay',
+
+
+
+    description: 'Complete before 1a',
+
+
+
+    dueDate: 2025-11-26T00:00:00.000Z,
+
+
+
+    estimatedTime: 30,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:16:06.063Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf632fcaa3340d6d689a'),
+
+
+
+    taskId: '9644a984-7378-4795-b795-cf7097c2fb60',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: '1b',
+
+
+
+    description: null,
+
+
+
+    dueDate: 2025-11-28T00:00:00.000Z,
+
+
+
+    estimatedTime: 45,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:16:35.842Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf792fcaa3340d6d689b'),
+
+
+
+    taskId: 'ee9389e8-bf52-4871-b5ef-2d24dc1c6108',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: '1a',
+
+
+
+    description: 'complete before 1b and before writing essay',
+
+
+
+    dueDate: 2025-11-27T00:00:00.000Z,
+
+
+
+    estimatedTime: 45,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:16:57.346Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf8b2fcaa3340d6d689c'),
+
+
+
+    taskId: '4a33824e-ecc9-4bac-adc9-bd745d33558e',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Math Homework',
+
+
+
+    description: null,
+
+
+
+    dueDate: 2025-11-22T00:00:00.000Z,
+
+
+
+    estimatedTime: 75,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:17:15.060Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fafb22fcaa3340d6d689d'),
+
+
+
+    taskId: '326e9165-840e-4175-9911-be407c5e600f',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Edit Essay',
+
+
+
+    description: 'Complete after essay',
+
+
+
+    dueDate: 2025-12-05T00:00:00.000Z,
+
+
+
+    estimatedTime: 30,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:17:54.423Z
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+Notification.list { userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' } => {
+
+
+
+  success: true,
+
+
+
+  notifications: [
+
+
+
+    {
+
+
+
+      _id: new ObjectId('691fb5492fcaa3340d6d68b9'),
+
+
+
+      notificationId: 'f3608932-b756-4798-9946-2263b42fda38',
+
+
+
+      createdAt: 2025-11-21T00:41:45.328Z,
+
+
+
+      status: 'pending',
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      type: 'group_invite',
+
+
+
+      message: 'Anna invited you to join "Maseeh 1"',
+
+
+
+      groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3',
+
+
+
+      fromUserId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      fromUserName: 'Anna',
+
+
+
+      groupName: 'Maseeh 1'
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Account.getUser { userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' } => {
+
+
+
+  user: {
+
+
+
+    userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    name: 'Ben',
+
+
+
+    email: 'ben@gmail.com'
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+Gemini API raw: {
+
+
+
+  candidates: [
+
+
+
+    {
+
+
+
+      content: { parts: [ [Object] ], role: "model" },
+
+
+
+      finishReason: "STOP",
+
+
+
+      index: 0
+
+
+
+    }
+
+
+
+  ],
+
+
+
+  usageMetadata: {
+
+
+
+    promptTokenCount: 670,
+
+
+
+    candidatesTokenCount: 229,
+
+
+
+    totalTokenCount: 899,
+
+
+
+    promptTokensDetails: [ { modality: "TEXT", tokenCount: 670 } ]
+
+
+
+  },
+
+
+
+  modelVersion: "gemini-2.5-flash-lite",
+
+
+
+  responseId: "i7UfaZajJ_fe_uMP7bS2iQU"
+
+
+
+}
+
+
+
+
+
+
+Task.suggestTaskOrder {
+
+
+
+  tasks: [
+
+
+
+    {
+
+
+
+      taskId: 'ea8531b9-5098-4ad6-b8ec-0a8d8e59490e',
+
+
+
+      title: 'Write essay',
+
+
+
+      description: 'Complete after research',
+
+
+
+      dueDate: '2025-12-02T00:00:00.000Z',
+
+
+
+      estimatedTime: 90
+
+
+
+    },
+
+
+
+    {
+
+
+
+      taskId: '6d6588cf-6322-4a00-9301-7b79729427de',
+
+
+
+      title: 'Research essay',
+
+
+
+      description: 'Complete before 1a',
+
+
+
+      dueDate: '2025-11-26T00:00:00.000Z',
+
+
+
+      estimatedTime: 30
+
+
+
+    },
+
+
+
+    {
+
+
+
+      taskId: '9644a984-7378-4795-b795-cf7097c2fb60',
+
+
+
+      title: '1b',
+
+
+
+      dueDate: '2025-11-28T00:00:00.000Z',
+
+
+
+      estimatedTime: 45
+
+
+
+    },
+
+
+
+    {
+
+
+
+      taskId: 'ee9389e8-bf52-4871-b5ef-2d24dc1c6108',
+
+
+
+      title: '1a',
+
+
+
+      description: 'complete before 1b and before writing essay',
+
+
+
+      dueDate: '2025-11-27T00:00:00.000Z',
+
+
+
+      estimatedTime: 45
+
+
+
+    },
+
+
+
+    {
+
+
+
+      taskId: '4a33824e-ecc9-4bac-adc9-bd745d33558e',
+
+
+
+      title: 'Math Homework',
+
+
+
+      dueDate: '2025-11-22T00:00:00.000Z',
+
+
+
+      estimatedTime: 75
+
+
+
+    },
+
+
+
+    {
+
+
+
+      taskId: '326e9165-840e-4175-9911-be407c5e600f',
+
+
+
+      title: 'Edit Essay',
+
+
+
+      description: 'Complete after essay',
+
+
+
+      dueDate: '2025-12-05T00:00:00.000Z',
+
+
+
+      estimatedTime: 30
+
+
+
+    }
+
+
+
+  ]
+
+
+
+} => {
+
+
+
+  orderedTaskIds: [
+
+
+
+    '4a33824e-ecc9-4bac-adc9-bd745d33558e',
+
+
+
+    '6d6588cf-6322-4a00-9301-7b79729427de',
+
+
+
+    'ee9389e8-bf52-4871-b5ef-2d24dc1c6108',
+
+
+
+    '9644a984-7378-4795-b795-cf7097c2fb60',
+
+
+
+    'ea8531b9-5098-4ad6-b8ec-0a8d8e59490e',
+
+
+
+    '326e9165-840e-4175-9911-be407c5e600f'
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+FriendGroup.acceptInvite {
+
+
+
+  groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3',
+
+
+
+  userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6'
+
+
+
+} => {
+
+
+
+  success: true,
+
+
+
+  groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3',
+
+
+
+  userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6'
+
+
+
+}
+
+
+
+
+
+
+
+
+
+FriendGroup.listGroups { userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' } => [
+
+
+
+  {
+
+
+
+    groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3',
+
+
+
+    ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    groupName: 'Maseeh 1',
+
+
+
+    confirmationRequired: true,
+
+
+
+    createdAt: 2025-11-21T00:41:45.197Z,
+
+
+
+    owner: {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      name: 'Anna Kaganov',
+
+
+
+      email: 'akaganov@mit.edu'
+
+
+
+    },
+
+
+
+    members: [ [Object], [Object] ]
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => { leaderboard: [] }
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => { leaderboard: [] }
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => { leaderboard: [] }
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => { leaderboard: [] }
+
+
+
+
+
+
+
+
+
+Task.completeTask { taskId: '4a33824e-ecc9-4bac-adc9-bd745d33558e', actualTime: 65 } => { success: true }
+
+
+
+
+
+
+
+
+
+Task.listTasks { ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' } => [
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf202fcaa3340d6d6898'),
+
+
+
+    taskId: 'ea8531b9-5098-4ad6-b8ec-0a8d8e59490e',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Write essay',
+
+
+
+    description: 'Complete after research',
+
+
+
+    dueDate: 2025-12-02T00:00:00.000Z,
+
+
+
+    estimatedTime: 90,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:15:28.021Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf462fcaa3340d6d6899'),
+
+
+
+    taskId: '6d6588cf-6322-4a00-9301-7b79729427de',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Research essay',
+
+
+
+    description: 'Complete before 1a',
+
+
+
+    dueDate: 2025-11-26T00:00:00.000Z,
+
+
+
+    estimatedTime: 30,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:16:06.063Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf632fcaa3340d6d689a'),
+
+
+
+    taskId: '9644a984-7378-4795-b795-cf7097c2fb60',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: '1b',
+
+
+
+    description: null,
+
+
+
+    dueDate: 2025-11-28T00:00:00.000Z,
+
+
+
+    estimatedTime: 45,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:16:35.842Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf792fcaa3340d6d689b'),
+
+
+
+    taskId: 'ee9389e8-bf52-4871-b5ef-2d24dc1c6108',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: '1a',
+
+
+
+    description: 'complete before 1b and before writing essay',
+
+
+
+    dueDate: 2025-11-27T00:00:00.000Z,
+
+
+
+    estimatedTime: 45,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:16:57.346Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf8b2fcaa3340d6d689c'),
+
+
+
+    taskId: '4a33824e-ecc9-4bac-adc9-bd745d33558e',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Math Homework',
+
+
+
+    description: null,
+
+
+
+    dueDate: 2025-11-22T00:00:00.000Z,
+
+
+
+    estimatedTime: 75,
+
+
+
+    status: 'completed',
+
+
+
+    createdAt: 2025-11-21T00:17:15.060Z,
+
+
+
+    actualTime: 65
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fafb22fcaa3340d6d689d'),
+
+
+
+    taskId: '326e9165-840e-4175-9911-be407c5e600f',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Edit Essay',
+
+
+
+    description: 'Complete after essay',
+
+
+
+    dueDate: 2025-12-05T00:00:00.000Z,
+
+
+
+    estimatedTime: 30,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:17:54.423Z
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+🟡 Incoming requestConfirmation: {
+
+
+
+  taskId: "4a33824e-ecc9-4bac-adc9-bd745d33558e",
+
+
+
+  requestedBy: "019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6",
+
+
+
+  groupId: undefined,
+
+
+
+  selectedPeerIds: [ "019aa3db-6e51-7e1d-9357-2e3e1f63caa1" ],
+
+
+
+  actualTime: 65,
+
+
+
+  taskName: "Math Homework"
+
+
+
+}
+
+
+
+Filtered peerIds (excluding sender): [ "019aa3db-6e51-7e1d-9357-2e3e1f63caa1" ] requestedBy: 019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6
+
+
+
+📨 Creating notification for peer 019aa3db-6e51-7e1d-9357-2e3e1f63caa1 from 019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6
+
+
+
+Inserted notification result: {
+
+
+
+  acknowledged: true,
+
+
+
+  insertedId: new ObjectId("691fb5da2fcaa3340d6d68bd")
+
+
+
+}
+
+
+
+✅ All task_confirmation notifications for this task: [
+
+
+
+  {
+
+
+
+    _id: new ObjectId("691fb5da2fcaa3340d6d68bd"),
+
+
+
+    notificationId: "3bfe961f-4a87-4a49-ac17-7167b225fe70",
+
+
+
+    createdAt: 2025-11-21T00:44:10.917Z,
+
+
+
+    status: "pending",
+
+
+
+    userId: "019aa3db-6e51-7e1d-9357-2e3e1f63caa1",
+
+
+
+    type: "task_confirmation",
+
+
+
+    message: 'Please confirm completion of "Math Homework" (took 65 mins).',
+
+
+
+    fromUserId: "019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6",
+
+
+
+    fromUserName: "Ben",
+
+
+
+    extra: {
+
+
+
+      taskId: "4a33824e-ecc9-4bac-adc9-bd745d33558e",
+
+
+
+      taskName: "Math Homework",
+
+
+
+      actualTime: 65
+
+
+
+    }
+
+
+
+  }
+
+
+
+]
+
+
+
+requestedBy: 019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6
+
+
+
+selectedPeerIds: [ "019aa3db-6e51-7e1d-9357-2e3e1f63caa1" ]
+
+
+
+peerIds after filtering: [ "019aa3db-6e51-7e1d-9357-2e3e1f63caa1" ]
+
+
+
+✅ Created confirmation and notifications: {
+
+
+
+  confirmation: {
+
+
+
+    confirmationId: "5faaf8d8-c4e5-4a84-a030-474d5e0af9e9",
+
+
+
+    taskId: "4a33824e-ecc9-4bac-adc9-bd745d33558e",
+
+
+
+    requestedBy: "019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6",
+
+
+
+    sentTo: [ "019aa3db-6e51-7e1d-9357-2e3e1f63caa1" ],
+
+
+
+    confirmedBy: [],
+
+
+
+    deniedBy: [],
+
+
+
+    status: "pending",
+
+
+
+    createdAt: 2025-11-21T00:44:09.325Z,
+
+
+
+    taskName: "Math Homework",
+
+
+
+    actualTime: 65,
+
+
+
+    _id: new ObjectId("691fb5d92fcaa3340d6d68bc")
+
+
+
+  },
+
+
+
+  notifs: [
+
+
+
+    {
+
+
+
+      _id: new ObjectId("691fb5da2fcaa3340d6d68bd"),
+
+
+
+      notificationId: "3bfe961f-4a87-4a49-ac17-7167b225fe70",
+
+
+
+      createdAt: 2025-11-21T00:44:10.917Z,
+
+
+
+      status: "pending",
+
+
+
+      userId: "019aa3db-6e51-7e1d-9357-2e3e1f63caa1",
+
+
+
+      type: "task_confirmation",
+
+
+
+      message: 'Please confirm completion of "Math Homework" (took 65 mins).',
+
+
+
+      fromUserId: "019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6",
+
+
+
+      fromUserName: "Ben",
+
+
+
+      extra: {
+
+
+
+        taskId: "4a33824e-ecc9-4bac-adc9-bd745d33558e",
+
+
+
+        taskName: "Math Homework",
+
+
+
+        actualTime: 65
+
+
+
+      }
+
+
+
+    }
+
+
+
+  ],
+
+
+
+  peerIds: [ "019aa3db-6e51-7e1d-9357-2e3e1f63caa1" ]
+
+
+
+}
+
+
+
+
+
+
+ConfirmTask.requestConfirmation {
+
+
+
+  taskId: '4a33824e-ecc9-4bac-adc9-bd745d33558e',
+
+
+
+  requestedBy: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+  taskName: 'Math Homework',
+
+
+
+  completionTime: 65,
+
+
+
+  selectedPeerIds: [ '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' ]
+
+
+
+} => {
+
+
+
+  success: true,
+
+
+
+  confirmationId: '5faaf8d8-c4e5-4a84-a030-474d5e0af9e9'
+
+
+
+}
+
+
+
+
+
+
+[AccountConcept] loginUser called with: { email: "akaganov@mit.edu", password: "123" }
+
+
+
+[AccountConcept] loginUser error: Invalid password
+
+
+
+
+
+
+Account.loginUser { email: 'akaganov@mit.edu', password: '123' } => { error: 'Invalid password' }
+
+
+
+
+
+
+[AccountConcept] loginUser called with: { email: "akaganov@mit.edu", password: "12345" }
+
+
+
+[AccountConcept] loginUser success: {
+
+
+
+  userId: "019aa3db-6e51-7e1d-9357-2e3e1f63caa1",
+
+
+
+  name: "Anna Kaganov",
+
+
+
+  email: "akaganov@mit.edu"
+
+
+
+}
+
+
+
+
+
+
+Account.loginUser { email: 'akaganov@mit.edu', password: '12345' } => {
+
+
+
+  message: 'Login successful',
+
+
+
+  user: {
+
+
+
+    userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    name: 'Anna Kaganov',
+
+
+
+    email: 'akaganov@mit.edu'
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Account.getUser { userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => {
+
+
+
+  user: {
+
+
+
+    userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    name: 'Anna Kaganov',
+
+
+
+    email: 'akaganov@mit.edu'
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Account.getUser { userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => {
+
+
+
+  user: {
+
+
+
+    userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    name: 'Anna Kaganov',
+
+
+
+    email: 'akaganov@mit.edu'
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Task.listTasks { ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => [
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fb5302fcaa3340d6d68b7'),
+
+
+
+    taskId: 'b79248cd-3151-4ada-88af-74d0a14b3578',
+
+
+
+    ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    title: 'Math homework - 18.434',
+
+
+
+    description: null,
+
+
+
+    dueDate: 2025-11-22T00:00:00.000Z,
+
+
+
+    estimatedTime: 45,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:41:20.711Z
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+ConfirmTask.getConfirmations { userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => []
+
+
+
+
+
+
+
+
+
+Task.listTasks { ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => [
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fb5302fcaa3340d6d68b7'),
+
+
+
+    taskId: 'b79248cd-3151-4ada-88af-74d0a14b3578',
+
+
+
+    ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    title: 'Math homework - 18.434',
+
+
+
+    description: null,
+
+
+
+    dueDate: 2025-11-22T00:00:00.000Z,
+
+
+
+    estimatedTime: 45,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:41:20.711Z
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+ConfirmTask.getPendingConfirmationsForPeer { peerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => [
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fb5d92fcaa3340d6d68bc'),
+
+
+
+    confirmationId: '5faaf8d8-c4e5-4a84-a030-474d5e0af9e9',
+
+
+
+    taskId: '4a33824e-ecc9-4bac-adc9-bd745d33558e',
+
+
+
+    requestedBy: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    sentTo: [ '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' ],
+
+
+
+    confirmedBy: [],
+
+
+
+    deniedBy: [],
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:44:09.325Z,
+
+
+
+    taskName: 'Math Homework',
+
+
+
+    actualTime: 65
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+FriendGroup.listGroups { userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => [
+
+
+
+  {
+
+
+
+    groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3',
+
+
+
+    ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    groupName: 'Maseeh 1',
+
+
+
+    confirmationRequired: true,
+
+
+
+    createdAt: 2025-11-21T00:41:45.197Z,
+
+
+
+    owner: {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      name: 'Anna Kaganov',
+
+
+
+      email: 'akaganov@mit.edu'
+
+
+
+    },
+
+
+
+    members: [ [Object], [Object] ]
+
+
+
+  },
+
+
+
+  {
+
+
+
+    groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949',
+
+
+
+    ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    groupName: 'Art',
+
+
+
+    confirmationRequired: false,
+
+
+
+    createdAt: 2025-11-21T00:42:04.177Z,
+
+
+
+    owner: {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      name: 'Anna Kaganov',
+
+
+
+      email: 'akaganov@mit.edu'
+
+
+
+    },
+
+
+
+    members: [ [Object] ]
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+Notification.list { userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => {
+
+
+
+  success: true,
+
+
+
+  notifications: [
+
+
+
+    {
+
+
+
+      _id: new ObjectId('691fb5da2fcaa3340d6d68bd'),
+
+
+
+      notificationId: '3bfe961f-4a87-4a49-ac17-7167b225fe70',
+
+
+
+      createdAt: 2025-11-21T00:44:10.917Z,
+
+
+
+      status: 'pending',
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      type: 'task_confirmation',
+
+
+
+      message: 'Please confirm completion of "Math Homework" (took 65 mins).',
+
+
+
+      fromUserId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      fromUserName: 'Ben',
+
+
+
+      extra: [Object]
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+FriendGroup.listGroups { userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => [
+
+
+
+  {
+
+
+
+    groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3',
+
+
+
+    ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    groupName: 'Maseeh 1',
+
+
+
+    confirmationRequired: true,
+
+
+
+    createdAt: 2025-11-21T00:41:45.197Z,
+
+
+
+    owner: {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      name: 'Anna Kaganov',
+
+
+
+      email: 'akaganov@mit.edu'
+
+
+
+    },
+
+
+
+    members: [ [Object], [Object] ]
+
+
+
+  },
+
+
+
+  {
+
+
+
+    groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949',
+
+
+
+    ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    groupName: 'Art',
+
+
+
+    confirmationRequired: false,
+
+
+
+    createdAt: 2025-11-21T00:42:04.177Z,
+
+
+
+    owner: {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      name: 'Anna Kaganov',
+
+
+
+      email: 'akaganov@mit.edu'
+
+
+
+    },
+
+
+
+    members: [ [Object] ]
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+Task.listTasks { ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => [
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fb5302fcaa3340d6d68b7'),
+
+
+
+    taskId: 'b79248cd-3151-4ada-88af-74d0a14b3578',
+
+
+
+    ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    title: 'Math homework - 18.434',
+
+
+
+    description: null,
+
+
+
+    dueDate: 2025-11-22T00:00:00.000Z,
+
+
+
+    estimatedTime: 45,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:41:20.711Z
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+Account.getUser { userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' } => {
+
+
+
+  user: {
+
+
+
+    userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    name: 'Ben',
+
+
+
+    email: 'ben@gmail.com'
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Notification.list { userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => {
+
+
+
+  success: true,
+
+
+
+  notifications: [
+
+
+
+    {
+
+
+
+      _id: new ObjectId('691fb5da2fcaa3340d6d68bd'),
+
+
+
+      notificationId: '3bfe961f-4a87-4a49-ac17-7167b225fe70',
+
+
+
+      createdAt: 2025-11-21T00:44:10.917Z,
+
+
+
+      status: 'pending',
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      type: 'task_confirmation',
+
+
+
+      message: 'Please confirm completion of "Math Homework" (took 65 mins).',
+
+
+
+      fromUserId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      fromUserName: 'Ben',
+
+
+
+      extra: [Object]
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      completedMinutes: 65
+
+
+
+    },
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedMinutes: 0
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      completedCount: 1
+
+
+
+    },
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedCount: 0
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      completedCount: 1
+
+
+
+    },
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedCount: 0
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      completedMinutes: 65
+
+
+
+    },
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedMinutes: 0
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+Inserted notification result: {
+
+
+
+  acknowledged: true,
+
+
+
+  insertedId: new ObjectId("691fb6032fcaa3340d6d68be")
+
+
+
+}
+
+
+
+
+
+
+FriendGroup.inviteUserByEmail {
+
+
+
+  groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3',
+
+
+
+  email: 'caroline@gmail.com',
+
+
+
+  invitedBy: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1'
+
+
+
+} => {
+
+
+
+  success: true,
+
+
+
+  invitedUserId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11'
+
+
+
+}
+
+
+
+
+
+
+DB collections: [
+
+
+
+  {
+
+
+
+    name: "Requesting.requests",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("041fee5c-b20a-4207-9a95-c2d97b9e90b1")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "notifications",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("3a00098f-dde2-43ec-9fb1-5a23a79abdbb")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "groups",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("52305a4f-d8af-4b2b-a43b-35dce50be56a")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "tasks",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("b7e9d83c-f87c-4ad4-954a-d9a71ecfee5a")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "users",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("d6951c3d-f0da-4db9-9ec3-f2df5c59f17d")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "confirmations",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("f76ad9d2-ec6c-462b-a9c9-91717642b242")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+ConfirmTask.confirmTask {
+
+
+
+  taskId: '4a33824e-ecc9-4bac-adc9-bd745d33558e',
+
+
+
+  peerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1'
+
+
+
+} => { success: true }
+
+
+
+
+
+
+DB collections: [
+
+
+
+  {
+
+
+
+    name: "Requesting.requests",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("041fee5c-b20a-4207-9a95-c2d97b9e90b1")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "notifications",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("3a00098f-dde2-43ec-9fb1-5a23a79abdbb")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "groups",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("52305a4f-d8af-4b2b-a43b-35dce50be56a")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "tasks",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("b7e9d83c-f87c-4ad4-954a-d9a71ecfee5a")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "users",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("d6951c3d-f0da-4db9-9ec3-f2df5c59f17d")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "confirmations",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("f76ad9d2-ec6c-462b-a9c9-91717642b242")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+ConfirmTask.confirmTask {
+
+
+
+  taskId: '4a33824e-ecc9-4bac-adc9-bd745d33558e',
+
+
+
+  peerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1'
+
+
+
+} => { success: true }
+
+
+
+
+
+
+DB collections: [
+
+
+
+  {
+
+
+
+    name: "Requesting.requests",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("041fee5c-b20a-4207-9a95-c2d97b9e90b1")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "notifications",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("3a00098f-dde2-43ec-9fb1-5a23a79abdbb")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "groups",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("52305a4f-d8af-4b2b-a43b-35dce50be56a")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "tasks",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("b7e9d83c-f87c-4ad4-954a-d9a71ecfee5a")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "users",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("d6951c3d-f0da-4db9-9ec3-f2df5c59f17d")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "confirmations",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("f76ad9d2-ec6c-462b-a9c9-91717642b242")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+ConfirmTask.confirmTask {
+
+
+
+  taskId: '4a33824e-ecc9-4bac-adc9-bd745d33558e',
+
+
+
+  peerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1'
+
+
+
+} => { success: true }
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949' } => { leaderboard: [] }
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949' } => { leaderboard: [] }
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949' } => { leaderboard: [] }
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949' } => { leaderboard: [] }
+
+
+
+
+
+
+
+
+
+Task.completeTask { taskId: 'b79248cd-3151-4ada-88af-74d0a14b3578', actualTime: 60 } => { success: true }
+
+
+
+
+
+
+
+
+
+Task.listTasks { ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => [
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fb5302fcaa3340d6d68b7'),
+
+
+
+    taskId: 'b79248cd-3151-4ada-88af-74d0a14b3578',
+
+
+
+    ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    title: 'Math homework - 18.434',
+
+
+
+    description: null,
+
+
+
+    dueDate: 2025-11-22T00:00:00.000Z,
+
+
+
+    estimatedTime: 45,
+
+
+
+    status: 'completed',
+
+
+
+    createdAt: 2025-11-21T00:41:20.711Z,
+
+
+
+    actualTime: 60
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+🟡 Incoming requestConfirmation: {
+
+
+
+  taskId: "b79248cd-3151-4ada-88af-74d0a14b3578",
+
+
+
+  requestedBy: "019aa3db-6e51-7e1d-9357-2e3e1f63caa1",
+
+
+
+  groupId: undefined,
+
+
+
+  selectedPeerIds: [ "019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6" ],
+
+
+
+  actualTime: 60,
+
+
+
+  taskName: "Math homework - 18.434"
+
+
+
+}
+
+
+
+Filtered peerIds (excluding sender): [ "019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6" ] requestedBy: 019aa3db-6e51-7e1d-9357-2e3e1f63caa1
+
+
+
+📨 Creating notification for peer 019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6 from 019aa3db-6e51-7e1d-9357-2e3e1f63caa1
+
+
+
+Inserted notification result: {
+
+
+
+  acknowledged: true,
+
+
+
+  insertedId: new ObjectId("691fb62a2fcaa3340d6d68c0")
+
+
+
+}
+
+
+
+✅ All task_confirmation notifications for this task: [
+
+
+
+  {
+
+
+
+    _id: new ObjectId("691fb62a2fcaa3340d6d68c0"),
+
+
+
+    notificationId: "c4447dbb-6a3e-47f9-8eb3-d16629b5bd30",
+
+
+
+    createdAt: 2025-11-21T00:45:30.126Z,
+
+
+
+    status: "pending",
+
+
+
+    userId: "019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6",
+
+
+
+    type: "task_confirmation",
+
+
+
+    message: 'Please confirm completion of "Math homework - 18.434" (took 60 mins).',
+
+
+
+    fromUserId: "019aa3db-6e51-7e1d-9357-2e3e1f63caa1",
+
+
+
+    fromUserName: "Anna Kaganov",
+
+
+
+    extra: {
+
+
+
+      taskId: "b79248cd-3151-4ada-88af-74d0a14b3578",
+
+
+
+      taskName: "Math homework - 18.434",
+
+
+
+      actualTime: 60
+
+
+
+    }
+
+
+
+  }
+
+
+
+]
+
+
+
+requestedBy: 019aa3db-6e51-7e1d-9357-2e3e1f63caa1
+
+
+
+selectedPeerIds: [ "019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6" ]
+
+
+
+peerIds after filtering: [ "019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6" ]
+
+
+
+✅ Created confirmation and notifications: {
+
+
+
+  confirmation: {
+
+
+
+    confirmationId: "74e5faea-80fe-4aba-96dd-ff839ebd8764",
+
+
+
+    taskId: "b79248cd-3151-4ada-88af-74d0a14b3578",
+
+
+
+    requestedBy: "019aa3db-6e51-7e1d-9357-2e3e1f63caa1",
+
+
+
+    sentTo: [ "019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6" ],
+
+
+
+    confirmedBy: [],
+
+
+
+    deniedBy: [],
+
+
+
+    status: "pending",
+
+
+
+    createdAt: 2025-11-21T00:45:28.517Z,
+
+
+
+    taskName: "Math homework - 18.434",
+
+
+
+    actualTime: 60,
+
+
+
+    _id: new ObjectId("691fb6282fcaa3340d6d68bf")
+
+
+
+  },
+
+
+
+  notifs: [
+
+
+
+    {
+
+
+
+      _id: new ObjectId("691fb62a2fcaa3340d6d68c0"),
+
+
+
+      notificationId: "c4447dbb-6a3e-47f9-8eb3-d16629b5bd30",
+
+
+
+      createdAt: 2025-11-21T00:45:30.126Z,
+
+
+
+      status: "pending",
+
+
+
+      userId: "019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6",
+
+
+
+      type: "task_confirmation",
+
+
+
+      message: 'Please confirm completion of "Math homework - 18.434" (took 60 mins).',
+
+
+
+      fromUserId: "019aa3db-6e51-7e1d-9357-2e3e1f63caa1",
+
+
+
+      fromUserName: "Anna Kaganov",
+
+
+
+      extra: {
+
+
+
+        taskId: "b79248cd-3151-4ada-88af-74d0a14b3578",
+
+
+
+        taskName: "Math homework - 18.434",
+
+
+
+        actualTime: 60
+
+
+
+      }
+
+
+
+    }
+
+
+
+  ],
+
+
+
+  peerIds: [ "019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6" ]
+
+
+
+}
+
+
+
+
+
+
+ConfirmTask.requestConfirmation {
+
+
+
+  taskId: 'b79248cd-3151-4ada-88af-74d0a14b3578',
+
+
+
+  requestedBy: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+  taskName: 'Math homework - 18.434',
+
+
+
+  completionTime: 60,
+
+
+
+  selectedPeerIds: [ '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' ]
+
+
+
+} => {
+
+
+
+  success: true,
+
+
+
+  confirmationId: '74e5faea-80fe-4aba-96dd-ff839ebd8764'
+
+
+
+}
+
+
+
+
+
+
+[AccountConcept] loginUser called with: { email: "caroline@gmail.com", password: "456" }
+
+
+
+[AccountConcept] loginUser success: {
+
+
+
+  userId: "019aa3c7-6e22-7470-b1d9-8db5a5f5cb11",
+
+
+
+  name: "Caroline",
+
+
+
+  email: "caroline@gmail.com"
+
+
+
+}
+
+
+
+
+
+
+Account.loginUser { email: 'caroline@gmail.com', password: '456' } => {
+
+
+
+  message: 'Login successful',
+
+
+
+  user: {
+
+
+
+    userId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11',
+
+
+
+    name: 'Caroline',
+
+
+
+    email: 'caroline@gmail.com'
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Account.getUser { userId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11' } => {
+
+
+
+  user: {
+
+
+
+    userId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11',
+
+
+
+    name: 'Caroline',
+
+
+
+    email: 'caroline@gmail.com'
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Account.getUser { userId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11' } => {
+
+
+
+  user: {
+
+
+
+    userId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11',
+
+
+
+    name: 'Caroline',
+
+
+
+    email: 'caroline@gmail.com'
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Task.listTasks { ownerId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11' } => [
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fb00e2fcaa3340d6d689f'),
+
+
+
+    taskId: '92a270f9-63c4-4b57-a318-2e052d8b268d',
+
+
+
+    ownerId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11',
+
+
+
+    title: 'Problem 3',
+
+
+
+    description: null,
+
+
+
+    dueDate: null,
+
+
+
+    estimatedTime: 30,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:19:26.350Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fb0112fcaa3340d6d68a0'),
+
+
+
+    taskId: 'be72eb5a-2c32-4a91-bfc9-bd8f3960e7d0',
+
+
+
+    ownerId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11',
+
+
+
+    title: 'Problem 4',
+
+
+
+    description: null,
+
+
+
+    dueDate: null,
+
+
+
+    estimatedTime: 30,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:19:29.539Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fb0152fcaa3340d6d68a1'),
+
+
+
+    taskId: '48a51c0e-21f0-4384-a753-603d6e2e3c3f',
+
+
+
+    ownerId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11',
+
+
+
+    title: 'Problem 1',
+
+
+
+    description: null,
+
+
+
+    dueDate: null,
+
+
+
+    estimatedTime: 30,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:19:33.028Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fb0182fcaa3340d6d68a2'),
+
+
+
+    taskId: '20298212-e131-4c50-bfff-c2efa917a63a',
+
+
+
+    ownerId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11',
+
+
+
+    title: 'Problem 2',
+
+
+
+    description: null,
+
+
+
+    dueDate: null,
+
+
+
+    estimatedTime: 30,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:19:36.319Z
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+ConfirmTask.getPendingConfirmationsForPeer { peerId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11' } => []
+
+
+
+
+
+
+
+
+
+Task.listTasks { ownerId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11' } => [
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fb00e2fcaa3340d6d689f'),
+
+
+
+    taskId: '92a270f9-63c4-4b57-a318-2e052d8b268d',
+
+
+
+    ownerId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11',
+
+
+
+    title: 'Problem 3',
+
+
+
+    description: null,
+
+
+
+    dueDate: null,
+
+
+
+    estimatedTime: 30,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:19:26.350Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fb0112fcaa3340d6d68a0'),
+
+
+
+    taskId: 'be72eb5a-2c32-4a91-bfc9-bd8f3960e7d0',
+
+
+
+    ownerId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11',
+
+
+
+    title: 'Problem 4',
+
+
+
+    description: null,
+
+
+
+    dueDate: null,
+
+
+
+    estimatedTime: 30,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:19:29.539Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fb0152fcaa3340d6d68a1'),
+
+
+
+    taskId: '48a51c0e-21f0-4384-a753-603d6e2e3c3f',
+
+
+
+    ownerId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11',
+
+
+
+    title: 'Problem 1',
+
+
+
+    description: null,
+
+
+
+    dueDate: null,
+
+
+
+    estimatedTime: 30,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:19:33.028Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fb0182fcaa3340d6d68a2'),
+
+
+
+    taskId: '20298212-e131-4c50-bfff-c2efa917a63a',
+
+
+
+    ownerId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11',
+
+
+
+    title: 'Problem 2',
+
+
+
+    description: null,
+
+
+
+    dueDate: null,
+
+
+
+    estimatedTime: 30,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:19:36.319Z
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+ConfirmTask.getConfirmations { userId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11' } => []
+
+
+
+
+
+
+
+
+
+FriendGroup.listGroups { userId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11' } => []
+
+
+
+
+
+
+
+
+
+Notification.list { userId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11' } => {
+
+
+
+  success: true,
+
+
+
+  notifications: [
+
+
+
+    {
+
+
+
+      _id: new ObjectId('691fb6032fcaa3340d6d68be'),
+
+
+
+      notificationId: 'e83cf6a4-81b5-48cb-a80d-82a6f1dbf91b',
+
+
+
+      createdAt: 2025-11-21T00:44:51.893Z,
+
+
+
+      status: 'pending',
+
+
+
+      userId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11',
+
+
+
+      type: 'group_invite',
+
+
+
+      message: 'Anna Kaganov invited you to join "Maseeh 1"',
+
+
+
+      groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3',
+
+
+
+      fromUserId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      fromUserName: 'Anna Kaganov',
+
+
+
+      groupName: 'Maseeh 1'
+
+
+
+    },
+
+
+
+    {
+
+
+
+      _id: new ObjectId('691fb55c2fcaa3340d6d68bb'),
+
+
+
+      notificationId: '76bba271-cbf4-4883-b091-3c630f1db88d',
+
+
+
+      createdAt: 2025-11-21T00:42:04.302Z,
+
+
+
+      status: 'pending',
+
+
+
+      userId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11',
+
+
+
+      type: 'group_invite',
+
+
+
+      message: 'Anna invited you to join "Art"',
+
+
+
+      groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949',
+
+
+
+      fromUserId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      fromUserName: 'Anna',
+
+
+
+      groupName: 'Art'
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+FriendGroup.listGroups { userId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11' } => []
+
+
+
+
+
+
+
+
+
+Task.listTasks { ownerId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11' } => [
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fb00e2fcaa3340d6d689f'),
+
+
+
+    taskId: '92a270f9-63c4-4b57-a318-2e052d8b268d',
+
+
+
+    ownerId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11',
+
+
+
+    title: 'Problem 3',
+
+
+
+    description: null,
+
+
+
+    dueDate: null,
+
+
+
+    estimatedTime: 30,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:19:26.350Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fb0112fcaa3340d6d68a0'),
+
+
+
+    taskId: 'be72eb5a-2c32-4a91-bfc9-bd8f3960e7d0',
+
+
+
+    ownerId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11',
+
+
+
+    title: 'Problem 4',
+
+
+
+    description: null,
+
+
+
+    dueDate: null,
+
+
+
+    estimatedTime: 30,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:19:29.539Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fb0152fcaa3340d6d68a1'),
+
+
+
+    taskId: '48a51c0e-21f0-4384-a753-603d6e2e3c3f',
+
+
+
+    ownerId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11',
+
+
+
+    title: 'Problem 1',
+
+
+
+    description: null,
+
+
+
+    dueDate: null,
+
+
+
+    estimatedTime: 30,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:19:33.028Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fb0182fcaa3340d6d68a2'),
+
+
+
+    taskId: '20298212-e131-4c50-bfff-c2efa917a63a',
+
+
+
+    ownerId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11',
+
+
+
+    title: 'Problem 2',
+
+
+
+    description: null,
+
+
+
+    dueDate: null,
+
+
+
+    estimatedTime: 30,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:19:36.319Z
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+Notification.list { userId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11' } => {
+
+
+
+  success: true,
+
+
+
+  notifications: [
+
+
+
+    {
+
+
+
+      _id: new ObjectId('691fb6032fcaa3340d6d68be'),
+
+
+
+      notificationId: 'e83cf6a4-81b5-48cb-a80d-82a6f1dbf91b',
+
+
+
+      createdAt: 2025-11-21T00:44:51.893Z,
+
+
+
+      status: 'pending',
+
+
+
+      userId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11',
+
+
+
+      type: 'group_invite',
+
+
+
+      message: 'Anna Kaganov invited you to join "Maseeh 1"',
+
+
+
+      groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3',
+
+
+
+      fromUserId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      fromUserName: 'Anna Kaganov',
+
+
+
+      groupName: 'Maseeh 1'
+
+
+
+    },
+
+
+
+    {
+
+
+
+      _id: new ObjectId('691fb55c2fcaa3340d6d68bb'),
+
+
+
+      notificationId: '76bba271-cbf4-4883-b091-3c630f1db88d',
+
+
+
+      createdAt: 2025-11-21T00:42:04.302Z,
+
+
+
+      status: 'pending',
+
+
+
+      userId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11',
+
+
+
+      type: 'group_invite',
+
+
+
+      message: 'Anna invited you to join "Art"',
+
+
+
+      groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949',
+
+
+
+      fromUserId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      fromUserName: 'Anna',
+
+
+
+      groupName: 'Art'
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+FriendGroup.acceptInvite {
+
+
+
+  groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3',
+
+
+
+  userId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11'
+
+
+
+} => {
+
+
+
+  success: true,
+
+
+
+  groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3',
+
+
+
+  userId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11'
+
+
+
+}
+
+
+
+
+
+
+
+
+
+FriendGroup.listGroups { userId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11' } => [
+
+
+
+  {
+
+
+
+    groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3',
+
+
+
+    ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    groupName: 'Maseeh 1',
+
+
+
+    confirmationRequired: true,
+
+
+
+    createdAt: 2025-11-21T00:41:45.197Z,
+
+
+
+    owner: {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      name: 'Anna Kaganov',
+
+
+
+      email: 'akaganov@mit.edu'
+
+
+
+    },
+
+
+
+    members: [ [Object], [Object], [Object] ]
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+FriendGroup.acceptInvite {
+
+
+
+  groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949',
+
+
+
+  userId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11'
+
+
+
+} => {
+
+
+
+  success: true,
+
+
+
+  groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949',
+
+
+
+  userId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11'
+
+
+
+}
+
+
+
+
+
+
+
+
+
+FriendGroup.listGroups { userId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11' } => [
+
+
+
+  {
+
+
+
+    groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3',
+
+
+
+    ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    groupName: 'Maseeh 1',
+
+
+
+    confirmationRequired: true,
+
+
+
+    createdAt: 2025-11-21T00:41:45.197Z,
+
+
+
+    owner: {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      name: 'Anna Kaganov',
+
+
+
+      email: 'akaganov@mit.edu'
+
+
+
+    },
+
+
+
+    members: [ [Object], [Object], [Object] ]
+
+
+
+  },
+
+
+
+  {
+
+
+
+    groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949',
+
+
+
+    ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    groupName: 'Art',
+
+
+
+    confirmationRequired: false,
+
+
+
+    createdAt: 2025-11-21T00:42:04.177Z,
+
+
+
+    owner: {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      name: 'Anna Kaganov',
+
+
+
+      email: 'akaganov@mit.edu'
+
+
+
+    },
+
+
+
+    members: [ [Object], [Object] ]
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      completedMinutes: 130
+
+
+
+    },
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedMinutes: 0
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      completedMinutes: 130
+
+
+
+    },
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedMinutes: 0
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      completedCount: 2
+
+
+
+    },
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedCount: 0
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      completedCount: 2
+
+
+
+    },
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedCount: 0
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedMinutes: 60
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedCount: 1
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedMinutes: 60
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedCount: 1
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      completedCount: 2
+
+
+
+    },
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedCount: 0
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      completedMinutes: 130
+
+
+
+    },
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedMinutes: 0
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      completedCount: 2
+
+
+
+    },
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedCount: 0
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      completedMinutes: 130
+
+
+
+    },
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedMinutes: 0
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedMinutes: 60
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedCount: 1
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedMinutes: 60
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedCount: 1
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      completedCount: 2
+
+
+
+    },
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedCount: 0
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      completedCount: 2
+
+
+
+    },
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedCount: 0
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      completedMinutes: 130
+
+
+
+    },
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedMinutes: 0
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      completedMinutes: 130
+
+
+
+    },
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedMinutes: 0
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+FriendGroup.leaveGroup {
+
+
+
+  groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3',
+
+
+
+  userId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11'
+
+
+
+} => {
+
+
+
+  success: true,
+
+
+
+  groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3',
+
+
+
+  userId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11'
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedMinutes: 60
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedCount: 1
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedMinutes: 60
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedCount: 1
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Account.deleteUser { userId: '019aa3c7-6e22-7470-b1d9-8db5a5f5cb11' } => { message: 'User deleted successfully' }
+
+
+
+
+
+
+[AccountConcept] loginUser called with: { email: "ben@gmail.com", password: "123" }
+
+
+
+[AccountConcept] loginUser success: {
+
+
+
+  userId: "019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6",
+
+
+
+  name: "Ben",
+
+
+
+  email: "ben@gmail.com"
+
+
+
+}
+
+
+
+
+
+
+Account.loginUser { email: 'ben@gmail.com', password: '123' } => {
+
+
+
+  message: 'Login successful',
+
+
+
+  user: {
+
+
+
+    userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    name: 'Ben',
+
+
+
+    email: 'ben@gmail.com'
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Account.getUser { userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' } => {
+
+
+
+  user: {
+
+
+
+    userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    name: 'Ben',
+
+
+
+    email: 'ben@gmail.com'
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Account.getUser { userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' } => {
+
+
+
+  user: {
+
+
+
+    userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    name: 'Ben',
+
+
+
+    email: 'ben@gmail.com'
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+[AccountConcept] loginUser called with: { email: "ben@gmail.com", password: "123" }
+
+
+
+
+
+
+Task.listTasks { ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' } => [
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf202fcaa3340d6d6898'),
+
+
+
+    taskId: 'ea8531b9-5098-4ad6-b8ec-0a8d8e59490e',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Write essay',
+
+
+
+    description: 'Complete after research',
+
+
+
+    dueDate: 2025-12-02T00:00:00.000Z,
+
+
+
+    estimatedTime: 90,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:15:28.021Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf462fcaa3340d6d6899'),
+
+
+
+    taskId: '6d6588cf-6322-4a00-9301-7b79729427de',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Research essay',
+
+
+
+    description: 'Complete before 1a',
+
+
+
+    dueDate: 2025-11-26T00:00:00.000Z,
+
+
+
+    estimatedTime: 30,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:16:06.063Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf632fcaa3340d6d689a'),
+
+
+
+    taskId: '9644a984-7378-4795-b795-cf7097c2fb60',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: '1b',
+
+
+
+    description: null,
+
+
+
+    dueDate: 2025-11-28T00:00:00.000Z,
+
+
+
+    estimatedTime: 45,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:16:35.842Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf792fcaa3340d6d689b'),
+
+
+
+    taskId: 'ee9389e8-bf52-4871-b5ef-2d24dc1c6108',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: '1a',
+
+
+
+    description: 'complete before 1b and before writing essay',
+
+
+
+    dueDate: 2025-11-27T00:00:00.000Z,
+
+
+
+    estimatedTime: 45,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:16:57.346Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf8b2fcaa3340d6d689c'),
+
+
+
+    taskId: '4a33824e-ecc9-4bac-adc9-bd745d33558e',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Math Homework',
+
+
+
+    description: null,
+
+
+
+    dueDate: 2025-11-22T00:00:00.000Z,
+
+
+
+    estimatedTime: 75,
+
+
+
+    status: 'confirmed',
+
+
+
+    createdAt: 2025-11-21T00:17:15.060Z,
+
+
+
+    actualTime: 65
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fafb22fcaa3340d6d689d'),
+
+
+
+    taskId: '326e9165-840e-4175-9911-be407c5e600f',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Edit Essay',
+
+
+
+    description: 'Complete after essay',
+
+
+
+    dueDate: 2025-12-05T00:00:00.000Z,
+
+
+
+    estimatedTime: 30,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:17:54.423Z
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+Task.listTasks { ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' } => [
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf202fcaa3340d6d6898'),
+
+
+
+    taskId: 'ea8531b9-5098-4ad6-b8ec-0a8d8e59490e',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Write essay',
+
+
+
+    description: 'Complete after research',
+
+
+
+    dueDate: 2025-12-02T00:00:00.000Z,
+
+
+
+    estimatedTime: 90,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:15:28.021Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf462fcaa3340d6d6899'),
+
+
+
+    taskId: '6d6588cf-6322-4a00-9301-7b79729427de',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Research essay',
+
+
+
+    description: 'Complete before 1a',
+
+
+
+    dueDate: 2025-11-26T00:00:00.000Z,
+
+
+
+    estimatedTime: 30,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:16:06.063Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf632fcaa3340d6d689a'),
+
+
+
+    taskId: '9644a984-7378-4795-b795-cf7097c2fb60',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: '1b',
+
+
+
+    description: null,
+
+
+
+    dueDate: 2025-11-28T00:00:00.000Z,
+
+
+
+    estimatedTime: 45,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:16:35.842Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf792fcaa3340d6d689b'),
+
+
+
+    taskId: 'ee9389e8-bf52-4871-b5ef-2d24dc1c6108',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: '1a',
+
+
+
+    description: 'complete before 1b and before writing essay',
+
+
+
+    dueDate: 2025-11-27T00:00:00.000Z,
+
+
+
+    estimatedTime: 45,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:16:57.346Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf8b2fcaa3340d6d689c'),
+
+
+
+    taskId: '4a33824e-ecc9-4bac-adc9-bd745d33558e',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Math Homework',
+
+
+
+    description: null,
+
+
+
+    dueDate: 2025-11-22T00:00:00.000Z,
+
+
+
+    estimatedTime: 75,
+
+
+
+    status: 'confirmed',
+
+
+
+    createdAt: 2025-11-21T00:17:15.060Z,
+
+
+
+    actualTime: 65
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fafb22fcaa3340d6d689d'),
+
+
+
+    taskId: '326e9165-840e-4175-9911-be407c5e600f',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Edit Essay',
+
+
+
+    description: 'Complete after essay',
+
+
+
+    dueDate: 2025-12-05T00:00:00.000Z,
+
+
+
+    estimatedTime: 30,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:17:54.423Z
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+ConfirmTask.getPendingConfirmationsForPeer { peerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' } => [
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fb6282fcaa3340d6d68bf'),
+
+
+
+    confirmationId: '74e5faea-80fe-4aba-96dd-ff839ebd8764',
+
+
+
+    taskId: 'b79248cd-3151-4ada-88af-74d0a14b3578',
+
+
+
+    requestedBy: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    sentTo: [ '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' ],
+
+
+
+    confirmedBy: [],
+
+
+
+    deniedBy: [],
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:45:28.517Z,
+
+
+
+    taskName: 'Math homework - 18.434',
+
+
+
+    actualTime: 60
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+Notification.list { userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' } => {
+
+
+
+  success: true,
+
+
+
+  notifications: [
+
+
+
+    {
+
+
+
+      _id: new ObjectId('691fb62a2fcaa3340d6d68c0'),
+
+
+
+      notificationId: 'c4447dbb-6a3e-47f9-8eb3-d16629b5bd30',
+
+
+
+      createdAt: 2025-11-21T00:45:30.126Z,
+
+
+
+      status: 'pending',
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      type: 'task_confirmation',
+
+
+
+      message: 'Please confirm completion of "Math homework - 18.434" (took 60 mins).',
+
+
+
+      fromUserId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      fromUserName: 'Anna Kaganov',
+
+
+
+      extra: [Object]
+
+
+
+    },
+
+
+
+    {
+
+
+
+      _id: new ObjectId('691fb5492fcaa3340d6d68b9'),
+
+
+
+      notificationId: 'f3608932-b756-4798-9946-2263b42fda38',
+
+
+
+      createdAt: 2025-11-21T00:41:45.328Z,
+
+
+
+      status: 'accepted',
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      type: 'group_invite',
+
+
+
+      message: 'Anna invited you to join "Maseeh 1"',
+
+
+
+      groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3',
+
+
+
+      fromUserId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      fromUserName: 'Anna',
+
+
+
+      groupName: 'Maseeh 1'
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+FriendGroup.listGroups { userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' } => [
+
+
+
+  {
+
+
+
+    groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3',
+
+
+
+    ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    groupName: 'Maseeh 1',
+
+
+
+    confirmationRequired: true,
+
+
+
+    createdAt: 2025-11-21T00:41:45.197Z,
+
+
+
+    owner: {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      name: 'Anna Kaganov',
+
+
+
+      email: 'akaganov@mit.edu'
+
+
+
+    },
+
+
+
+    members: [ [Object], [Object] ]
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+FriendGroup.listGroups { userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' } => [
+
+
+
+  {
+
+
+
+    groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3',
+
+
+
+    ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    groupName: 'Maseeh 1',
+
+
+
+    confirmationRequired: true,
+
+
+
+    createdAt: 2025-11-21T00:41:45.197Z,
+
+
+
+    owner: {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      name: 'Anna Kaganov',
+
+
+
+      email: 'akaganov@mit.edu'
+
+
+
+    },
+
+
+
+    members: [ [Object], [Object] ]
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+Task.listTasks { ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' } => [
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf202fcaa3340d6d6898'),
+
+
+
+    taskId: 'ea8531b9-5098-4ad6-b8ec-0a8d8e59490e',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Write essay',
+
+
+
+    description: 'Complete after research',
+
+
+
+    dueDate: 2025-12-02T00:00:00.000Z,
+
+
+
+    estimatedTime: 90,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:15:28.021Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf462fcaa3340d6d6899'),
+
+
+
+    taskId: '6d6588cf-6322-4a00-9301-7b79729427de',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Research essay',
+
+
+
+    description: 'Complete before 1a',
+
+
+
+    dueDate: 2025-11-26T00:00:00.000Z,
+
+
+
+    estimatedTime: 30,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:16:06.063Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf632fcaa3340d6d689a'),
+
+
+
+    taskId: '9644a984-7378-4795-b795-cf7097c2fb60',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: '1b',
+
+
+
+    description: null,
+
+
+
+    dueDate: 2025-11-28T00:00:00.000Z,
+
+
+
+    estimatedTime: 45,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:16:35.842Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf792fcaa3340d6d689b'),
+
+
+
+    taskId: 'ee9389e8-bf52-4871-b5ef-2d24dc1c6108',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: '1a',
+
+
+
+    description: 'complete before 1b and before writing essay',
+
+
+
+    dueDate: 2025-11-27T00:00:00.000Z,
+
+
+
+    estimatedTime: 45,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:16:57.346Z
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691faf8b2fcaa3340d6d689c'),
+
+
+
+    taskId: '4a33824e-ecc9-4bac-adc9-bd745d33558e',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Math Homework',
+
+
+
+    description: null,
+
+
+
+    dueDate: 2025-11-22T00:00:00.000Z,
+
+
+
+    estimatedTime: 75,
+
+
+
+    status: 'confirmed',
+
+
+
+    createdAt: 2025-11-21T00:17:15.060Z,
+
+
+
+    actualTime: 65
+
+
+
+  },
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fafb22fcaa3340d6d689d'),
+
+
+
+    taskId: '326e9165-840e-4175-9911-be407c5e600f',
+
+
+
+    ownerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    title: 'Edit Essay',
+
+
+
+    description: 'Complete after essay',
+
+
+
+    dueDate: 2025-12-05T00:00:00.000Z,
+
+
+
+    estimatedTime: 30,
+
+
+
+    status: 'pending',
+
+
+
+    createdAt: 2025-11-21T00:17:54.423Z
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+ConfirmTask.getConfirmations { userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' } => []
+
+
+
+
+
+
+[AccountConcept] loginUser success: {
+
+
+
+  userId: "019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6",
+
+
+
+  name: "Ben",
+
+
+
+  email: "ben@gmail.com"
+
+
+
+}
+
+
+
+
+
+
+Account.loginUser { email: 'ben@gmail.com', password: '123' } => {
+
+
+
+  message: 'Login successful',
+
+
+
+  user: {
+
+
+
+    userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    name: 'Ben',
+
+
+
+    email: 'ben@gmail.com'
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Account.getUser { userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => {
+
+
+
+  user: {
+
+
+
+    userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    name: 'Anna Kaganov',
+
+
+
+    email: 'akaganov@mit.edu'
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Notification.list { userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' } => {
+
+
+
+  success: true,
+
+
+
+  notifications: [
+
+
+
+    {
+
+
+
+      _id: new ObjectId('691fb62a2fcaa3340d6d68c0'),
+
+
+
+      notificationId: 'c4447dbb-6a3e-47f9-8eb3-d16629b5bd30',
+
+
+
+      createdAt: 2025-11-21T00:45:30.126Z,
+
+
+
+      status: 'pending',
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      type: 'task_confirmation',
+
+
+
+      message: 'Please confirm completion of "Math homework - 18.434" (took 60 mins).',
+
+
+
+      fromUserId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      fromUserName: 'Anna Kaganov',
+
+
+
+      extra: [Object]
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Account.getUser { userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6' } => {
+
+
+
+  user: {
+
+
+
+    userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+    name: 'Ben',
+
+
+
+    email: 'ben@gmail.com'
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      completedCount: 2
+
+
+
+    },
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedCount: 0
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      completedMinutes: 130
+
+
+
+    },
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedMinutes: 0
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      completedMinutes: 130
+
+
+
+    },
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedMinutes: 0
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      completedCount: 2
+
+
+
+    },
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedCount: 0
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+DB collections: [
+
+
+
+  {
+
+
+
+    name: "Requesting.requests",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("041fee5c-b20a-4207-9a95-c2d97b9e90b1")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "notifications",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("3a00098f-dde2-43ec-9fb1-5a23a79abdbb")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "groups",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("52305a4f-d8af-4b2b-a43b-35dce50be56a")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "tasks",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("b7e9d83c-f87c-4ad4-954a-d9a71ecfee5a")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "users",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("d6951c3d-f0da-4db9-9ec3-f2df5c59f17d")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "confirmations",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("f76ad9d2-ec6c-462b-a9c9-91717642b242")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  }
+
+
+
+]
+
+
+
+DB collections: [
+
+
+
+  {
+
+
+
+    name: "Requesting.requests",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("041fee5c-b20a-4207-9a95-c2d97b9e90b1")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "notifications",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("3a00098f-dde2-43ec-9fb1-5a23a79abdbb")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "groups",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("52305a4f-d8af-4b2b-a43b-35dce50be56a")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "tasks",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("b7e9d83c-f87c-4ad4-954a-d9a71ecfee5a")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "users",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("d6951c3d-f0da-4db9-9ec3-f2df5c59f17d")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "confirmations",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("f76ad9d2-ec6c-462b-a9c9-91717642b242")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+ConfirmTask.confirmTask {
+
+
+
+  taskId: 'b79248cd-3151-4ada-88af-74d0a14b3578',
+
+
+
+  peerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6'
+
+
+
+} => { success: true }
+
+
+
+
+
+
+DB collections: [
+
+
+
+  {
+
+
+
+    name: "Requesting.requests",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("041fee5c-b20a-4207-9a95-c2d97b9e90b1")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "notifications",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("3a00098f-dde2-43ec-9fb1-5a23a79abdbb")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "groups",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("52305a4f-d8af-4b2b-a43b-35dce50be56a")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "tasks",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("b7e9d83c-f87c-4ad4-954a-d9a71ecfee5a")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "users",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("d6951c3d-f0da-4db9-9ec3-f2df5c59f17d")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  },
+
+
+
+  {
+
+
+
+    name: "confirmations",
+
+
+
+    type: "collection",
+
+
+
+    options: {},
+
+
+
+    info: {
+
+
+
+      readOnly: false,
+
+
+
+      uuid: new UUID("f76ad9d2-ec6c-462b-a9c9-91717642b242")
+
+
+
+    },
+
+
+
+    idIndex: { v: 2, key: { _id: 1 }, name: "_id_" }
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+ConfirmTask.confirmTask {
+
+
+
+  taskId: 'b79248cd-3151-4ada-88af-74d0a14b3578',
+
+
+
+  peerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6'
+
+
+
+} => { success: true }
+
+
+
+
+
+
+
+
+
+ConfirmTask.confirmTask {
+
+
+
+  taskId: 'b79248cd-3151-4ada-88af-74d0a14b3578',
+
+
+
+  peerId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6'
+
+
+
+} => { success: true }
+
+
+
+
+
+
+[AccountConcept] loginUser called with: { email: "akaganov@mit.edu", password: "12345" }
+
+
+
+[AccountConcept] loginUser success: {
+
+
+
+  userId: "019aa3db-6e51-7e1d-9357-2e3e1f63caa1",
+
+
+
+  name: "Anna Kaganov",
+
+
+
+  email: "akaganov@mit.edu"
+
+
+
+}
+
+
+
+
+
+
+Account.loginUser { email: 'akaganov@mit.edu', password: '12345' } => {
+
+
+
+  message: 'Login successful',
+
+
+
+  user: {
+
+
+
+    userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    name: 'Anna Kaganov',
+
+
+
+    email: 'akaganov@mit.edu'
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Account.getUser { userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => {
+
+
+
+  user: {
+
+
+
+    userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    name: 'Anna Kaganov',
+
+
+
+    email: 'akaganov@mit.edu'
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Account.getUser { userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => {
+
+
+
+  user: {
+
+
+
+    userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    name: 'Anna Kaganov',
+
+
+
+    email: 'akaganov@mit.edu'
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Task.listTasks { ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => [
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fb5302fcaa3340d6d68b7'),
+
+
+
+    taskId: 'b79248cd-3151-4ada-88af-74d0a14b3578',
+
+
+
+    ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    title: 'Math homework - 18.434',
+
+
+
+    description: null,
+
+
+
+    dueDate: 2025-11-22T00:00:00.000Z,
+
+
+
+    estimatedTime: 45,
+
+
+
+    status: 'confirmed',
+
+
+
+    createdAt: 2025-11-21T00:41:20.711Z,
+
+
+
+    actualTime: 60
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+Task.listTasks { ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => [
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fb5302fcaa3340d6d68b7'),
+
+
+
+    taskId: 'b79248cd-3151-4ada-88af-74d0a14b3578',
+
+
+
+    ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    title: 'Math homework - 18.434',
+
+
+
+    description: null,
+
+
+
+    dueDate: 2025-11-22T00:00:00.000Z,
+
+
+
+    estimatedTime: 45,
+
+
+
+    status: 'confirmed',
+
+
+
+    createdAt: 2025-11-21T00:41:20.711Z,
+
+
+
+    actualTime: 60
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+ConfirmTask.getConfirmations { userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => []
+
+
+
+
+
+
+
+
+
+ConfirmTask.getPendingConfirmationsForPeer { peerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => []
+
+
+
+
+
+
+
+
+
+FriendGroup.listGroups { userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => [
+
+
+
+  {
+
+
+
+    groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3',
+
+
+
+    ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    groupName: 'Maseeh 1',
+
+
+
+    confirmationRequired: true,
+
+
+
+    createdAt: 2025-11-21T00:41:45.197Z,
+
+
+
+    owner: {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      name: 'Anna Kaganov',
+
+
+
+      email: 'akaganov@mit.edu'
+
+
+
+    },
+
+
+
+    members: [ [Object], [Object] ]
+
+
+
+  },
+
+
+
+  {
+
+
+
+    groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949',
+
+
+
+    ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    groupName: 'Art',
+
+
+
+    confirmationRequired: false,
+
+
+
+    createdAt: 2025-11-21T00:42:04.177Z,
+
+
+
+    owner: {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      name: 'Anna Kaganov',
+
+
+
+      email: 'akaganov@mit.edu'
+
+
+
+    },
+
+
+
+    members: [ [Object], [Object] ]
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+Notification.list { userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => { success: true, notifications: [] }
+
+
+
+
+
+
+
+
+
+FriendGroup.listGroups { userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => [
+
+
+
+  {
+
+
+
+    groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3',
+
+
+
+    ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    groupName: 'Maseeh 1',
+
+
+
+    confirmationRequired: true,
+
+
+
+    createdAt: 2025-11-21T00:41:45.197Z,
+
+
+
+    owner: {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      name: 'Anna Kaganov',
+
+
+
+      email: 'akaganov@mit.edu'
+
+
+
+    },
+
+
+
+    members: [ [Object], [Object] ]
+
+
+
+  },
+
+
+
+  {
+
+
+
+    groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949',
+
+
+
+    ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    groupName: 'Art',
+
+
+
+    confirmationRequired: false,
+
+
+
+    createdAt: 2025-11-21T00:42:04.177Z,
+
+
+
+    owner: {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      name: 'Anna Kaganov',
+
+
+
+      email: 'akaganov@mit.edu'
+
+
+
+    },
+
+
+
+    members: [ [Object], [Object] ]
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+Task.listTasks { ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => [
+
+
+
+  {
+
+
+
+    _id: new ObjectId('691fb5302fcaa3340d6d68b7'),
+
+
+
+    taskId: 'b79248cd-3151-4ada-88af-74d0a14b3578',
+
+
+
+    ownerId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+    title: 'Math homework - 18.434',
+
+
+
+    description: null,
+
+
+
+    dueDate: 2025-11-22T00:00:00.000Z,
+
+
+
+    estimatedTime: 45,
+
+
+
+    status: 'confirmed',
+
+
+
+    createdAt: 2025-11-21T00:41:20.711Z,
+
+
+
+    actualTime: 60
+
+
+
+  }
+
+
+
+]
+
+
+
+
+
+
+
+
+
+Notification.list { userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1' } => { success: true, notifications: [] }
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedMinutes: 60
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedCount: 1
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedCount: 1
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '50fa047b-fe2d-41dc-a41d-2404935ac949' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedMinutes: 60
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      completedCount: 2
+
+
+
+    },
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedCount: 1
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      completedMinutes: 130
+
+
+
+    },
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedMinutes: 60
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTime { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      completedMinutes: 130
+
+
+
+    },
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedMinutes: 60
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+
+
+
+
+
+
+Leaderboard.getLeaderboardByTasks { groupId: '68f6b3d9-ddba-4677-894a-b60caa5ef4d3' } => {
+
+
+
+  leaderboard: [
+
+
+
+    {
+
+
+
+      userId: '019aa3c3-a18a-7bcb-a6d3-4bdea0813ba6',
+
+
+
+      completedCount: 2
+
+
+
+    },
+
+
+
+    {
+
+
+
+      userId: '019aa3db-6e51-7e1d-9357-2e3e1f63caa1',
+
+
+
+      completedCount: 1
+
+
+
+    }
+
+
+
+  ]
+
+
+
+}
+
+
+
+Need better ways to work with logs? Try theRender CLI, Render MCP Server, or set up a log stream integration 
