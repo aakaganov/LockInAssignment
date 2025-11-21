@@ -3,7 +3,7 @@
 ## Reflection Document
 [Reflection Document](design/designFiles/reflection_document.md)
 ## Video
-[]()
+[![](https://github.com/aakaganov/LockInAssignment/blob/main/media/final_video%20(1).mov)
 ## Trace
 [Trace Link](design/consoleOutput/final_trace)
 
